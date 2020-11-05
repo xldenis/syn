@@ -45,14 +45,6 @@ pub trait Fold {
         fold_arm(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_attr_style(&mut self, i: AttrStyle) -> AttrStyle {
-        fold_attr_style(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_attribute(&mut self, i: Attribute) -> Attribute {
-        fold_attribute(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_bare_fn_arg(&mut self, i: BareFnArg) -> BareFnArg {
         fold_bare_fn_arg(self, i)
     }
@@ -250,25 +242,9 @@ pub trait Fold {
     fn fold_member(&mut self, i: Member) -> Member {
         fold_member(self, i)
     }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_meta(&mut self, i: Meta) -> Meta {
-        fold_meta(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_meta_list(&mut self, i: MetaList) -> MetaList {
-        fold_meta_list(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_meta_name_value(&mut self, i: MetaNameValue) -> MetaNameValue {
-        fold_meta_name_value(self, i)
-    }
     #[cfg(feature = "full")]
     fn fold_method_turbofish(&mut self, i: MethodTurbofish) -> MethodTurbofish {
         fold_method_turbofish(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_nested_meta(&mut self, i: NestedMeta) -> NestedMeta {
-        fold_nested_meta(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_parenthesized_generic_arguments(
@@ -513,37 +489,11 @@ where
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_attr_style<F>(f: &mut F, node: AttrStyle) -> AttrStyle
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        AttrStyle::Outer => AttrStyle::Outer,
-        AttrStyle::Inner(_binding_0) => {
-            AttrStyle::Inner(Token![!](tokens_helper(f, &_binding_0.spans)))
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_attribute<F>(f: &mut F, node: Attribute) -> Attribute
-where
-    F: Fold + ?Sized,
-{
-    Attribute {
-        pound_token: Token ! [#](tokens_helper(f, &node.pound_token.spans)),
-        style: f.fold_attr_style(node.style),
-        bracket_token: Bracket(tokens_helper(f, &node.bracket_token.span)),
-        path: f.fold_path(node.path),
-        tokens: node.tokens,
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 pub fn fold_bare_fn_arg<F>(f: &mut F, node: BareFnArg) -> BareFnArg
 where
     F: Fold + ?Sized,
 {
     BareFnArg {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         name: (node.name).map(|it| {
             (
                 f.fold_ident((it).0),
@@ -642,7 +592,6 @@ where
     F: Fold + ?Sized,
 {
     ConstParam {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         const_token: Token![const](tokens_helper(f, &node.const_token.span)),
         ident: f.fold_ident(node.ident),
         colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
@@ -961,7 +910,6 @@ where
     F: Fold + ?Sized,
 {
     FieldPat {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         member: f.fold_member(node.member),
         colon_token: (node.colon_token).map(|it| Token ! [:](tokens_helper(f, &it.spans))),
         pat: Box::new(f.fold_pat(*node.pat)),
@@ -1083,7 +1031,6 @@ where
     F: Fold + ?Sized,
 {
     LifetimeDef {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         lifetime: f.fold_lifetime(node.lifetime),
         colon_token: (node.colon_token).map(|it| Token ! [:](tokens_helper(f, &it.spans))),
         bounds: FoldHelper::lift(node.bounds, |it| f.fold_lifetime(it)),
@@ -1194,39 +1141,6 @@ where
         Member::Unnamed(_binding_0) => Member::Unnamed(f.fold_index(_binding_0)),
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_meta<F>(f: &mut F, node: Meta) -> Meta
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        Meta::Path(_binding_0) => Meta::Path(f.fold_path(_binding_0)),
-        Meta::List(_binding_0) => Meta::List(f.fold_meta_list(_binding_0)),
-        Meta::NameValue(_binding_0) => Meta::NameValue(f.fold_meta_name_value(_binding_0)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_meta_list<F>(f: &mut F, node: MetaList) -> MetaList
-where
-    F: Fold + ?Sized,
-{
-    MetaList {
-        path: f.fold_path(node.path),
-        paren_token: Paren(tokens_helper(f, &node.paren_token.span)),
-        nested: FoldHelper::lift(node.nested, |it| f.fold_nested_meta(it)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_meta_name_value<F>(f: &mut F, node: MetaNameValue) -> MetaNameValue
-where
-    F: Fold + ?Sized,
-{
-    MetaNameValue {
-        path: f.fold_path(node.path),
-        eq_token: Token ! [=](tokens_helper(f, &node.eq_token.spans)),
-        lit: f.fold_lit(node.lit),
-    }
-}
 #[cfg(feature = "full")]
 pub fn fold_method_turbofish<F>(f: &mut F, node: MethodTurbofish) -> MethodTurbofish
 where
@@ -1237,16 +1151,6 @@ where
         lt_token: Token ! [<](tokens_helper(f, &node.lt_token.spans)),
         args: FoldHelper::lift(node.args, |it| f.fold_generic_method_argument(it)),
         gt_token: Token ! [>](tokens_helper(f, &node.gt_token.spans)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_nested_meta<F>(f: &mut F, node: NestedMeta) -> NestedMeta
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        NestedMeta::Meta(_binding_0) => NestedMeta::Meta(f.fold_meta(_binding_0)),
-        NestedMeta::Lit(_binding_0) => NestedMeta::Lit(f.fold_lit(_binding_0)),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1293,7 +1197,6 @@ where
     F: Fold + ?Sized,
 {
     PatBox {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         box_token: Token![box](tokens_helper(f, &node.box_token.span)),
         pat: Box::new(f.fold_pat(*node.pat)),
     }
@@ -1304,7 +1207,6 @@ where
     F: Fold + ?Sized,
 {
     PatIdent {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         by_ref: (node.by_ref).map(|it| Token![ref](tokens_helper(f, &it.span))),
         mutability: (node.mutability).map(|it| Token![mut](tokens_helper(f, &it.span))),
         ident: f.fold_ident(node.ident),
@@ -1322,7 +1224,6 @@ where
     F: Fold + ?Sized,
 {
     PatLit {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         expr: Box::new(f.fold_expr(*node.expr)),
     }
 }
@@ -1332,7 +1233,6 @@ where
     F: Fold + ?Sized,
 {
     PatOr {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         leading_vert: (node.leading_vert).map(|it| Token ! [|](tokens_helper(f, &it.spans))),
         cases: FoldHelper::lift(node.cases, |it| f.fold_pat(it)),
     }
@@ -1343,7 +1243,6 @@ where
     F: Fold + ?Sized,
 {
     PatPath {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         qself: (node.qself).map(|it| f.fold_qself(it)),
         path: f.fold_path(node.path),
     }
@@ -1354,7 +1253,6 @@ where
     F: Fold + ?Sized,
 {
     PatRange {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         lo: Box::new(f.fold_expr(*node.lo)),
         limits: f.fold_range_limits(node.limits),
         hi: Box::new(f.fold_expr(*node.hi)),
@@ -1366,7 +1264,6 @@ where
     F: Fold + ?Sized,
 {
     PatReference {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         and_token: Token ! [&](tokens_helper(f, &node.and_token.spans)),
         mutability: (node.mutability).map(|it| Token![mut](tokens_helper(f, &it.span))),
         pat: Box::new(f.fold_pat(*node.pat)),
@@ -1378,7 +1275,6 @@ where
     F: Fold + ?Sized,
 {
     PatRest {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         dot2_token: Token![..](tokens_helper(f, &node.dot2_token.spans)),
     }
 }
@@ -1388,7 +1284,6 @@ where
     F: Fold + ?Sized,
 {
     PatSlice {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         bracket_token: Bracket(tokens_helper(f, &node.bracket_token.span)),
         elems: FoldHelper::lift(node.elems, |it| f.fold_pat(it)),
     }
@@ -1399,7 +1294,6 @@ where
     F: Fold + ?Sized,
 {
     PatStruct {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         path: f.fold_path(node.path),
         brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
         fields: FoldHelper::lift(node.fields, |it| f.fold_field_pat(it)),
@@ -1412,7 +1306,6 @@ where
     F: Fold + ?Sized,
 {
     PatTuple {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         paren_token: Paren(tokens_helper(f, &node.paren_token.span)),
         elems: FoldHelper::lift(node.elems, |it| f.fold_pat(it)),
     }
@@ -1423,7 +1316,6 @@ where
     F: Fold + ?Sized,
 {
     PatTupleStruct {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         path: f.fold_path(node.path),
         pat: f.fold_pat_tuple(node.pat),
     }
@@ -1434,7 +1326,6 @@ where
     F: Fold + ?Sized,
 {
     PatType {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         pat: Box::new(f.fold_pat(*node.pat)),
         colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
         ty: Box::new(f.fold_type(*node.ty)),
@@ -1446,7 +1337,6 @@ where
     F: Fold + ?Sized,
 {
     PatWild {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         underscore_token: Token![_](tokens_helper(f, &node.underscore_token.spans)),
     }
 }
@@ -1698,7 +1588,6 @@ where
     F: Fold + ?Sized,
 {
     TypeParam {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         ident: f.fold_ident(node.ident),
         colon_token: (node.colon_token).map(|it| Token ! [:](tokens_helper(f, &it.spans))),
         bounds: FoldHelper::lift(node.bounds, |it| f.fold_type_param_bound(it)),
@@ -1809,7 +1698,6 @@ where
     F: Fold + ?Sized,
 {
     Variadic {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         dots: Token ! [...](tokens_helper(f, &node.dots.spans)),
     }
 }

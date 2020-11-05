@@ -37,39 +37,11 @@ impl Hash for Arm {
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for AttrStyle {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        match self {
-            AttrStyle::Outer => {
-                state.write_u8(0u8);
-            }
-            AttrStyle::Inner(_) => {
-                state.write_u8(1u8);
-            }
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for Attribute {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.style.hash(state);
-        self.path.hash(state);
-        TokenStreamHelper(&self.tokens).hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 impl Hash for BareFnArg {
     fn hash<H>(&self, state: &mut H)
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.name.hash(state);
         self.ty.hash(state);
     }
@@ -202,7 +174,6 @@ impl Hash for ConstParam {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.ident.hash(state);
         self.ty.hash(state);
         self.eq_token.hash(state);
@@ -577,7 +548,6 @@ impl Hash for FieldPat {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.member.hash(state);
         self.colon_token.hash(state);
         self.pat.hash(state);
@@ -691,7 +661,6 @@ impl Hash for LifetimeDef {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.lifetime.hash(state);
         self.colon_token.hash(state);
         self.bounds.hash(state);
@@ -756,48 +725,6 @@ impl Hash for Local {
         self.init.hash(state);
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for Meta {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        match self {
-            Meta::Path(v0) => {
-                state.write_u8(0u8);
-                v0.hash(state);
-            }
-            Meta::List(v0) => {
-                state.write_u8(1u8);
-                v0.hash(state);
-            }
-            Meta::NameValue(v0) => {
-                state.write_u8(2u8);
-                v0.hash(state);
-            }
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for MetaList {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.path.hash(state);
-        self.nested.hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for MetaNameValue {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.path.hash(state);
-        self.lit.hash(state);
-    }
-}
 #[cfg(feature = "full")]
 impl Hash for MethodTurbofish {
     fn hash<H>(&self, state: &mut H)
@@ -805,24 +732,6 @@ impl Hash for MethodTurbofish {
         H: Hasher,
     {
         self.args.hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for NestedMeta {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        match self {
-            NestedMeta::Meta(v0) => {
-                state.write_u8(0u8);
-                v0.hash(state);
-            }
-            NestedMeta::Lit(v0) => {
-                state.write_u8(1u8);
-                v0.hash(state);
-            }
-        }
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -912,7 +821,6 @@ impl Hash for PatBox {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.pat.hash(state);
     }
 }
@@ -922,7 +830,6 @@ impl Hash for PatIdent {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.by_ref.hash(state);
         self.mutability.hash(state);
         self.ident.hash(state);
@@ -935,7 +842,6 @@ impl Hash for PatLit {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
     }
 }
@@ -945,7 +851,6 @@ impl Hash for PatOr {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.leading_vert.hash(state);
         self.cases.hash(state);
     }
@@ -956,7 +861,6 @@ impl Hash for PatPath {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.qself.hash(state);
         self.path.hash(state);
     }
@@ -967,7 +871,6 @@ impl Hash for PatRange {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.lo.hash(state);
         self.limits.hash(state);
         self.hi.hash(state);
@@ -979,18 +882,16 @@ impl Hash for PatReference {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.mutability.hash(state);
         self.pat.hash(state);
     }
 }
 #[cfg(feature = "full")]
 impl Hash for PatRest {
-    fn hash<H>(&self, state: &mut H)
+    fn hash<H>(&self, _state: &mut H)
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
     }
 }
 #[cfg(feature = "full")]
@@ -999,7 +900,6 @@ impl Hash for PatSlice {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.elems.hash(state);
     }
 }
@@ -1009,7 +909,6 @@ impl Hash for PatStruct {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.path.hash(state);
         self.fields.hash(state);
         self.dot2_token.hash(state);
@@ -1021,7 +920,6 @@ impl Hash for PatTuple {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.elems.hash(state);
     }
 }
@@ -1031,7 +929,6 @@ impl Hash for PatTupleStruct {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.path.hash(state);
         self.pat.hash(state);
     }
@@ -1042,18 +939,16 @@ impl Hash for PatType {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.pat.hash(state);
         self.ty.hash(state);
     }
 }
 #[cfg(feature = "full")]
 impl Hash for PatWild {
-    fn hash<H>(&self, state: &mut H)
+    fn hash<H>(&self, _state: &mut H)
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1353,7 +1248,6 @@ impl Hash for TypeParam {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.ident.hash(state);
         self.colon_token.hash(state);
         self.bounds.hash(state);
@@ -1469,11 +1363,10 @@ impl Hash for UnOp {
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Hash for Variadic {
-    fn hash<H>(&self, state: &mut H)
+    fn hash<H>(&self, _state: &mut H)
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

@@ -111,22 +111,9 @@ impl<T: Parse> ParseQuote for T {
 ////////////////////////////////////////////////////////////////////////////////
 // Any other types that we want `parse_quote!` to be able to parse.
 
-use crate::punctuated::Punctuated;
-#[cfg(any(feature = "full", feature = "derive"))]
-use crate::{attr, Attribute};
 #[cfg(feature = "full")]
 use crate::{Block, Stmt};
-
-#[cfg(any(feature = "full", feature = "derive"))]
-impl ParseQuote for Attribute {
-    fn parse(input: ParseStream) -> Result<Self> {
-        if input.peek(Token![#]) && input.peek2(Token![!]) {
-            attr::parsing::single_parse_inner(input)
-        } else {
-            attr::parsing::single_parse_outer(input)
-        }
-    }
-}
+use crate::punctuated::Punctuated;
 
 impl<T: Parse, P: Parse> ParseQuote for Punctuated<T, P> {
     fn parse(input: ParseStream) -> Result<Self> {

@@ -157,7 +157,6 @@ pub mod parsing {
                     let colon_token: Token![:] = input.parse()?;
                     let ty: Type = input.parse()?;
                     pat = Pat::Type(PatType {
-                        attrs: Vec::new(),
                         pat: Box::new(pat),
                         colon_token,
                         ty: Box::new(ty),

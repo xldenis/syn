@@ -44,14 +44,6 @@ pub trait Visit<'ast> {
         visit_arm(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_attr_style(&mut self, i: &'ast AttrStyle) {
-        visit_attr_style(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_attribute(&mut self, i: &'ast Attribute) {
-        visit_attribute(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_bare_fn_arg(&mut self, i: &'ast BareFnArg) {
         visit_bare_fn_arg(self, i)
     }
@@ -249,25 +241,9 @@ pub trait Visit<'ast> {
     fn visit_member(&mut self, i: &'ast Member) {
         visit_member(self, i)
     }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_meta(&mut self, i: &'ast Meta) {
-        visit_meta(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_meta_list(&mut self, i: &'ast MetaList) {
-        visit_meta_list(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_meta_name_value(&mut self, i: &'ast MetaNameValue) {
-        visit_meta_name_value(self, i)
-    }
     #[cfg(feature = "full")]
     fn visit_method_turbofish(&mut self, i: &'ast MethodTurbofish) {
         visit_method_turbofish(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_nested_meta(&mut self, i: &'ast NestedMeta) {
-        visit_nested_meta(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_parenthesized_generic_arguments(&mut self, i: &'ast ParenthesizedGenericArguments) {
@@ -512,36 +488,10 @@ where
     };
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_attr_style<'ast, V>(v: &mut V, node: &'ast AttrStyle)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    match node {
-        AttrStyle::Outer => {}
-        AttrStyle::Inner(_binding_0) => {
-            tokens_helper(v, &_binding_0.spans);
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_attribute<'ast, V>(v: &mut V, node: &'ast Attribute)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.pound_token.spans);
-    v.visit_attr_style(&node.style);
-    tokens_helper(v, &node.bracket_token.span);
-    v.visit_path(&node.path);
-    skip!(node.tokens);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_bare_fn_arg<'ast, V>(v: &mut V, node: &'ast BareFnArg)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     if let Some(it) = &node.name {
         v.visit_ident(&(it).0);
         tokens_helper(v, &(it).1.spans);
@@ -680,9 +630,6 @@ pub fn visit_const_param<'ast, V>(v: &mut V, node: &'ast ConstParam)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.const_token.span);
     v.visit_ident(&node.ident);
     tokens_helper(v, &node.colon_token.spans);
@@ -1054,9 +1001,6 @@ pub fn visit_field_pat<'ast, V>(v: &mut V, node: &'ast FieldPat)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_member(&node.member);
     if let Some(it) = &node.colon_token {
         tokens_helper(v, &it.spans)
@@ -1184,9 +1128,6 @@ pub fn visit_lifetime_def<'ast, V>(v: &mut V, node: &'ast LifetimeDef)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_lifetime(&node.lifetime);
     if let Some(it) = &node.colon_token {
         tokens_helper(v, &it.spans)
@@ -1294,47 +1235,6 @@ where
         }
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_meta<'ast, V>(v: &mut V, node: &'ast Meta)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    match node {
-        Meta::Path(_binding_0) => {
-            v.visit_path(_binding_0);
-        }
-        Meta::List(_binding_0) => {
-            v.visit_meta_list(_binding_0);
-        }
-        Meta::NameValue(_binding_0) => {
-            v.visit_meta_name_value(_binding_0);
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_meta_list<'ast, V>(v: &mut V, node: &'ast MetaList)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    v.visit_path(&node.path);
-    tokens_helper(v, &node.paren_token.span);
-    for el in Punctuated::pairs(&node.nested) {
-        let (it, p) = el.into_tuple();
-        v.visit_nested_meta(it);
-        if let Some(p) = p {
-            tokens_helper(v, &p.spans);
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_meta_name_value<'ast, V>(v: &mut V, node: &'ast MetaNameValue)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    v.visit_path(&node.path);
-    tokens_helper(v, &node.eq_token.spans);
-    v.visit_lit(&node.lit);
-}
 #[cfg(feature = "full")]
 pub fn visit_method_turbofish<'ast, V>(v: &mut V, node: &'ast MethodTurbofish)
 where
@@ -1350,20 +1250,6 @@ where
         }
     }
     tokens_helper(v, &node.gt_token.spans);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_nested_meta<'ast, V>(v: &mut V, node: &'ast NestedMeta)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    match node {
-        NestedMeta::Meta(_binding_0) => {
-            v.visit_meta(_binding_0);
-        }
-        NestedMeta::Lit(_binding_0) => {
-            v.visit_lit(_binding_0);
-        }
-    }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_parenthesized_generic_arguments<'ast, V>(
@@ -1441,9 +1327,6 @@ pub fn visit_pat_box<'ast, V>(v: &mut V, node: &'ast PatBox)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.box_token.span);
     v.visit_pat(&*node.pat);
 }
@@ -1452,9 +1335,6 @@ pub fn visit_pat_ident<'ast, V>(v: &mut V, node: &'ast PatIdent)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     if let Some(it) = &node.by_ref {
         tokens_helper(v, &it.span)
     };
@@ -1472,9 +1352,6 @@ pub fn visit_pat_lit<'ast, V>(v: &mut V, node: &'ast PatLit)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.expr);
 }
 #[cfg(feature = "full")]
@@ -1482,9 +1359,6 @@ pub fn visit_pat_or<'ast, V>(v: &mut V, node: &'ast PatOr)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     if let Some(it) = &node.leading_vert {
         tokens_helper(v, &it.spans)
     };
@@ -1501,9 +1375,6 @@ pub fn visit_pat_path<'ast, V>(v: &mut V, node: &'ast PatPath)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     if let Some(it) = &node.qself {
         v.visit_qself(it)
     };
@@ -1514,9 +1385,6 @@ pub fn visit_pat_range<'ast, V>(v: &mut V, node: &'ast PatRange)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.lo);
     v.visit_range_limits(&node.limits);
     v.visit_expr(&*node.hi);
@@ -1526,9 +1394,6 @@ pub fn visit_pat_reference<'ast, V>(v: &mut V, node: &'ast PatReference)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.and_token.spans);
     if let Some(it) = &node.mutability {
         tokens_helper(v, &it.span)
@@ -1540,9 +1405,6 @@ pub fn visit_pat_rest<'ast, V>(v: &mut V, node: &'ast PatRest)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.dot2_token.spans);
 }
 #[cfg(feature = "full")]
@@ -1550,9 +1412,6 @@ pub fn visit_pat_slice<'ast, V>(v: &mut V, node: &'ast PatSlice)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.bracket_token.span);
     for el in Punctuated::pairs(&node.elems) {
         let (it, p) = el.into_tuple();
@@ -1567,9 +1426,6 @@ pub fn visit_pat_struct<'ast, V>(v: &mut V, node: &'ast PatStruct)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_path(&node.path);
     tokens_helper(v, &node.brace_token.span);
     for el in Punctuated::pairs(&node.fields) {
@@ -1588,9 +1444,6 @@ pub fn visit_pat_tuple<'ast, V>(v: &mut V, node: &'ast PatTuple)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.paren_token.span);
     for el in Punctuated::pairs(&node.elems) {
         let (it, p) = el.into_tuple();
@@ -1605,9 +1458,6 @@ pub fn visit_pat_tuple_struct<'ast, V>(v: &mut V, node: &'ast PatTupleStruct)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_path(&node.path);
     v.visit_pat_tuple(&node.pat);
 }
@@ -1616,9 +1466,6 @@ pub fn visit_pat_type<'ast, V>(v: &mut V, node: &'ast PatType)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_pat(&*node.pat);
     tokens_helper(v, &node.colon_token.spans);
     v.visit_type(&*node.ty);
@@ -1628,9 +1475,6 @@ pub fn visit_pat_wild<'ast, V>(v: &mut V, node: &'ast PatWild)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.underscore_token.spans);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1933,9 +1777,6 @@ pub fn visit_type_param<'ast, V>(v: &mut V, node: &'ast TypeParam)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_ident(&node.ident);
     if let Some(it) = &node.colon_token {
         tokens_helper(v, &it.spans)
@@ -2074,9 +1915,6 @@ pub fn visit_variadic<'ast, V>(v: &mut V, node: &'ast Variadic)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.dots.spans);
 }
 #[cfg(any(feature = "derive", feature = "full"))]

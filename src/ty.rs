@@ -240,7 +240,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or `"full"`
     /// feature.*
     pub struct BareFnArg {
-        pub attrs: Vec<Attribute>,
         pub name: Option<(Ident, Token![:])>,
         pub ty: Type,
     }
@@ -262,7 +261,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or `"full"`
     /// feature.*
     pub struct Variadic {
-        pub attrs: Vec<Attribute>,
         pub dots: Token![...],
     }
 }
@@ -606,18 +604,15 @@ pub mod parsing {
                 let mut inputs = Punctuated::new();
 
                 while !args.is_empty() {
-                    let attrs = args.call(Attribute::parse_outer)?;
-
                     if inputs.empty_or_trailing() && args.peek(Token![...]) {
                         variadic = Some(Variadic {
-                            attrs,
                             dots: args.parse()?,
                         });
                         break;
                     }
 
                     if let Some(arg) = parse_bare_fn_arg(&args, allow_mut_self)? {
-                        inputs.push_value(BareFnArg { attrs, ..arg });
+                        inputs.push_value(BareFnArg { ..arg });
                     } else {
                         has_mut_self = true;
                     }
@@ -836,7 +831,6 @@ pub mod parsing {
     ) -> Result<Option<BareFnArg>> {
         let mut has_mut_self = false;
         let arg = BareFnArg {
-            attrs: input.call(Attribute::parse_outer)?,
             name: {
                 if (input.peek(Ident) || input.peek(Token![_]) || input.peek(Token![self]))
                     && input.peek2(Token![:])
@@ -917,10 +911,9 @@ pub mod parsing {
 #[cfg(feature = "printing")]
 mod printing {
     use super::*;
-    use crate::attr::FilterAttrs;
     use crate::print::TokensOrDefault;
     use proc_macro2::TokenStream;
-    use quote::{ToTokens, TokenStreamExt};
+    use quote::ToTokens;
 
     impl ToTokens for TypeSlice {
         fn to_tokens(&self, tokens: &mut TokenStream) {
@@ -1052,7 +1045,6 @@ mod printing {
 
     impl ToTokens for BareFnArg {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             if let Some((name, colon)) = &self.name {
                 name.to_tokens(tokens);
                 colon.to_tokens(tokens);
@@ -1063,7 +1055,6 @@ mod printing {
 
     impl ToTokens for Variadic {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.dots.to_tokens(tokens);
         }
     }

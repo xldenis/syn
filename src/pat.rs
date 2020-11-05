@@ -81,7 +81,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatBox {
-        pub attrs: Vec<Attribute>,
         pub box_token: Token![box],
         pub pat: Box<Pat>,
     }
@@ -95,7 +94,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatIdent {
-        pub attrs: Vec<Attribute>,
         pub by_ref: Option<Token![ref]>,
         pub mutability: Option<Token![mut]>,
         pub ident: Ident,
@@ -111,7 +109,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatLit {
-        pub attrs: Vec<Attribute>,
         pub expr: Box<Expr>,
     }
 }
@@ -121,7 +118,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatOr {
-        pub attrs: Vec<Attribute>,
         pub leading_vert: Option<Token![|]>,
         pub cases: Punctuated<Pat, Token![|]>,
     }
@@ -138,7 +134,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatPath {
-        pub attrs: Vec<Attribute>,
         pub qself: Option<QSelf>,
         pub path: Path,
     }
@@ -149,7 +144,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatRange {
-        pub attrs: Vec<Attribute>,
         pub lo: Box<Expr>,
         pub limits: RangeLimits,
         pub hi: Box<Expr>,
@@ -161,7 +155,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatReference {
-        pub attrs: Vec<Attribute>,
         pub and_token: Token![&],
         pub mutability: Option<Token![mut]>,
         pub pat: Box<Pat>,
@@ -173,7 +166,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatRest {
-        pub attrs: Vec<Attribute>,
         pub dot2_token: Token![..],
     }
 }
@@ -183,7 +175,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatSlice {
-        pub attrs: Vec<Attribute>,
         pub bracket_token: token::Bracket,
         pub elems: Punctuated<Pat, Token![,]>,
     }
@@ -194,7 +185,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatStruct {
-        pub attrs: Vec<Attribute>,
         pub path: Path,
         pub brace_token: token::Brace,
         pub fields: Punctuated<FieldPat, Token![,]>,
@@ -207,7 +197,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatTuple {
-        pub attrs: Vec<Attribute>,
         pub paren_token: token::Paren,
         pub elems: Punctuated<Pat, Token![,]>,
     }
@@ -218,7 +207,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatTupleStruct {
-        pub attrs: Vec<Attribute>,
         pub path: Path,
         pub pat: PatTuple,
     }
@@ -229,7 +217,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatType {
-        pub attrs: Vec<Attribute>,
         pub pat: Box<Pat>,
         pub colon_token: Token![:],
         pub ty: Box<Type>,
@@ -241,7 +228,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct PatWild {
-        pub attrs: Vec<Attribute>,
         pub underscore_token: Token![_],
     }
 }
@@ -254,7 +240,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct FieldPat {
-        pub attrs: Vec<Attribute>,
         pub member: Member,
         pub colon_token: Option<Token![:]>,
         pub pat: Box<Pat>,
@@ -328,7 +313,6 @@ pub mod parsing {
 
         if qself.is_some() {
             return Ok(Pat::Path(PatPath {
-                attrs: Vec::new(),
                 qself,
                 path,
             }));
@@ -342,7 +326,6 @@ pub mod parsing {
             pat_range(input, begin, qself, path)
         } else {
             Ok(Pat::Path(PatPath {
-                attrs: Vec::new(),
                 qself,
                 path,
             }))
@@ -351,14 +334,12 @@ pub mod parsing {
 
     fn pat_wild(input: ParseStream) -> Result<PatWild> {
         Ok(PatWild {
-            attrs: Vec::new(),
             underscore_token: input.parse()?,
         })
     }
 
     fn pat_box(input: ParseStream) -> Result<PatBox> {
         Ok(PatBox {
-            attrs: Vec::new(),
             box_token: input.parse()?,
             pat: input.parse()?,
         })
@@ -366,7 +347,6 @@ pub mod parsing {
 
     fn pat_ident(input: ParseStream) -> Result<PatIdent> {
         Ok(PatIdent {
-            attrs: Vec::new(),
             by_ref: input.parse()?,
             mutability: input.parse()?,
             ident: input.call(Ident::parse_any)?,
@@ -384,7 +364,6 @@ pub mod parsing {
 
     fn pat_tuple_struct(input: ParseStream, path: Path) -> Result<PatTupleStruct> {
         Ok(PatTupleStruct {
-            attrs: Vec::new(),
             path,
             pat: input.call(pat_tuple)?,
         })
@@ -412,7 +391,6 @@ pub mod parsing {
         };
 
         Ok(PatStruct {
-            attrs: Vec::new(),
             path,
             brace_token,
             fields,
@@ -430,7 +408,6 @@ pub mod parsing {
     }
 
     fn field_pat(input: ParseStream) -> Result<FieldPat> {
-        let attrs = input.call(Attribute::parse_outer)?;
         let boxed: Option<Token![box]> = input.parse()?;
         let by_ref: Option<Token![ref]> = input.parse()?;
         let mutability: Option<Token![mut]> = input.parse()?;
@@ -440,7 +417,6 @@ pub mod parsing {
             || member.is_unnamed()
         {
             return Ok(FieldPat {
-                attrs,
                 member,
                 colon_token: input.parse()?,
                 pat: Box::new(multi_pat(input)?),
@@ -453,7 +429,6 @@ pub mod parsing {
         };
 
         let mut pat = Pat::Ident(PatIdent {
-            attrs: Vec::new(),
             by_ref,
             mutability,
             ident: ident.clone(),
@@ -462,14 +437,12 @@ pub mod parsing {
 
         if let Some(boxed) = boxed {
             pat = Pat::Box(PatBox {
-                attrs: Vec::new(),
                 box_token: boxed,
                 pat: Box::new(pat),
             });
         }
 
         Ok(FieldPat {
-            attrs,
             member: Member::Named(ident),
             colon_token: None,
             pat: Box::new(pat),
@@ -486,7 +459,6 @@ pub mod parsing {
         let hi = input.call(pat_lit_expr)?;
         if let Some(hi) = hi {
             Ok(Pat::Range(PatRange {
-                attrs: Vec::new(),
                 lo: Box::new(Expr::Path(ExprPath {
                     qself,
                     path,
@@ -507,8 +479,7 @@ pub mod parsing {
         } else {
             match limits {
                 RangeLimits::HalfOpen(dot2_token) => Ok(Pat::Rest(PatRest {
-                    attrs: Vec::new(),
-                    dot2_token,
+                        dot2_token,
                 })),
                 RangeLimits::Closed(_) => Err(input.error("expected range upper bound")),
             }
@@ -531,7 +502,6 @@ pub mod parsing {
         }
 
         Ok(PatTuple {
-            attrs: Vec::new(),
             paren_token,
             elems,
         })
@@ -539,7 +509,6 @@ pub mod parsing {
 
     fn pat_reference(input: ParseStream) -> Result<PatReference> {
         Ok(PatReference {
-            attrs: Vec::new(),
             and_token: input.parse()?,
             mutability: input.parse()?,
             pat: input.parse()?,
@@ -554,8 +523,7 @@ pub mod parsing {
             let hi = input.call(pat_lit_expr)?;
             if let Some(hi) = hi {
                 Ok(Pat::Range(PatRange {
-                    attrs: Vec::new(),
-                    lo,
+                        lo,
                     limits,
                     hi,
                 }))
@@ -564,7 +532,6 @@ pub mod parsing {
             }
         } else {
             Ok(Pat::Lit(PatLit {
-                attrs: Vec::new(),
                 expr: lo,
             }))
         }
@@ -625,7 +592,6 @@ pub mod parsing {
         }
 
         Ok(PatSlice {
-            attrs: Vec::new(),
             bracket_token,
             elems,
         })
@@ -654,7 +620,6 @@ pub mod parsing {
                 cases.push_value(pat);
             }
             pat = Pat::Or(PatOr {
-                attrs: Vec::new(),
                 leading_vert,
                 cases,
             });
@@ -666,20 +631,17 @@ pub mod parsing {
 #[cfg(feature = "printing")]
 mod printing {
     use super::*;
-    use crate::attr::FilterAttrs;
     use proc_macro2::TokenStream;
-    use quote::{ToTokens, TokenStreamExt};
+    use quote::ToTokens;
 
     impl ToTokens for PatWild {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.underscore_token.to_tokens(tokens);
         }
     }
 
     impl ToTokens for PatIdent {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.by_ref.to_tokens(tokens);
             self.mutability.to_tokens(tokens);
             self.ident.to_tokens(tokens);
@@ -692,7 +654,6 @@ mod printing {
 
     impl ToTokens for PatStruct {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.path.to_tokens(tokens);
             self.brace_token.surround(tokens, |tokens| {
                 self.fields.to_tokens(tokens);
@@ -707,7 +668,6 @@ mod printing {
 
     impl ToTokens for PatTupleStruct {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.path.to_tokens(tokens);
             self.pat.to_tokens(tokens);
         }
@@ -715,7 +675,6 @@ mod printing {
 
     impl ToTokens for PatType {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.pat.to_tokens(tokens);
             self.colon_token.to_tokens(tokens);
             self.ty.to_tokens(tokens);
@@ -724,14 +683,12 @@ mod printing {
 
     impl ToTokens for PatPath {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             private::print_path(tokens, &self.qself, &self.path);
         }
     }
 
     impl ToTokens for PatTuple {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.paren_token.surround(tokens, |tokens| {
                 self.elems.to_tokens(tokens);
             });
@@ -740,7 +697,6 @@ mod printing {
 
     impl ToTokens for PatBox {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.box_token.to_tokens(tokens);
             self.pat.to_tokens(tokens);
         }
@@ -748,7 +704,6 @@ mod printing {
 
     impl ToTokens for PatReference {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.and_token.to_tokens(tokens);
             self.mutability.to_tokens(tokens);
             self.pat.to_tokens(tokens);
@@ -757,21 +712,18 @@ mod printing {
 
     impl ToTokens for PatRest {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.dot2_token.to_tokens(tokens);
         }
     }
 
     impl ToTokens for PatLit {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.expr.to_tokens(tokens);
         }
     }
 
     impl ToTokens for PatRange {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.lo.to_tokens(tokens);
             match &self.limits {
                 RangeLimits::HalfOpen(t) => t.to_tokens(tokens),
@@ -783,7 +735,6 @@ mod printing {
 
     impl ToTokens for PatSlice {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.bracket_token.surround(tokens, |tokens| {
                 self.elems.to_tokens(tokens);
             });
@@ -792,7 +743,6 @@ mod printing {
 
     impl ToTokens for PatOr {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.leading_vert.to_tokens(tokens);
             self.cases.to_tokens(tokens);
         }
@@ -800,7 +750,6 @@ mod printing {
 
     impl ToTokens for FieldPat {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             if let Some(colon_token) = &self.colon_token {
                 self.member.to_tokens(tokens);
                 colon_token.to_tokens(tokens);

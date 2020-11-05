@@ -36,30 +36,9 @@ impl Clone for Arm {
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-impl Copy for AttrStyle {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for AttrStyle {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for Attribute {
-    fn clone(&self) -> Self {
-        Attribute {
-            pound_token: self.pound_token.clone(),
-            style: self.style.clone(),
-            bracket_token: self.bracket_token.clone(),
-            path: self.path.clone(),
-            tokens: self.tokens.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 impl Clone for BareFnArg {
     fn clone(&self) -> Self {
         BareFnArg {
-            attrs: self.attrs.clone(),
             name: self.name.clone(),
             ty: self.ty.clone(),
         }
@@ -107,7 +86,6 @@ impl Clone for BoundLifetimes {
 impl Clone for ConstParam {
     fn clone(&self) -> Self {
         ConstParam {
-            attrs: self.attrs.clone(),
             const_token: self.const_token.clone(),
             ident: self.ident.clone(),
             colon_token: self.colon_token.clone(),
@@ -407,7 +385,6 @@ impl Clone for ExprUnary {
 impl Clone for FieldPat {
     fn clone(&self) -> Self {
         FieldPat {
-            attrs: self.attrs.clone(),
             member: self.member.clone(),
             colon_token: self.colon_token.clone(),
             pat: self.pat.clone(),
@@ -488,7 +465,6 @@ impl Clone for Label {
 impl Clone for LifetimeDef {
     fn clone(&self) -> Self {
         LifetimeDef {
-            attrs: self.attrs.clone(),
             lifetime: self.lifetime.clone(),
             colon_token: self.colon_token.clone(),
             bounds: self.bounds.clone(),
@@ -537,36 +513,6 @@ impl Clone for Member {
         }
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for Meta {
-    fn clone(&self) -> Self {
-        match self {
-            Meta::Path(v0) => Meta::Path(v0.clone()),
-            Meta::List(v0) => Meta::List(v0.clone()),
-            Meta::NameValue(v0) => Meta::NameValue(v0.clone()),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for MetaList {
-    fn clone(&self) -> Self {
-        MetaList {
-            path: self.path.clone(),
-            paren_token: self.paren_token.clone(),
-            nested: self.nested.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for MetaNameValue {
-    fn clone(&self) -> Self {
-        MetaNameValue {
-            path: self.path.clone(),
-            eq_token: self.eq_token.clone(),
-            lit: self.lit.clone(),
-        }
-    }
-}
 #[cfg(feature = "full")]
 impl Clone for MethodTurbofish {
     fn clone(&self) -> Self {
@@ -575,15 +521,6 @@ impl Clone for MethodTurbofish {
             lt_token: self.lt_token.clone(),
             args: self.args.clone(),
             gt_token: self.gt_token.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for NestedMeta {
-    fn clone(&self) -> Self {
-        match self {
-            NestedMeta::Meta(v0) => NestedMeta::Meta(v0.clone()),
-            NestedMeta::Lit(v0) => NestedMeta::Lit(v0.clone()),
         }
     }
 }
@@ -624,7 +561,6 @@ impl Clone for Pat {
 impl Clone for PatBox {
     fn clone(&self) -> Self {
         PatBox {
-            attrs: self.attrs.clone(),
             box_token: self.box_token.clone(),
             pat: self.pat.clone(),
         }
@@ -634,7 +570,6 @@ impl Clone for PatBox {
 impl Clone for PatIdent {
     fn clone(&self) -> Self {
         PatIdent {
-            attrs: self.attrs.clone(),
             by_ref: self.by_ref.clone(),
             mutability: self.mutability.clone(),
             ident: self.ident.clone(),
@@ -646,7 +581,6 @@ impl Clone for PatIdent {
 impl Clone for PatLit {
     fn clone(&self) -> Self {
         PatLit {
-            attrs: self.attrs.clone(),
             expr: self.expr.clone(),
         }
     }
@@ -655,7 +589,6 @@ impl Clone for PatLit {
 impl Clone for PatOr {
     fn clone(&self) -> Self {
         PatOr {
-            attrs: self.attrs.clone(),
             leading_vert: self.leading_vert.clone(),
             cases: self.cases.clone(),
         }
@@ -665,7 +598,6 @@ impl Clone for PatOr {
 impl Clone for PatPath {
     fn clone(&self) -> Self {
         PatPath {
-            attrs: self.attrs.clone(),
             qself: self.qself.clone(),
             path: self.path.clone(),
         }
@@ -675,7 +607,6 @@ impl Clone for PatPath {
 impl Clone for PatRange {
     fn clone(&self) -> Self {
         PatRange {
-            attrs: self.attrs.clone(),
             lo: self.lo.clone(),
             limits: self.limits.clone(),
             hi: self.hi.clone(),
@@ -686,7 +617,6 @@ impl Clone for PatRange {
 impl Clone for PatReference {
     fn clone(&self) -> Self {
         PatReference {
-            attrs: self.attrs.clone(),
             and_token: self.and_token.clone(),
             mutability: self.mutability.clone(),
             pat: self.pat.clone(),
@@ -697,7 +627,6 @@ impl Clone for PatReference {
 impl Clone for PatRest {
     fn clone(&self) -> Self {
         PatRest {
-            attrs: self.attrs.clone(),
             dot2_token: self.dot2_token.clone(),
         }
     }
@@ -706,7 +635,6 @@ impl Clone for PatRest {
 impl Clone for PatSlice {
     fn clone(&self) -> Self {
         PatSlice {
-            attrs: self.attrs.clone(),
             bracket_token: self.bracket_token.clone(),
             elems: self.elems.clone(),
         }
@@ -716,7 +644,6 @@ impl Clone for PatSlice {
 impl Clone for PatStruct {
     fn clone(&self) -> Self {
         PatStruct {
-            attrs: self.attrs.clone(),
             path: self.path.clone(),
             brace_token: self.brace_token.clone(),
             fields: self.fields.clone(),
@@ -728,7 +655,6 @@ impl Clone for PatStruct {
 impl Clone for PatTuple {
     fn clone(&self) -> Self {
         PatTuple {
-            attrs: self.attrs.clone(),
             paren_token: self.paren_token.clone(),
             elems: self.elems.clone(),
         }
@@ -738,7 +664,6 @@ impl Clone for PatTuple {
 impl Clone for PatTupleStruct {
     fn clone(&self) -> Self {
         PatTupleStruct {
-            attrs: self.attrs.clone(),
             path: self.path.clone(),
             pat: self.pat.clone(),
         }
@@ -748,7 +673,6 @@ impl Clone for PatTupleStruct {
 impl Clone for PatType {
     fn clone(&self) -> Self {
         PatType {
-            attrs: self.attrs.clone(),
             pat: self.pat.clone(),
             colon_token: self.colon_token.clone(),
             ty: self.ty.clone(),
@@ -759,7 +683,6 @@ impl Clone for PatType {
 impl Clone for PatWild {
     fn clone(&self) -> Self {
         PatWild {
-            attrs: self.attrs.clone(),
             underscore_token: self.underscore_token.clone(),
         }
     }
@@ -967,7 +890,6 @@ impl Clone for TypeNever {
 impl Clone for TypeParam {
     fn clone(&self) -> Self {
         TypeParam {
-            attrs: self.attrs.clone(),
             ident: self.ident.clone(),
             colon_token: self.colon_token.clone(),
             bounds: self.bounds.clone(),
@@ -1064,7 +986,6 @@ impl Clone for UnOp {
 impl Clone for Variadic {
     fn clone(&self) -> Self {
         Variadic {
-            attrs: self.attrs.clone(),
             dots: self.dots.clone(),
         }
     }

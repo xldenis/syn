@@ -91,49 +91,6 @@
       }
     },
     {
-      "ident": "AttrStyle",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "variants": {
-        "Outer": [],
-        "Inner": [
-          {
-            "token": "Bang"
-          }
-        ]
-      }
-    },
-    {
-      "ident": "Attribute",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "fields": {
-        "pound_token": {
-          "token": "Pound"
-        },
-        "style": {
-          "syn": "AttrStyle"
-        },
-        "bracket_token": {
-          "group": "Bracket"
-        },
-        "path": {
-          "syn": "Path"
-        },
-        "tokens": {
-          "proc_macro2": "TokenStream"
-        }
-      }
-    },
-    {
       "ident": "BareFnArg",
       "features": {
         "any": [
@@ -142,11 +99,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "name": {
           "option": {
             "tuple": [
@@ -390,11 +342,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "const_token": {
           "token": "Const"
         },
@@ -1134,11 +1081,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "member": {
           "syn": "Member"
         },
@@ -1347,11 +1289,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "lifetime": {
           "syn": "Lifetime"
         },
@@ -1523,77 +1460,6 @@
       }
     },
     {
-      "ident": "Meta",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "variants": {
-        "Path": [
-          {
-            "syn": "Path"
-          }
-        ],
-        "List": [
-          {
-            "syn": "MetaList"
-          }
-        ],
-        "NameValue": [
-          {
-            "syn": "MetaNameValue"
-          }
-        ]
-      }
-    },
-    {
-      "ident": "MetaList",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "fields": {
-        "path": {
-          "syn": "Path"
-        },
-        "paren_token": {
-          "group": "Paren"
-        },
-        "nested": {
-          "punctuated": {
-            "element": {
-              "syn": "NestedMeta"
-            },
-            "punct": "Comma"
-          }
-        }
-      }
-    },
-    {
-      "ident": "MetaNameValue",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "fields": {
-        "path": {
-          "syn": "Path"
-        },
-        "eq_token": {
-          "token": "Eq"
-        },
-        "lit": {
-          "syn": "Lit"
-        }
-      }
-    },
-    {
       "ident": "MethodTurbofish",
       "features": {
         "any": [
@@ -1618,27 +1484,6 @@
         "gt_token": {
           "token": "Gt"
         }
-      }
-    },
-    {
-      "ident": "NestedMeta",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "variants": {
-        "Meta": [
-          {
-            "syn": "Meta"
-          }
-        ],
-        "Lit": [
-          {
-            "syn": "Lit"
-          }
-        ]
       }
     },
     {
@@ -1760,11 +1605,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "box_token": {
           "token": "Box"
         },
@@ -1783,11 +1623,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "by_ref": {
           "option": {
             "token": "Ref"
@@ -1825,11 +1660,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "expr": {
           "box": {
             "syn": "Expr"
@@ -1845,11 +1675,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "leading_vert": {
           "option": {
             "token": "Or"
@@ -1873,11 +1698,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "qself": {
           "option": {
             "syn": "QSelf"
@@ -1896,11 +1716,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "lo": {
           "box": {
             "syn": "Expr"
@@ -1924,11 +1739,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "and_token": {
           "token": "And"
         },
@@ -1952,11 +1762,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "dot2_token": {
           "token": "Dot2"
         }
@@ -1970,11 +1775,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "bracket_token": {
           "group": "Bracket"
         },
@@ -1996,11 +1796,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "path": {
           "syn": "Path"
         },
@@ -2030,11 +1825,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "paren_token": {
           "group": "Paren"
         },
@@ -2056,11 +1846,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "path": {
           "syn": "Path"
         },
@@ -2077,11 +1862,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "pat": {
           "box": {
             "syn": "Pat"
@@ -2105,11 +1885,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "underscore_token": {
           "token": "Underscore"
         }
@@ -2630,11 +2405,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "ident": {
           "proc_macro2": "Ident"
         },
@@ -2880,11 +2650,6 @@
         ]
       },
       "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
         "dots": {
           "token": "Dot3"
         }

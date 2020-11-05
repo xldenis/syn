@@ -36,35 +36,9 @@ impl Debug for Arm {
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for AttrStyle {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            AttrStyle::Outer => formatter.write_str("Outer"),
-            AttrStyle::Inner(v0) => {
-                let mut formatter = formatter.debug_tuple("Inner");
-                formatter.field(v0);
-                formatter.finish()
-            }
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for Attribute {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("Attribute");
-        formatter.field("pound_token", &self.pound_token);
-        formatter.field("style", &self.style);
-        formatter.field("bracket_token", &self.bracket_token);
-        formatter.field("path", &self.path);
-        formatter.field("tokens", &self.tokens);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 impl Debug for BareFnArg {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("BareFnArg");
-        formatter.field("attrs", &self.attrs);
         formatter.field("name", &self.name);
         formatter.field("ty", &self.ty);
         formatter.finish()
@@ -251,7 +225,6 @@ impl Debug for BoundLifetimes {
 impl Debug for ConstParam {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("ConstParam");
-        formatter.field("attrs", &self.attrs);
         formatter.field("const_token", &self.const_token);
         formatter.field("ident", &self.ident);
         formatter.field("colon_token", &self.colon_token);
@@ -647,7 +620,6 @@ impl Debug for ExprUnary {
 impl Debug for FieldPat {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("FieldPat");
-        formatter.field("attrs", &self.attrs);
         formatter.field("member", &self.member);
         formatter.field("colon_token", &self.colon_token);
         formatter.field("pat", &self.pat);
@@ -776,7 +748,6 @@ impl Debug for Lifetime {
 impl Debug for LifetimeDef {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("LifetimeDef");
-        formatter.field("attrs", &self.attrs);
         formatter.field("lifetime", &self.lifetime);
         formatter.field("colon_token", &self.colon_token);
         formatter.field("bounds", &self.bounds);
@@ -857,48 +828,6 @@ impl Debug for Member {
         }
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for Meta {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            Meta::Path(v0) => {
-                let mut formatter = formatter.debug_tuple("Path");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Meta::List(v0) => {
-                let mut formatter = formatter.debug_tuple("List");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Meta::NameValue(v0) => {
-                let mut formatter = formatter.debug_tuple("NameValue");
-                formatter.field(v0);
-                formatter.finish()
-            }
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for MetaList {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("MetaList");
-        formatter.field("path", &self.path);
-        formatter.field("paren_token", &self.paren_token);
-        formatter.field("nested", &self.nested);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for MetaNameValue {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("MetaNameValue");
-        formatter.field("path", &self.path);
-        formatter.field("eq_token", &self.eq_token);
-        formatter.field("lit", &self.lit);
-        formatter.finish()
-    }
-}
 #[cfg(feature = "full")]
 impl Debug for MethodTurbofish {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -908,23 +837,6 @@ impl Debug for MethodTurbofish {
         formatter.field("args", &self.args);
         formatter.field("gt_token", &self.gt_token);
         formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for NestedMeta {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            NestedMeta::Meta(v0) => {
-                let mut formatter = formatter.debug_tuple("Meta");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            NestedMeta::Lit(v0) => {
-                let mut formatter = formatter.debug_tuple("Lit");
-                formatter.field(v0);
-                formatter.finish()
-            }
-        }
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1024,7 +936,6 @@ impl Debug for Pat {
 impl Debug for PatBox {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatBox");
-        formatter.field("attrs", &self.attrs);
         formatter.field("box_token", &self.box_token);
         formatter.field("pat", &self.pat);
         formatter.finish()
@@ -1034,7 +945,6 @@ impl Debug for PatBox {
 impl Debug for PatIdent {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatIdent");
-        formatter.field("attrs", &self.attrs);
         formatter.field("by_ref", &self.by_ref);
         formatter.field("mutability", &self.mutability);
         formatter.field("ident", &self.ident);
@@ -1046,7 +956,6 @@ impl Debug for PatIdent {
 impl Debug for PatLit {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatLit");
-        formatter.field("attrs", &self.attrs);
         formatter.field("expr", &self.expr);
         formatter.finish()
     }
@@ -1055,7 +964,6 @@ impl Debug for PatLit {
 impl Debug for PatOr {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatOr");
-        formatter.field("attrs", &self.attrs);
         formatter.field("leading_vert", &self.leading_vert);
         formatter.field("cases", &self.cases);
         formatter.finish()
@@ -1065,7 +973,6 @@ impl Debug for PatOr {
 impl Debug for PatPath {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatPath");
-        formatter.field("attrs", &self.attrs);
         formatter.field("qself", &self.qself);
         formatter.field("path", &self.path);
         formatter.finish()
@@ -1075,7 +982,6 @@ impl Debug for PatPath {
 impl Debug for PatRange {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatRange");
-        formatter.field("attrs", &self.attrs);
         formatter.field("lo", &self.lo);
         formatter.field("limits", &self.limits);
         formatter.field("hi", &self.hi);
@@ -1086,7 +992,6 @@ impl Debug for PatRange {
 impl Debug for PatReference {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatReference");
-        formatter.field("attrs", &self.attrs);
         formatter.field("and_token", &self.and_token);
         formatter.field("mutability", &self.mutability);
         formatter.field("pat", &self.pat);
@@ -1097,7 +1002,6 @@ impl Debug for PatReference {
 impl Debug for PatRest {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatRest");
-        formatter.field("attrs", &self.attrs);
         formatter.field("dot2_token", &self.dot2_token);
         formatter.finish()
     }
@@ -1106,7 +1010,6 @@ impl Debug for PatRest {
 impl Debug for PatSlice {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatSlice");
-        formatter.field("attrs", &self.attrs);
         formatter.field("bracket_token", &self.bracket_token);
         formatter.field("elems", &self.elems);
         formatter.finish()
@@ -1116,7 +1019,6 @@ impl Debug for PatSlice {
 impl Debug for PatStruct {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatStruct");
-        formatter.field("attrs", &self.attrs);
         formatter.field("path", &self.path);
         formatter.field("brace_token", &self.brace_token);
         formatter.field("fields", &self.fields);
@@ -1128,7 +1030,6 @@ impl Debug for PatStruct {
 impl Debug for PatTuple {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatTuple");
-        formatter.field("attrs", &self.attrs);
         formatter.field("paren_token", &self.paren_token);
         formatter.field("elems", &self.elems);
         formatter.finish()
@@ -1138,7 +1039,6 @@ impl Debug for PatTuple {
 impl Debug for PatTupleStruct {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatTupleStruct");
-        formatter.field("attrs", &self.attrs);
         formatter.field("path", &self.path);
         formatter.field("pat", &self.pat);
         formatter.finish()
@@ -1148,7 +1048,6 @@ impl Debug for PatTupleStruct {
 impl Debug for PatType {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatType");
-        formatter.field("attrs", &self.attrs);
         formatter.field("pat", &self.pat);
         formatter.field("colon_token", &self.colon_token);
         formatter.field("ty", &self.ty);
@@ -1159,7 +1058,6 @@ impl Debug for PatType {
 impl Debug for PatWild {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("PatWild");
-        formatter.field("attrs", &self.attrs);
         formatter.field("underscore_token", &self.underscore_token);
         formatter.finish()
     }
@@ -1463,7 +1361,6 @@ impl Debug for TypeNever {
 impl Debug for TypeParam {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("TypeParam");
-        formatter.field("attrs", &self.attrs);
         formatter.field("ident", &self.ident);
         formatter.field("colon_token", &self.colon_token);
         formatter.field("bounds", &self.bounds);
@@ -1582,7 +1479,6 @@ impl Debug for UnOp {
 impl Debug for Variadic {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("Variadic");
-        formatter.field("attrs", &self.attrs);
         formatter.field("dots", &self.dots);
         formatter.finish()
     }

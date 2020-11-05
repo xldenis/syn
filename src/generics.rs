@@ -49,7 +49,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct TypeParam {
-        pub attrs: Vec<Attribute>,
         pub ident: Ident,
         pub colon_token: Option<Token![:]>,
         pub bounds: Punctuated<TypeParamBound, Token![+]>,
@@ -64,7 +63,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct LifetimeDef {
-        pub attrs: Vec<Attribute>,
         pub lifetime: Lifetime,
         pub colon_token: Option<Token![:]>,
         pub bounds: Punctuated<Lifetime, Token![+]>,
@@ -77,7 +75,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ConstParam {
-        pub attrs: Vec<Attribute>,
         pub const_token: Token![const],
         pub ident: Ident,
         pub colon_token: Token![:],
@@ -426,7 +423,6 @@ impl Default for BoundLifetimes {
 impl LifetimeDef {
     pub fn new(lifetime: Lifetime) -> Self {
         LifetimeDef {
-            attrs: Vec::new(),
             lifetime,
             colon_token: None,
             bounds: Punctuated::new(),
@@ -437,7 +433,6 @@ impl LifetimeDef {
 impl From<Ident> for TypeParam {
     fn from(ident: Ident) -> Self {
         TypeParam {
-            attrs: vec![],
             ident,
             colon_token: None,
             bounds: Punctuated::new(),
@@ -580,23 +575,19 @@ pub mod parsing {
                     break;
                 }
 
-                let attrs = input.call(Attribute::parse_outer)?;
                 let lookahead = input.lookahead1();
                 if allow_lifetime_param && lookahead.peek(Lifetime) {
                     params.push_value(GenericParam::Lifetime(LifetimeDef {
-                        attrs,
                         ..input.parse()?
                     }));
                 } else if lookahead.peek(Ident) {
                     allow_lifetime_param = false;
                     params.push_value(GenericParam::Type(TypeParam {
-                        attrs,
                         ..input.parse()?
                     }));
                 } else if lookahead.peek(Token![const]) {
                     allow_lifetime_param = false;
                     params.push_value(GenericParam::Const(ConstParam {
-                        attrs,
                         ..input.parse()?
                     }));
                 } else {
@@ -623,22 +614,18 @@ pub mod parsing {
 
     impl Parse for GenericParam {
         fn parse(input: ParseStream) -> Result<Self> {
-            let attrs = input.call(Attribute::parse_outer)?;
 
             let lookahead = input.lookahead1();
             if lookahead.peek(Ident) {
                 Ok(GenericParam::Type(TypeParam {
-                    attrs,
                     ..input.parse()?
                 }))
             } else if lookahead.peek(Lifetime) {
                 Ok(GenericParam::Lifetime(LifetimeDef {
-                    attrs,
                     ..input.parse()?
                 }))
             } else if lookahead.peek(Token![const]) {
                 Ok(GenericParam::Const(ConstParam {
-                    attrs,
                     ..input.parse()?
                 }))
             } else {
@@ -651,7 +638,6 @@ pub mod parsing {
         fn parse(input: ParseStream) -> Result<Self> {
             let has_colon;
             Ok(LifetimeDef {
-                attrs: input.call(Attribute::parse_outer)?,
                 lifetime: input.parse()?,
                 colon_token: {
                     if input.peek(Token![:]) {
@@ -717,7 +703,6 @@ pub mod parsing {
 
     impl Parse for TypeParam {
         fn parse(input: ParseStream) -> Result<Self> {
-            let attrs = input.call(Attribute::parse_outer)?;
             let ident: Ident = input.parse()?;
             let colon_token: Option<Token![:]> = input.parse()?;
 
@@ -758,7 +743,6 @@ pub mod parsing {
             }
 
             Ok(TypeParam {
-                attrs,
                 ident,
                 colon_token,
                 bounds,
@@ -820,7 +804,6 @@ pub mod parsing {
         fn parse(input: ParseStream) -> Result<Self> {
             let mut default = None;
             Ok(ConstParam {
-                attrs: input.call(Attribute::parse_outer)?,
                 const_token: input.parse()?,
                 ident: input.parse()?,
                 colon_token: input.parse()?,
@@ -944,12 +927,11 @@ pub mod parsing {
 #[cfg(feature = "printing")]
 mod printing {
     use super::*;
-    use crate::attr::FilterAttrs;
     use crate::print::TokensOrDefault;
     use proc_macro2::TokenStream;
     #[cfg(feature = "full")]
     use proc_macro2::TokenTree;
-    use quote::{ToTokens, TokenStreamExt};
+    use quote::ToTokens;
 
     impl ToTokens for Generics {
         fn to_tokens(&self, tokens: &mut TokenStream) {
@@ -1020,7 +1002,6 @@ mod printing {
                     GenericParam::Lifetime(_) => unreachable!(),
                     GenericParam::Type(param) => {
                         // Leave off the type parameter defaults
-                        tokens.append_all(param.attrs.outer());
                         param.ident.to_tokens(tokens);
                         if !param.bounds.is_empty() {
                             TokensOrDefault(&param.colon_token).to_tokens(tokens);
@@ -1029,7 +1010,6 @@ mod printing {
                     }
                     GenericParam::Const(param) => {
                         // Leave off the const parameter defaults
-                        tokens.append_all(param.attrs.outer());
                         param.const_token.to_tokens(tokens);
                         param.ident.to_tokens(tokens);
                         param.colon_token.to_tokens(tokens);
@@ -1111,7 +1091,6 @@ mod printing {
 
     impl ToTokens for LifetimeDef {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.lifetime.to_tokens(tokens);
             if !self.bounds.is_empty() {
                 TokensOrDefault(&self.colon_token).to_tokens(tokens);
@@ -1122,7 +1101,6 @@ mod printing {
 
     impl ToTokens for TypeParam {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.ident.to_tokens(tokens);
             if !self.bounds.is_empty() {
                 TokensOrDefault(&self.colon_token).to_tokens(tokens);
@@ -1176,7 +1154,6 @@ mod printing {
 
     impl ToTokens for ConstParam {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
             self.const_token.to_tokens(tokens);
             self.ident.to_tokens(tokens);
             self.colon_token.to_tokens(tokens);

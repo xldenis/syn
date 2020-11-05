@@ -1239,11 +1239,6 @@ pub(crate) fn parse_scoped<F: Parser>(f: F, scope: Span, tokens: TokenStream) ->
     f.__parse_scoped(scope, tokens)
 }
 
-#[cfg(any(feature = "full", feature = "derive"))]
-pub(crate) fn parse_stream<F: Parser>(f: F, input: ParseStream) -> Result<F::Output> {
-    f.__parse_stream(input)
-}
-
 /// An empty syntax tree node that consumes no tokens when parsed.
 ///
 /// This is useful for attribute macros that want to ensure they are not
