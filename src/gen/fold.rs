@@ -224,34 +224,6 @@ pub trait Fold {
     fn fold_fields_unnamed(&mut self, i: FieldsUnnamed) -> FieldsUnnamed {
         fold_fields_unnamed(self, i)
     }
-    #[cfg(feature = "full")]
-    fn fold_file(&mut self, i: File) -> File {
-        fold_file(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_fn_arg(&mut self, i: FnArg) -> FnArg {
-        fold_fn_arg(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_foreign_item(&mut self, i: ForeignItem) -> ForeignItem {
-        fold_foreign_item(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_foreign_item_fn(&mut self, i: ForeignItemFn) -> ForeignItemFn {
-        fold_foreign_item_fn(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_foreign_item_macro(&mut self, i: ForeignItemMacro) -> ForeignItemMacro {
-        fold_foreign_item_macro(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_foreign_item_static(&mut self, i: ForeignItemStatic) -> ForeignItemStatic {
-        fold_foreign_item_static(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_foreign_item_type(&mut self, i: ForeignItemType) -> ForeignItemType {
-        fold_foreign_item_type(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_generic_argument(&mut self, i: GenericArgument) -> GenericArgument {
         fold_generic_argument(self, i)
@@ -271,97 +243,9 @@ pub trait Fold {
     fn fold_ident(&mut self, i: Ident) -> Ident {
         fold_ident(self, i)
     }
-    #[cfg(feature = "full")]
-    fn fold_impl_item(&mut self, i: ImplItem) -> ImplItem {
-        fold_impl_item(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_impl_item_const(&mut self, i: ImplItemConst) -> ImplItemConst {
-        fold_impl_item_const(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_impl_item_macro(&mut self, i: ImplItemMacro) -> ImplItemMacro {
-        fold_impl_item_macro(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_impl_item_method(&mut self, i: ImplItemMethod) -> ImplItemMethod {
-        fold_impl_item_method(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_impl_item_type(&mut self, i: ImplItemType) -> ImplItemType {
-        fold_impl_item_type(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_index(&mut self, i: Index) -> Index {
         fold_index(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item(&mut self, i: Item) -> Item {
-        fold_item(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_const(&mut self, i: ItemConst) -> ItemConst {
-        fold_item_const(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_enum(&mut self, i: ItemEnum) -> ItemEnum {
-        fold_item_enum(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_extern_crate(&mut self, i: ItemExternCrate) -> ItemExternCrate {
-        fold_item_extern_crate(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_fn(&mut self, i: ItemFn) -> ItemFn {
-        fold_item_fn(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_foreign_mod(&mut self, i: ItemForeignMod) -> ItemForeignMod {
-        fold_item_foreign_mod(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_impl(&mut self, i: ItemImpl) -> ItemImpl {
-        fold_item_impl(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_macro(&mut self, i: ItemMacro) -> ItemMacro {
-        fold_item_macro(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_macro2(&mut self, i: ItemMacro2) -> ItemMacro2 {
-        fold_item_macro2(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_mod(&mut self, i: ItemMod) -> ItemMod {
-        fold_item_mod(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_static(&mut self, i: ItemStatic) -> ItemStatic {
-        fold_item_static(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_struct(&mut self, i: ItemStruct) -> ItemStruct {
-        fold_item_struct(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_trait(&mut self, i: ItemTrait) -> ItemTrait {
-        fold_item_trait(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_trait_alias(&mut self, i: ItemTraitAlias) -> ItemTraitAlias {
-        fold_item_trait_alias(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_type(&mut self, i: ItemType) -> ItemType {
-        fold_item_type(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_union(&mut self, i: ItemUnion) -> ItemUnion {
-        fold_item_union(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_item_use(&mut self, i: ItemUse) -> ItemUse {
-        fold_item_use(self, i)
     }
     #[cfg(feature = "full")]
     fn fold_label(&mut self, i: Label) -> Label {
@@ -537,17 +421,9 @@ pub trait Fold {
     fn fold_range_limits(&mut self, i: RangeLimits) -> RangeLimits {
         fold_range_limits(self, i)
     }
-    #[cfg(feature = "full")]
-    fn fold_receiver(&mut self, i: Receiver) -> Receiver {
-        fold_receiver(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_return_type(&mut self, i: ReturnType) -> ReturnType {
         fold_return_type(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_signature(&mut self, i: Signature) -> Signature {
-        fold_signature(self, i)
     }
     fn fold_span(&mut self, i: Span) -> Span {
         fold_span(self, i)
@@ -563,26 +439,6 @@ pub trait Fold {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_trait_bound_modifier(&mut self, i: TraitBoundModifier) -> TraitBoundModifier {
         fold_trait_bound_modifier(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_trait_item(&mut self, i: TraitItem) -> TraitItem {
-        fold_trait_item(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_trait_item_const(&mut self, i: TraitItemConst) -> TraitItemConst {
-        fold_trait_item_const(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_trait_item_macro(&mut self, i: TraitItemMacro) -> TraitItemMacro {
-        fold_trait_item_macro(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_trait_item_method(&mut self, i: TraitItemMethod) -> TraitItemMethod {
-        fold_trait_item_method(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_trait_item_type(&mut self, i: TraitItemType) -> TraitItemType {
-        fold_trait_item_type(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_type(&mut self, i: Type) -> Type {
@@ -655,30 +511,6 @@ pub trait Fold {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_un_op(&mut self, i: UnOp) -> UnOp {
         fold_un_op(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_use_glob(&mut self, i: UseGlob) -> UseGlob {
-        fold_use_glob(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_use_group(&mut self, i: UseGroup) -> UseGroup {
-        fold_use_group(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_use_name(&mut self, i: UseName) -> UseName {
-        fold_use_name(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_use_path(&mut self, i: UsePath) -> UsePath {
-        fold_use_path(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_use_rename(&mut self, i: UseRename) -> UseRename {
-        fold_use_rename(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_use_tree(&mut self, i: UseTree) -> UseTree {
-        fold_use_tree(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_variadic(&mut self, i: Variadic) -> Variadic {
@@ -1358,95 +1190,6 @@ where
         unnamed: FoldHelper::lift(node.unnamed, |it| f.fold_field(it)),
     }
 }
-#[cfg(feature = "full")]
-pub fn fold_file<F>(f: &mut F, node: File) -> File
-where
-    F: Fold + ?Sized,
-{
-    File {
-        shebang: node.shebang,
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        items: FoldHelper::lift(node.items, |it| f.fold_item(it)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_fn_arg<F>(f: &mut F, node: FnArg) -> FnArg
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        FnArg::Receiver(_binding_0) => FnArg::Receiver(f.fold_receiver(_binding_0)),
-        FnArg::Typed(_binding_0) => FnArg::Typed(f.fold_pat_type(_binding_0)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_foreign_item<F>(f: &mut F, node: ForeignItem) -> ForeignItem
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        ForeignItem::Fn(_binding_0) => ForeignItem::Fn(f.fold_foreign_item_fn(_binding_0)),
-        ForeignItem::Static(_binding_0) => {
-            ForeignItem::Static(f.fold_foreign_item_static(_binding_0))
-        }
-        ForeignItem::Type(_binding_0) => ForeignItem::Type(f.fold_foreign_item_type(_binding_0)),
-        ForeignItem::Macro(_binding_0) => ForeignItem::Macro(f.fold_foreign_item_macro(_binding_0)),
-        ForeignItem::Verbatim(_binding_0) => ForeignItem::Verbatim(_binding_0),
-        _ => unreachable!(),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_foreign_item_fn<F>(f: &mut F, node: ForeignItemFn) -> ForeignItemFn
-where
-    F: Fold + ?Sized,
-{
-    ForeignItemFn {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        sig: f.fold_signature(node.sig),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_foreign_item_macro<F>(f: &mut F, node: ForeignItemMacro) -> ForeignItemMacro
-where
-    F: Fold + ?Sized,
-{
-    ForeignItemMacro {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        mac: f.fold_macro(node.mac),
-        semi_token: (node.semi_token).map(|it| Token ! [;](tokens_helper(f, &it.spans))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_foreign_item_static<F>(f: &mut F, node: ForeignItemStatic) -> ForeignItemStatic
-where
-    F: Fold + ?Sized,
-{
-    ForeignItemStatic {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        static_token: Token![static](tokens_helper(f, &node.static_token.span)),
-        mutability: (node.mutability).map(|it| Token![mut](tokens_helper(f, &it.span))),
-        ident: f.fold_ident(node.ident),
-        colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
-        ty: Box::new(f.fold_type(*node.ty)),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_foreign_item_type<F>(f: &mut F, node: ForeignItemType) -> ForeignItemType
-where
-    F: Fold + ?Sized,
-{
-    ForeignItemType {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        type_token: Token![type](tokens_helper(f, &node.type_token.span)),
-        ident: f.fold_ident(node.ident),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn fold_generic_argument<F>(f: &mut F, node: GenericArgument) -> GenericArgument
 where
@@ -1517,79 +1260,6 @@ where
     node.set_span(span);
     node
 }
-#[cfg(feature = "full")]
-pub fn fold_impl_item<F>(f: &mut F, node: ImplItem) -> ImplItem
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        ImplItem::Const(_binding_0) => ImplItem::Const(f.fold_impl_item_const(_binding_0)),
-        ImplItem::Method(_binding_0) => ImplItem::Method(f.fold_impl_item_method(_binding_0)),
-        ImplItem::Type(_binding_0) => ImplItem::Type(f.fold_impl_item_type(_binding_0)),
-        ImplItem::Macro(_binding_0) => ImplItem::Macro(f.fold_impl_item_macro(_binding_0)),
-        ImplItem::Verbatim(_binding_0) => ImplItem::Verbatim(_binding_0),
-        _ => unreachable!(),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_impl_item_const<F>(f: &mut F, node: ImplItemConst) -> ImplItemConst
-where
-    F: Fold + ?Sized,
-{
-    ImplItemConst {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        defaultness: (node.defaultness).map(|it| Token![default](tokens_helper(f, &it.span))),
-        const_token: Token![const](tokens_helper(f, &node.const_token.span)),
-        ident: f.fold_ident(node.ident),
-        colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
-        ty: f.fold_type(node.ty),
-        eq_token: Token ! [=](tokens_helper(f, &node.eq_token.spans)),
-        expr: f.fold_expr(node.expr),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_impl_item_macro<F>(f: &mut F, node: ImplItemMacro) -> ImplItemMacro
-where
-    F: Fold + ?Sized,
-{
-    ImplItemMacro {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        mac: f.fold_macro(node.mac),
-        semi_token: (node.semi_token).map(|it| Token ! [;](tokens_helper(f, &it.spans))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_impl_item_method<F>(f: &mut F, node: ImplItemMethod) -> ImplItemMethod
-where
-    F: Fold + ?Sized,
-{
-    ImplItemMethod {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        defaultness: (node.defaultness).map(|it| Token![default](tokens_helper(f, &it.span))),
-        sig: f.fold_signature(node.sig),
-        block: f.fold_block(node.block),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_impl_item_type<F>(f: &mut F, node: ImplItemType) -> ImplItemType
-where
-    F: Fold + ?Sized,
-{
-    ImplItemType {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        defaultness: (node.defaultness).map(|it| Token![default](tokens_helper(f, &it.span))),
-        type_token: Token![type](tokens_helper(f, &node.type_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        eq_token: Token ! [=](tokens_helper(f, &node.eq_token.spans)),
-        ty: f.fold_type(node.ty),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn fold_index<F>(f: &mut F, node: Index) -> Index
 where
@@ -1598,287 +1268,6 @@ where
     Index {
         index: node.index,
         span: f.fold_span(node.span),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item<F>(f: &mut F, node: Item) -> Item
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        Item::Const(_binding_0) => Item::Const(f.fold_item_const(_binding_0)),
-        Item::Enum(_binding_0) => Item::Enum(f.fold_item_enum(_binding_0)),
-        Item::ExternCrate(_binding_0) => Item::ExternCrate(f.fold_item_extern_crate(_binding_0)),
-        Item::Fn(_binding_0) => Item::Fn(f.fold_item_fn(_binding_0)),
-        Item::ForeignMod(_binding_0) => Item::ForeignMod(f.fold_item_foreign_mod(_binding_0)),
-        Item::Impl(_binding_0) => Item::Impl(f.fold_item_impl(_binding_0)),
-        Item::Macro(_binding_0) => Item::Macro(f.fold_item_macro(_binding_0)),
-        Item::Macro2(_binding_0) => Item::Macro2(f.fold_item_macro2(_binding_0)),
-        Item::Mod(_binding_0) => Item::Mod(f.fold_item_mod(_binding_0)),
-        Item::Static(_binding_0) => Item::Static(f.fold_item_static(_binding_0)),
-        Item::Struct(_binding_0) => Item::Struct(f.fold_item_struct(_binding_0)),
-        Item::Trait(_binding_0) => Item::Trait(f.fold_item_trait(_binding_0)),
-        Item::TraitAlias(_binding_0) => Item::TraitAlias(f.fold_item_trait_alias(_binding_0)),
-        Item::Type(_binding_0) => Item::Type(f.fold_item_type(_binding_0)),
-        Item::Union(_binding_0) => Item::Union(f.fold_item_union(_binding_0)),
-        Item::Use(_binding_0) => Item::Use(f.fold_item_use(_binding_0)),
-        Item::Verbatim(_binding_0) => Item::Verbatim(_binding_0),
-        _ => unreachable!(),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_const<F>(f: &mut F, node: ItemConst) -> ItemConst
-where
-    F: Fold + ?Sized,
-{
-    ItemConst {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        const_token: Token![const](tokens_helper(f, &node.const_token.span)),
-        ident: f.fold_ident(node.ident),
-        colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
-        ty: Box::new(f.fold_type(*node.ty)),
-        eq_token: Token ! [=](tokens_helper(f, &node.eq_token.spans)),
-        expr: Box::new(f.fold_expr(*node.expr)),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_enum<F>(f: &mut F, node: ItemEnum) -> ItemEnum
-where
-    F: Fold + ?Sized,
-{
-    ItemEnum {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        enum_token: Token![enum](tokens_helper(f, &node.enum_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
-        variants: FoldHelper::lift(node.variants, |it| f.fold_variant(it)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_extern_crate<F>(f: &mut F, node: ItemExternCrate) -> ItemExternCrate
-where
-    F: Fold + ?Sized,
-{
-    ItemExternCrate {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        extern_token: Token![extern](tokens_helper(f, &node.extern_token.span)),
-        crate_token: Token![crate](tokens_helper(f, &node.crate_token.span)),
-        ident: f.fold_ident(node.ident),
-        rename: (node.rename).map(|it| {
-            (
-                Token![as](tokens_helper(f, &(it).0.span)),
-                f.fold_ident((it).1),
-            )
-        }),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_fn<F>(f: &mut F, node: ItemFn) -> ItemFn
-where
-    F: Fold + ?Sized,
-{
-    ItemFn {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        sig: f.fold_signature(node.sig),
-        block: Box::new(f.fold_block(*node.block)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_foreign_mod<F>(f: &mut F, node: ItemForeignMod) -> ItemForeignMod
-where
-    F: Fold + ?Sized,
-{
-    ItemForeignMod {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        abi: f.fold_abi(node.abi),
-        brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
-        items: FoldHelper::lift(node.items, |it| f.fold_foreign_item(it)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_impl<F>(f: &mut F, node: ItemImpl) -> ItemImpl
-where
-    F: Fold + ?Sized,
-{
-    ItemImpl {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        defaultness: (node.defaultness).map(|it| Token![default](tokens_helper(f, &it.span))),
-        unsafety: (node.unsafety).map(|it| Token![unsafe](tokens_helper(f, &it.span))),
-        impl_token: Token![impl](tokens_helper(f, &node.impl_token.span)),
-        generics: f.fold_generics(node.generics),
-        trait_: (node.trait_).map(|it| {
-            (
-                ((it).0).map(|it| Token![!](tokens_helper(f, &it.spans))),
-                f.fold_path((it).1),
-                Token![for](tokens_helper(f, &(it).2.span)),
-            )
-        }),
-        self_ty: Box::new(f.fold_type(*node.self_ty)),
-        brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
-        items: FoldHelper::lift(node.items, |it| f.fold_impl_item(it)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_macro<F>(f: &mut F, node: ItemMacro) -> ItemMacro
-where
-    F: Fold + ?Sized,
-{
-    ItemMacro {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        ident: (node.ident).map(|it| f.fold_ident(it)),
-        mac: f.fold_macro(node.mac),
-        semi_token: (node.semi_token).map(|it| Token ! [;](tokens_helper(f, &it.spans))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_macro2<F>(f: &mut F, node: ItemMacro2) -> ItemMacro2
-where
-    F: Fold + ?Sized,
-{
-    ItemMacro2 {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        macro_token: Token![macro](tokens_helper(f, &node.macro_token.span)),
-        ident: f.fold_ident(node.ident),
-        rules: node.rules,
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_mod<F>(f: &mut F, node: ItemMod) -> ItemMod
-where
-    F: Fold + ?Sized,
-{
-    ItemMod {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        mod_token: Token![mod](tokens_helper(f, &node.mod_token.span)),
-        ident: f.fold_ident(node.ident),
-        content: (node.content).map(|it| {
-            (
-                Brace(tokens_helper(f, &(it).0.span)),
-                FoldHelper::lift((it).1, |it| f.fold_item(it)),
-            )
-        }),
-        semi: (node.semi).map(|it| Token ! [;](tokens_helper(f, &it.spans))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_static<F>(f: &mut F, node: ItemStatic) -> ItemStatic
-where
-    F: Fold + ?Sized,
-{
-    ItemStatic {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        static_token: Token![static](tokens_helper(f, &node.static_token.span)),
-        mutability: (node.mutability).map(|it| Token![mut](tokens_helper(f, &it.span))),
-        ident: f.fold_ident(node.ident),
-        colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
-        ty: Box::new(f.fold_type(*node.ty)),
-        eq_token: Token ! [=](tokens_helper(f, &node.eq_token.spans)),
-        expr: Box::new(f.fold_expr(*node.expr)),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_struct<F>(f: &mut F, node: ItemStruct) -> ItemStruct
-where
-    F: Fold + ?Sized,
-{
-    ItemStruct {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        struct_token: Token![struct](tokens_helper(f, &node.struct_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        fields: f.fold_fields(node.fields),
-        semi_token: (node.semi_token).map(|it| Token ! [;](tokens_helper(f, &it.spans))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_trait<F>(f: &mut F, node: ItemTrait) -> ItemTrait
-where
-    F: Fold + ?Sized,
-{
-    ItemTrait {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        unsafety: (node.unsafety).map(|it| Token![unsafe](tokens_helper(f, &it.span))),
-        auto_token: (node.auto_token).map(|it| Token![auto](tokens_helper(f, &it.span))),
-        trait_token: Token![trait](tokens_helper(f, &node.trait_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        colon_token: (node.colon_token).map(|it| Token ! [:](tokens_helper(f, &it.spans))),
-        supertraits: FoldHelper::lift(node.supertraits, |it| f.fold_type_param_bound(it)),
-        brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
-        items: FoldHelper::lift(node.items, |it| f.fold_trait_item(it)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_trait_alias<F>(f: &mut F, node: ItemTraitAlias) -> ItemTraitAlias
-where
-    F: Fold + ?Sized,
-{
-    ItemTraitAlias {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        trait_token: Token![trait](tokens_helper(f, &node.trait_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        eq_token: Token ! [=](tokens_helper(f, &node.eq_token.spans)),
-        bounds: FoldHelper::lift(node.bounds, |it| f.fold_type_param_bound(it)),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_type<F>(f: &mut F, node: ItemType) -> ItemType
-where
-    F: Fold + ?Sized,
-{
-    ItemType {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        type_token: Token![type](tokens_helper(f, &node.type_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        eq_token: Token ! [=](tokens_helper(f, &node.eq_token.spans)),
-        ty: Box::new(f.fold_type(*node.ty)),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_union<F>(f: &mut F, node: ItemUnion) -> ItemUnion
-where
-    F: Fold + ?Sized,
-{
-    ItemUnion {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        union_token: Token![union](tokens_helper(f, &node.union_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        fields: f.fold_fields_named(node.fields),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_item_use<F>(f: &mut F, node: ItemUse) -> ItemUse
-where
-    F: Fold + ?Sized,
-{
-    ItemUse {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        use_token: Token![use](tokens_helper(f, &node.use_token.span)),
-        leading_colon: (node.leading_colon).map(|it| Token ! [::](tokens_helper(f, &it.spans))),
-        tree: f.fold_use_tree(node.tree),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
     }
 }
 #[cfg(feature = "full")]
@@ -2410,23 +1799,6 @@ where
         }
     }
 }
-#[cfg(feature = "full")]
-pub fn fold_receiver<F>(f: &mut F, node: Receiver) -> Receiver
-where
-    F: Fold + ?Sized,
-{
-    Receiver {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        reference: (node.reference).map(|it| {
-            (
-                Token ! [&](tokens_helper(f, &(it).0.spans)),
-                ((it).1).map(|it| f.fold_lifetime(it)),
-            )
-        }),
-        mutability: (node.mutability).map(|it| Token![mut](tokens_helper(f, &it.span))),
-        self_token: Token![self](tokens_helper(f, &node.self_token.span)),
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn fold_return_type<F>(f: &mut F, node: ReturnType) -> ReturnType
 where
@@ -2438,25 +1810,6 @@ where
             Token ! [->](tokens_helper(f, &_binding_0.spans)),
             Box::new(f.fold_type(*_binding_1)),
         ),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_signature<F>(f: &mut F, node: Signature) -> Signature
-where
-    F: Fold + ?Sized,
-{
-    Signature {
-        constness: (node.constness).map(|it| Token![const](tokens_helper(f, &it.span))),
-        asyncness: (node.asyncness).map(|it| Token![async](tokens_helper(f, &it.span))),
-        unsafety: (node.unsafety).map(|it| Token![unsafe](tokens_helper(f, &it.span))),
-        abi: (node.abi).map(|it| f.fold_abi(it)),
-        fn_token: Token![fn](tokens_helper(f, &node.fn_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        paren_token: Paren(tokens_helper(f, &node.paren_token.span)),
-        inputs: FoldHelper::lift(node.inputs, |it| f.fold_fn_arg(it)),
-        variadic: (node.variadic).map(|it| f.fold_variadic(it)),
-        output: f.fold_return_type(node.output),
     }
 }
 pub fn fold_span<F>(f: &mut F, node: Span) -> Span
@@ -2472,7 +1825,6 @@ where
 {
     match node {
         Stmt::Local(_binding_0) => Stmt::Local(f.fold_local(_binding_0)),
-        Stmt::Item(_binding_0) => Stmt::Item(f.fold_item(_binding_0)),
         Stmt::Expr(_binding_0) => Stmt::Expr(f.fold_expr(_binding_0)),
         Stmt::Semi(_binding_0, _binding_1) => Stmt::Semi(
             f.fold_expr(_binding_0),
@@ -2502,84 +1854,6 @@ where
         TraitBoundModifier::Maybe(_binding_0) => {
             TraitBoundModifier::Maybe(Token ! [?](tokens_helper(f, &_binding_0.spans)))
         }
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_trait_item<F>(f: &mut F, node: TraitItem) -> TraitItem
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        TraitItem::Const(_binding_0) => TraitItem::Const(f.fold_trait_item_const(_binding_0)),
-        TraitItem::Method(_binding_0) => TraitItem::Method(f.fold_trait_item_method(_binding_0)),
-        TraitItem::Type(_binding_0) => TraitItem::Type(f.fold_trait_item_type(_binding_0)),
-        TraitItem::Macro(_binding_0) => TraitItem::Macro(f.fold_trait_item_macro(_binding_0)),
-        TraitItem::Verbatim(_binding_0) => TraitItem::Verbatim(_binding_0),
-        _ => unreachable!(),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_trait_item_const<F>(f: &mut F, node: TraitItemConst) -> TraitItemConst
-where
-    F: Fold + ?Sized,
-{
-    TraitItemConst {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        const_token: Token![const](tokens_helper(f, &node.const_token.span)),
-        ident: f.fold_ident(node.ident),
-        colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
-        ty: f.fold_type(node.ty),
-        default: (node.default).map(|it| {
-            (
-                Token ! [=](tokens_helper(f, &(it).0.spans)),
-                f.fold_expr((it).1),
-            )
-        }),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_trait_item_macro<F>(f: &mut F, node: TraitItemMacro) -> TraitItemMacro
-where
-    F: Fold + ?Sized,
-{
-    TraitItemMacro {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        mac: f.fold_macro(node.mac),
-        semi_token: (node.semi_token).map(|it| Token ! [;](tokens_helper(f, &it.spans))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_trait_item_method<F>(f: &mut F, node: TraitItemMethod) -> TraitItemMethod
-where
-    F: Fold + ?Sized,
-{
-    TraitItemMethod {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        sig: f.fold_signature(node.sig),
-        default: (node.default).map(|it| f.fold_block(it)),
-        semi_token: (node.semi_token).map(|it| Token ! [;](tokens_helper(f, &it.spans))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_trait_item_type<F>(f: &mut F, node: TraitItemType) -> TraitItemType
-where
-    F: Fold + ?Sized,
-{
-    TraitItemType {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        type_token: Token![type](tokens_helper(f, &node.type_token.span)),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        colon_token: (node.colon_token).map(|it| Token ! [:](tokens_helper(f, &it.spans))),
-        bounds: FoldHelper::lift(node.bounds, |it| f.fold_type_param_bound(it)),
-        default: (node.default).map(|it| {
-            (
-                Token ! [=](tokens_helper(f, &(it).0.spans)),
-                f.fold_type((it).1),
-            )
-        }),
-        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -2790,69 +2064,6 @@ where
         UnOp::Deref(_binding_0) => UnOp::Deref(Token ! [*](tokens_helper(f, &_binding_0.spans))),
         UnOp::Not(_binding_0) => UnOp::Not(Token![!](tokens_helper(f, &_binding_0.spans))),
         UnOp::Neg(_binding_0) => UnOp::Neg(Token ! [-](tokens_helper(f, &_binding_0.spans))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_use_glob<F>(f: &mut F, node: UseGlob) -> UseGlob
-where
-    F: Fold + ?Sized,
-{
-    UseGlob {
-        star_token: Token ! [*](tokens_helper(f, &node.star_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_use_group<F>(f: &mut F, node: UseGroup) -> UseGroup
-where
-    F: Fold + ?Sized,
-{
-    UseGroup {
-        brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
-        items: FoldHelper::lift(node.items, |it| f.fold_use_tree(it)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_use_name<F>(f: &mut F, node: UseName) -> UseName
-where
-    F: Fold + ?Sized,
-{
-    UseName {
-        ident: f.fold_ident(node.ident),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_use_path<F>(f: &mut F, node: UsePath) -> UsePath
-where
-    F: Fold + ?Sized,
-{
-    UsePath {
-        ident: f.fold_ident(node.ident),
-        colon2_token: Token ! [::](tokens_helper(f, &node.colon2_token.spans)),
-        tree: Box::new(f.fold_use_tree(*node.tree)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_use_rename<F>(f: &mut F, node: UseRename) -> UseRename
-where
-    F: Fold + ?Sized,
-{
-    UseRename {
-        ident: f.fold_ident(node.ident),
-        as_token: Token![as](tokens_helper(f, &node.as_token.span)),
-        rename: f.fold_ident(node.rename),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_use_tree<F>(f: &mut F, node: UseTree) -> UseTree
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        UseTree::Path(_binding_0) => UseTree::Path(f.fold_use_path(_binding_0)),
-        UseTree::Name(_binding_0) => UseTree::Name(f.fold_use_name(_binding_0)),
-        UseTree::Rename(_binding_0) => UseTree::Rename(f.fold_use_rename(_binding_0)),
-        UseTree::Glob(_binding_0) => UseTree::Glob(f.fold_use_glob(_binding_0)),
-        UseTree::Group(_binding_0) => UseTree::Group(f.fold_use_group(_binding_0)),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

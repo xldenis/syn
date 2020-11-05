@@ -19,9 +19,6 @@ ast_enum! {
         /// A local (let) binding.
         Local(Local),
 
-        /// An item definition.
-        Item(Item),
-
         /// Expr without trailing semicolon.
         Expr(Expr),
 
@@ -46,7 +43,6 @@ ast_struct! {
 #[cfg(feature = "parsing")]
 pub mod parsing {
     use super::*;
-    use crate::parse::discouraged::Speculative;
     use crate::parse::{Parse, ParseStream, Result};
     use proc_macro2::TokenStream;
 
@@ -148,69 +144,11 @@ pub mod parsing {
     fn parse_stmt(input: ParseStream, allow_nosemi: bool) -> Result<Stmt> {
         let mut attrs = input.call(Attribute::parse_outer)?;
 
-        // brace-style macros; paren and bracket macros get parsed as
-        // expression statements.
-        let ahead = input.fork();
-        if let Ok(path) = ahead.call(Path::parse_mod_style) {
-            if ahead.peek(Token![!]) && (ahead.peek2(token::Brace) || ahead.peek2(Ident)) {
-                input.advance_to(&ahead);
-                return stmt_mac(input, attrs, path);
-            }
-        }
-
         if input.peek(Token![let]) {
             stmt_local(input, attrs).map(Stmt::Local)
-        } else if input.peek(Token![pub])
-            || input.peek(Token![crate]) && !input.peek2(Token![::])
-            || input.peek(Token![extern])
-            || input.peek(Token![use])
-            || input.peek(Token![static]) && (input.peek2(Token![mut]) || input.peek2(Ident))
-            || input.peek(Token![const])
-            || input.peek(Token![unsafe]) && !input.peek2(token::Brace)
-            || input.peek(Token![async])
-                && (input.peek2(Token![unsafe])
-                    || input.peek2(Token![extern])
-                    || input.peek2(Token![fn]))
-            || input.peek(Token![fn])
-            || input.peek(Token![mod])
-            || input.peek(Token![type])
-            || input.peek(item::parsing::existential) && input.peek2(Token![type])
-            || input.peek(Token![struct])
-            || input.peek(Token![enum])
-            || input.peek(Token![union]) && input.peek2(Ident)
-            || input.peek(Token![auto]) && input.peek2(Token![trait])
-            || input.peek(Token![trait])
-            || input.peek(Token![default])
-                && (input.peek2(Token![unsafe]) || input.peek2(Token![impl]))
-            || input.peek(Token![impl])
-            || input.peek(Token![macro])
-        {
-            let mut item: Item = input.parse()?;
-            attrs.extend(item.replace_attrs(Vec::new()));
-            item.replace_attrs(attrs);
-            Ok(Stmt::Item(item))
         } else {
             stmt_expr(input, allow_nosemi, attrs)
         }
-    }
-
-    fn stmt_mac(input: ParseStream, attrs: Vec<Attribute>, path: Path) -> Result<Stmt> {
-        let bang_token: Token![!] = input.parse()?;
-        let ident: Option<Ident> = input.parse()?;
-        let (delimiter, tokens) = mac::parse_delimiter(input)?;
-        let semi_token: Option<Token![;]> = input.parse()?;
-
-        Ok(Stmt::Item(Item::Macro(ItemMacro {
-            attrs,
-            ident,
-            mac: Macro {
-                path,
-                bang_token,
-                delimiter,
-                tokens,
-            },
-            semi_token,
-        })))
     }
 
     fn stmt_local(input: ParseStream, attrs: Vec<Attribute>) -> Result<Local> {
@@ -288,7 +226,6 @@ mod printing {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             match self {
                 Stmt::Local(local) => local.to_tokens(tokens),
-                Stmt::Item(item) => item.to_tokens(tokens),
                 Stmt::Expr(expr) => expr.to_tokens(tokens),
                 Stmt::Semi(expr, semi) => {
                     expr.to_tokens(tokens);

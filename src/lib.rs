@@ -364,23 +364,6 @@ pub use crate::generics::{
 #[cfg(all(any(feature = "full", feature = "derive"), feature = "printing"))]
 pub use crate::generics::{ImplGenerics, Turbofish, TypeGenerics};
 
-#[cfg(feature = "full")]
-mod item;
-#[cfg(feature = "full")]
-pub use crate::item::{
-    FnArg, ForeignItem, ForeignItemFn, ForeignItemMacro, ForeignItemStatic, ForeignItemType,
-    ImplItem, ImplItemConst, ImplItemMacro, ImplItemMethod, ImplItemType, Item, ItemConst,
-    ItemEnum, ItemExternCrate, ItemFn, ItemForeignMod, ItemImpl, ItemMacro, ItemMacro2, ItemMod,
-    ItemStatic, ItemStruct, ItemTrait, ItemTraitAlias, ItemType, ItemUnion, ItemUse, Receiver,
-    Signature, TraitItem, TraitItemConst, TraitItemMacro, TraitItemMethod, TraitItemType, UseGlob,
-    UseGroup, UseName, UsePath, UseRename, UseTree,
-};
-
-#[cfg(feature = "full")]
-mod file;
-#[cfg(feature = "full")]
-pub use crate::file::File;
-
 mod lifetime;
 pub use crate::lifetime::Lifetime;
 
@@ -922,66 +905,4 @@ pub fn parse_str<T: parse::Parse>(s: &str) -> Result<T> {
     parse::Parser::parse_str(T::parse, s)
 }
 
-// FIXME the name parse_file makes it sound like you might pass in a path to a
-// file, rather than the content.
-/// Parse the content of a file of Rust code.
-///
-/// This is different from `syn::parse_str::<File>(content)` in two ways:
-///
-/// - It discards a leading byte order mark `\u{FEFF}` if the file has one.
-/// - It preserves the shebang line of the file, such as `#!/usr/bin/env rustx`.
-///
-/// If present, either of these would be an error using `from_str`.
-///
-/// *This function is available only if Syn is built with the `"parsing"` and
-/// `"full"` features.*
-///
-/// # Examples
-///
-/// ```no_run
-/// use std::error::Error;
-/// use std::fs::File;
-/// use std::io::Read;
-///
-/// fn run() -> Result<(), Box<Error>> {
-///     let mut file = File::open("path/to/code.rs")?;
-///     let mut content = String::new();
-///     file.read_to_string(&mut content)?;
-///
-///     let ast = syn::parse_file(&content)?;
-///     if let Some(shebang) = ast.shebang {
-///         println!("{}", shebang);
-///     }
-///     println!("{} items", ast.items.len());
-///
-///     Ok(())
-/// }
-/// #
-/// # run().unwrap();
-/// ```
-#[cfg(all(feature = "parsing", feature = "full"))]
-pub fn parse_file(mut content: &str) -> Result<File> {
-    // Strip the BOM if it is present
-    const BOM: &str = "\u{feff}";
-    if content.starts_with(BOM) {
-        content = &content[BOM.len()..];
-    }
 
-    let mut shebang = None;
-    if content.starts_with("#!") {
-        let rest = whitespace::skip(&content[2..]);
-        if !rest.starts_with('[') {
-            if let Some(idx) = content.find('\n') {
-                shebang = Some(content[..idx].to_string());
-                content = &content[idx..];
-            } else {
-                shebang = Some(content.to_string());
-                content = "";
-            }
-        }
-    }
-
-    let mut file: File = parse_str(content)?;
-    file.shebang = shebang;
-    Ok(file)
-}
