@@ -1098,6 +1098,93 @@ impl Debug for PathSegment {
         formatter.finish()
     }
 }
+impl Debug for Pred {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Pred::Conj(v0) => {
+                let mut formatter = formatter.debug_tuple("Conj");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Disj(v0) => {
+                let mut formatter = formatter.debug_tuple("Disj");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Binary(v0) => {
+                let mut formatter = formatter.debug_tuple("Binary");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Impl(v0) => {
+                let mut formatter = formatter.debug_tuple("Impl");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Neg(v0) => {
+                let mut formatter = formatter.debug_tuple("Neg");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Paren(v0) => {
+                let mut formatter = formatter.debug_tuple("Paren");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+impl Debug for PredBinary {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredBinary");
+        formatter.field("left", &self.left);
+        formatter.field("op", &self.op);
+        formatter.field("right", &self.right);
+        formatter.finish()
+    }
+}
+impl Debug for PredConj {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredConj");
+        formatter.field("left", &self.left);
+        formatter.field("conj_token", &self.conj_token);
+        formatter.field("right", &self.right);
+        formatter.finish()
+    }
+}
+impl Debug for PredDisj {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredDisj");
+        formatter.field("left", &self.left);
+        formatter.field("disj_token", &self.disj_token);
+        formatter.field("right", &self.right);
+        formatter.finish()
+    }
+}
+impl Debug for PredImpl {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredImpl");
+        formatter.field("hyp", &self.hyp);
+        formatter.field("impl_token", &self.impl_token);
+        formatter.field("cons", &self.cons);
+        formatter.finish()
+    }
+}
+impl Debug for PredNeg {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredNeg");
+        formatter.finish()
+    }
+}
+impl Debug for PredParen {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredParen");
+        formatter.field("paren_token", &self.paren_token);
+        formatter.field("pred", &self.pred);
+        formatter.finish()
+    }
+}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Debug for PredicateEq {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {

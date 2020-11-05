@@ -338,6 +338,11 @@ pub use crate::expr::{
     ExprTuple, ExprType, ExprUnary, Index, Member,
 };
 
+mod pred;
+pub use crate::pred::{
+    Pred, PredConj, PredDisj, PredImpl, PredNeg, PredBinary, PredParen,
+};
+
 #[cfg(any(feature = "full", feature = "derive"))]
 mod generics;
 #[cfg(any(feature = "full", feature = "derive"))]

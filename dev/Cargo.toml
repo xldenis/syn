@@ -1,5 +1,5 @@
 [package]
-name = "syn-dev"
+name = "creusot-specs-dev"
 version = "0.0.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 edition = "2018"
@@ -19,4 +19,4 @@ quote = "1.0"
 [dependencies.creusot-specs]
 path = ".."
 default-features = false
-features = ["parsing", "full", "extra-traits", "proc-macro"]
+features = ["parsing", "printing", "full", "extra-traits", "proc-macro"]

@@ -702,6 +702,7 @@ define_punctuation! {
     "..="         pub struct DotDotEq/3   /// `..=`
     "="           pub struct Eq/1         /// `=`
     "=="          pub struct EqEq/2       /// `==`
+    "==>"         pub struct PredImpl/3   /// `==>`
     ">="          pub struct Ge/2         /// `>=`
     ">"           pub struct Gt/1         /// `>`
     "<="          pub struct Le/2         /// `<=`
@@ -847,6 +848,7 @@ macro_rules! export_token_macro {
             [-=]          => { $crate::token::SubEq };
             [~]           => { $crate::token::Tilde };
             [_]           => { $crate::token::Underscore };
+            [==>]         => { $crate::token::PredImpl };
         }
     };
 }

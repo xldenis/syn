@@ -1954,6 +1954,152 @@
       }
     },
     {
+      "ident": "Pred",
+      "features": {
+        "any": []
+      },
+      "variants": {
+        "Conj": [
+          {
+            "syn": "PredConj"
+          }
+        ],
+        "Disj": [
+          {
+            "syn": "PredDisj"
+          }
+        ],
+        "Binary": [
+          {
+            "syn": "PredBinary"
+          }
+        ],
+        "Impl": [
+          {
+            "syn": "PredImpl"
+          }
+        ],
+        "Neg": [
+          {
+            "syn": "PredNeg"
+          }
+        ],
+        "Paren": [
+          {
+            "syn": "PredParen"
+          }
+        ]
+      },
+      "exhaustive": false
+    },
+    {
+      "ident": "PredBinary",
+      "features": {
+        "any": []
+      },
+      "fields": {
+        "left": {
+          "box": {
+            "syn": "Expr"
+          }
+        },
+        "op": {
+          "syn": "BinOp"
+        },
+        "right": {
+          "box": {
+            "syn": "Expr"
+          }
+        }
+      }
+    },
+    {
+      "ident": "PredConj",
+      "features": {
+        "any": []
+      },
+      "fields": {
+        "left": {
+          "box": {
+            "syn": "Pred"
+          }
+        },
+        "conj_token": {
+          "token": "AndAnd"
+        },
+        "right": {
+          "box": {
+            "syn": "Pred"
+          }
+        }
+      }
+    },
+    {
+      "ident": "PredDisj",
+      "features": {
+        "any": []
+      },
+      "fields": {
+        "left": {
+          "box": {
+            "syn": "Pred"
+          }
+        },
+        "disj_token": {
+          "token": "OrOr"
+        },
+        "right": {
+          "box": {
+            "syn": "Pred"
+          }
+        }
+      }
+    },
+    {
+      "ident": "PredImpl",
+      "features": {
+        "any": []
+      },
+      "fields": {
+        "hyp": {
+          "box": {
+            "syn": "Pred"
+          }
+        },
+        "impl_token": {
+          "token": "PredImpl"
+        },
+        "cons": {
+          "box": {
+            "syn": "Pred"
+          }
+        }
+      }
+    },
+    {
+      "ident": "PredNeg",
+      "features": {
+        "any": []
+      },
+      "fields": {}
+    },
+    {
+      "ident": "PredParen",
+      "features": {
+        "any": []
+      },
+      "fields": {
+        "paren_token": {
+          "group": "Paren"
+        },
+        "pred": {
+          "box": {
+            "syn": "Pred"
+          }
+        }
+      }
+    },
+    {
       "ident": "PredicateEq",
       "features": {
         "any": [
@@ -2761,6 +2907,7 @@
     "OrOr": "||",
     "Override": "override",
     "Pound": "#",
+    "PredImpl": "==>",
     "Priv": "priv",
     "Pub": "pub",
     "Question": "?",
