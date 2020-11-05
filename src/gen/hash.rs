@@ -277,69 +277,64 @@ impl Hash for Expr {
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
-            Expr::Macro(v0) => {
+            Expr::Match(v0) => {
                 state.write_u8(11u8);
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
-            Expr::Match(v0) => {
+            Expr::MethodCall(v0) => {
                 state.write_u8(12u8);
                 v0.hash(state);
             }
-            #[cfg(feature = "full")]
-            Expr::MethodCall(v0) => {
+            Expr::Paren(v0) => {
                 state.write_u8(13u8);
                 v0.hash(state);
             }
-            Expr::Paren(v0) => {
-                state.write_u8(14u8);
-                v0.hash(state);
-            }
             Expr::Path(v0) => {
-                state.write_u8(15u8);
+                state.write_u8(14u8);
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
             Expr::Range(v0) => {
-                state.write_u8(16u8);
+                state.write_u8(15u8);
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
             Expr::Reference(v0) => {
-                state.write_u8(17u8);
+                state.write_u8(16u8);
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
             Expr::Repeat(v0) => {
-                state.write_u8(18u8);
+                state.write_u8(17u8);
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
             Expr::Return(v0) => {
-                state.write_u8(19u8);
+                state.write_u8(18u8);
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
             Expr::Struct(v0) => {
-                state.write_u8(20u8);
+                state.write_u8(19u8);
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
             Expr::Tuple(v0) => {
-                state.write_u8(21u8);
+                state.write_u8(20u8);
                 v0.hash(state);
             }
             #[cfg(feature = "full")]
             Expr::Type(v0) => {
-                state.write_u8(22u8);
+                state.write_u8(21u8);
                 v0.hash(state);
             }
             Expr::Unary(v0) => {
-                state.write_u8(23u8);
+                state.write_u8(22u8);
                 v0.hash(state);
             }
             Expr::Verbatim(v0) => {
-                state.write_u8(24u8);
+                state.write_u8(23u8);
                 TokenStreamHelper(v0).hash(state);
             }
             _ => unreachable!(),
@@ -464,16 +459,6 @@ impl Hash for ExprLit {
     {
         self.attrs.hash(state);
         self.lit.hash(state);
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for ExprMacro {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.attrs.hash(state);
-        self.mac.hash(state);
     }
 }
 #[cfg(feature = "full")]
@@ -798,36 +783,6 @@ impl Hash for Local {
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for Macro {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.path.hash(state);
-        self.delimiter.hash(state);
-        TokenStreamHelper(&self.tokens).hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for MacroDelimiter {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        match self {
-            MacroDelimiter::Paren(_) => {
-                state.write_u8(0u8);
-            }
-            MacroDelimiter::Brace(_) => {
-                state.write_u8(1u8);
-            }
-            MacroDelimiter::Bracket(_) => {
-                state.write_u8(2u8);
-            }
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 impl Hash for Meta {
     fn hash<H>(&self, state: &mut H)
     where
@@ -925,56 +880,52 @@ impl Hash for Pat {
                 state.write_u8(2u8);
                 v0.hash(state);
             }
-            Pat::Macro(v0) => {
+            Pat::Or(v0) => {
                 state.write_u8(3u8);
                 v0.hash(state);
             }
-            Pat::Or(v0) => {
+            Pat::Path(v0) => {
                 state.write_u8(4u8);
                 v0.hash(state);
             }
-            Pat::Path(v0) => {
+            Pat::Range(v0) => {
                 state.write_u8(5u8);
                 v0.hash(state);
             }
-            Pat::Range(v0) => {
+            Pat::Reference(v0) => {
                 state.write_u8(6u8);
                 v0.hash(state);
             }
-            Pat::Reference(v0) => {
+            Pat::Rest(v0) => {
                 state.write_u8(7u8);
                 v0.hash(state);
             }
-            Pat::Rest(v0) => {
+            Pat::Slice(v0) => {
                 state.write_u8(8u8);
                 v0.hash(state);
             }
-            Pat::Slice(v0) => {
+            Pat::Struct(v0) => {
                 state.write_u8(9u8);
                 v0.hash(state);
             }
-            Pat::Struct(v0) => {
+            Pat::Tuple(v0) => {
                 state.write_u8(10u8);
                 v0.hash(state);
             }
-            Pat::Tuple(v0) => {
+            Pat::TupleStruct(v0) => {
                 state.write_u8(11u8);
                 v0.hash(state);
             }
-            Pat::TupleStruct(v0) => {
+            Pat::Type(v0) => {
                 state.write_u8(12u8);
                 v0.hash(state);
             }
-            Pat::Type(v0) => {
-                state.write_u8(13u8);
-                v0.hash(state);
-            }
             Pat::Verbatim(v0) => {
-                state.write_u8(14u8);
+                state.write_u8(13u8);
                 TokenStreamHelper(v0).hash(state);
             }
             Pat::Wild(v0) => {
-                state.write_u8(15u8);
+                state.write_u8(14u8);
                 v0.hash(state);
             }
             _ => unreachable!(),
@@ -1012,16 +963,6 @@ impl Hash for PatLit {
     {
         self.attrs.hash(state);
         self.expr.hash(state);
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for PatMacro {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.attrs.hash(state);
-        self.mac.hash(state);
     }
 }
 #[cfg(feature = "full")]
@@ -1334,44 +1275,40 @@ impl Hash for Type {
                 state.write_u8(4u8);
                 v0.hash(state);
             }
-            Type::Macro(v0) => {
+            Type::Never(v0) => {
                 state.write_u8(5u8);
                 v0.hash(state);
             }
-            Type::Never(v0) => {
+            Type::Paren(v0) => {
                 state.write_u8(6u8);
                 v0.hash(state);
             }
-            Type::Paren(v0) => {
+            Type::Path(v0) => {
                 state.write_u8(7u8);
                 v0.hash(state);
             }
-            Type::Path(v0) => {
+            Type::Ptr(v0) => {
                 state.write_u8(8u8);
                 v0.hash(state);
             }
-            Type::Ptr(v0) => {
+            Type::Reference(v0) => {
                 state.write_u8(9u8);
                 v0.hash(state);
             }
-            Type::Reference(v0) => {
+            Type::Slice(v0) => {
                 state.write_u8(10u8);
                 v0.hash(state);
             }
-            Type::Slice(v0) => {
+            Type::TraitObject(v0) => {
                 state.write_u8(11u8);
                 v0.hash(state);
             }
-            Type::TraitObject(v0) => {
+            Type::Tuple(v0) => {
                 state.write_u8(12u8);
                 v0.hash(state);
             }
-            Type::Tuple(v0) => {
-                state.write_u8(13u8);
-                v0.hash(state);
-            }
             Type::Verbatim(v0) => {
-                state.write_u8(14u8);
+                state.write_u8(13u8);
                 TokenStreamHelper(v0).hash(state);
             }
             _ => unreachable!(),
@@ -1426,15 +1363,6 @@ impl Hash for TypeInfer {
     where
         H: Hasher,
     {
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for TypeMacro {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.mac.hash(state);
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

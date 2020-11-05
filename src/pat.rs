@@ -29,9 +29,6 @@ ast_enum_of_structs! {
         /// are represented as an `Expr::Unary`.
         Lit(PatLit),
 
-        /// A macro in pattern position.
-        Macro(PatMacro),
-
         /// A pattern that matches any one of a set of cases.
         Or(PatOr),
 
@@ -116,16 +113,6 @@ ast_struct! {
     pub struct PatLit {
         pub attrs: Vec<Attribute>,
         pub expr: Box<Expr>,
-    }
-}
-
-ast_struct! {
-    /// A macro in pattern position.
-    ///
-    /// *This type is available only if Syn is built with the `"full"` feature.*
-    pub struct PatMacro {
-        pub attrs: Vec<Attribute>,
-        pub mac: Macro,
     }
 }
 
@@ -304,7 +291,7 @@ pub mod parsing {
                 || input.peek(Token![super])
                 || input.peek(Token![crate])
             {
-                pat_path_or_macro_or_struct_or_range(input)
+                pat_path_or_struct_or_range(input)
             } else if lookahead.peek(Token![_]) {
                 input.call(pat_wild).map(Pat::Wild)
             } else if input.peek(Token![box]) {
@@ -331,7 +318,7 @@ pub mod parsing {
         }
     }
 
-    fn pat_path_or_macro_or_struct_or_range(input: ParseStream) -> Result<Pat> {
+    fn pat_path_or_struct_or_range(input: ParseStream) -> Result<Pat> {
         let begin = input.fork();
         let (qself, path) = path::parsing::qpath(input, true)?;
 
@@ -345,32 +332,6 @@ pub mod parsing {
                 qself,
                 path,
             }));
-        }
-
-        if input.peek(Token![!]) && !input.peek(Token![!=]) {
-            let mut contains_arguments = false;
-            for segment in &path.segments {
-                match segment.arguments {
-                    PathArguments::None => {}
-                    PathArguments::AngleBracketed(_) | PathArguments::Parenthesized(_) => {
-                        contains_arguments = true;
-                    }
-                }
-            }
-
-            if !contains_arguments {
-                let bang_token: Token![!] = input.parse()?;
-                let (delimiter, tokens) = mac::parse_delimiter(input)?;
-                return Ok(Pat::Macro(PatMacro {
-                    attrs: Vec::new(),
-                    mac: Macro {
-                        path,
-                        bang_token,
-                        delimiter,
-                        tokens,
-                    },
-                }));
-            }
         }
 
         if input.peek(token::Brace) {
@@ -828,13 +789,6 @@ mod printing {
             self.bracket_token.surround(tokens, |tokens| {
                 self.elems.to_tokens(tokens);
             });
-        }
-    }
-
-    impl ToTokens for PatMacro {
-        fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(self.attrs.outer());
-            self.mac.to_tokens(tokens);
         }
     }
 

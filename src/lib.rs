@@ -340,7 +340,7 @@ pub use crate::expr::{
 pub use crate::expr::{
     Expr, ExprArray, ExprBinary, ExprBlock,
     ExprCall, ExprCast, ExprField,
-    ExprGroup, ExprIf, ExprIndex, ExprLet, ExprLit, ExprMacro, ExprMatch, ExprMethodCall,
+    ExprGroup, ExprIf, ExprIndex, ExprLet, ExprLit, ExprMatch, ExprMethodCall,
     ExprParen, ExprPath, ExprRange, ExprReference, ExprRepeat, ExprReturn, ExprStruct,
     ExprTuple, ExprType, ExprUnary, Index, Member,
 };
@@ -364,10 +364,10 @@ pub use crate::lit::{
     Lit, LitBool, LitByte, LitByteStr, LitChar, LitFloat, LitInt, LitStr, StrStyle,
 };
 
-#[cfg(any(feature = "full", feature = "derive"))]
-mod mac;
-#[cfg(any(feature = "full", feature = "derive"))]
-pub use crate::mac::{Macro, MacroDelimiter};
+// #[cfg(any(feature = "full", feature = "derive"))]
+// mod mac;
+// #[cfg(any(feature = "full", feature = "derive"))]
+// pub use crate::mac::{Macro, MacroDelimiter};
 
 #[cfg(any(feature = "full", feature = "derive"))]
 mod op;
@@ -384,7 +384,7 @@ mod ty;
 #[cfg(any(feature = "full", feature = "derive"))]
 pub use crate::ty::{
     Abi, BareFnArg, ReturnType, Type, TypeArray, TypeBareFn, TypeGroup, TypeImplTrait, TypeInfer,
-    TypeMacro, TypeNever, TypeParen, TypePath, TypePtr, TypeReference, TypeSlice, TypeTraitObject,
+    TypeNever, TypeParen, TypePath, TypePtr, TypeReference, TypeSlice, TypeTraitObject,
     TypeTuple, Variadic,
 };
 
@@ -392,7 +392,7 @@ pub use crate::ty::{
 mod pat;
 #[cfg(feature = "full")]
 pub use crate::pat::{
-    FieldPat, Pat, PatBox, PatIdent, PatLit, PatMacro, PatOr, PatPath, PatRange, PatReference,
+    FieldPat, Pat, PatBox, PatIdent, PatLit, PatOr, PatPath, PatRange, PatReference,
     PatRest, PatSlice, PatStruct, PatTuple, PatTupleStruct, PatType, PatWild,
 };
 

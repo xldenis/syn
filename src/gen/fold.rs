@@ -129,10 +129,6 @@ pub trait Fold {
         fold_expr_lit(self, i)
     }
     #[cfg(feature = "full")]
-    fn fold_expr_macro(&mut self, i: ExprMacro) -> ExprMacro {
-        fold_expr_macro(self, i)
-    }
-    #[cfg(feature = "full")]
     fn fold_expr_match(&mut self, i: ExprMatch) -> ExprMatch {
         fold_expr_match(self, i)
     }
@@ -251,14 +247,6 @@ pub trait Fold {
         fold_local(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_macro(&mut self, i: Macro) -> Macro {
-        fold_macro(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_macro_delimiter(&mut self, i: MacroDelimiter) -> MacroDelimiter {
-        fold_macro_delimiter(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_member(&mut self, i: Member) -> Member {
         fold_member(self, i)
     }
@@ -304,10 +292,6 @@ pub trait Fold {
     #[cfg(feature = "full")]
     fn fold_pat_lit(&mut self, i: PatLit) -> PatLit {
         fold_pat_lit(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_pat_macro(&mut self, i: PatMacro) -> PatMacro {
-        fold_pat_macro(self, i)
     }
     #[cfg(feature = "full")]
     fn fold_pat_or(&mut self, i: PatOr) -> PatOr {
@@ -427,10 +411,6 @@ pub trait Fold {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_type_infer(&mut self, i: TypeInfer) -> TypeInfer {
         fold_type_infer(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_type_macro(&mut self, i: TypeMacro) -> TypeMacro {
-        fold_type_macro(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_type_never(&mut self, i: TypeNever) -> TypeNever {
@@ -700,7 +680,6 @@ where
         Expr::Index(_binding_0) => Expr::Index(f.fold_expr_index(_binding_0)),
         Expr::Let(_binding_0) => Expr::Let(full!(f.fold_expr_let(_binding_0))),
         Expr::Lit(_binding_0) => Expr::Lit(f.fold_expr_lit(_binding_0)),
-        Expr::Macro(_binding_0) => Expr::Macro(full!(f.fold_expr_macro(_binding_0))),
         Expr::Match(_binding_0) => Expr::Match(full!(f.fold_expr_match(_binding_0))),
         Expr::MethodCall(_binding_0) => {
             Expr::MethodCall(full!(f.fold_expr_method_call(_binding_0)))
@@ -851,16 +830,6 @@ where
     ExprLit {
         attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         lit: f.fold_lit(node.lit),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_macro<F>(f: &mut F, node: ExprMacro) -> ExprMacro
-where
-    F: Fold + ?Sized,
-{
-    ExprMacro {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        mac: f.fold_macro(node.mac),
     }
 }
 #[cfg(feature = "full")]
@@ -1242,35 +1211,6 @@ where
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_macro<F>(f: &mut F, node: Macro) -> Macro
-where
-    F: Fold + ?Sized,
-{
-    Macro {
-        path: f.fold_path(node.path),
-        bang_token: Token![!](tokens_helper(f, &node.bang_token.spans)),
-        delimiter: f.fold_macro_delimiter(node.delimiter),
-        tokens: node.tokens,
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_macro_delimiter<F>(f: &mut F, node: MacroDelimiter) -> MacroDelimiter
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        MacroDelimiter::Paren(_binding_0) => {
-            MacroDelimiter::Paren(Paren(tokens_helper(f, &_binding_0.span)))
-        }
-        MacroDelimiter::Brace(_binding_0) => {
-            MacroDelimiter::Brace(Brace(tokens_helper(f, &_binding_0.span)))
-        }
-        MacroDelimiter::Bracket(_binding_0) => {
-            MacroDelimiter::Bracket(Bracket(tokens_helper(f, &_binding_0.span)))
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 pub fn fold_member<F>(f: &mut F, node: Member) -> Member
 where
     F: Fold + ?Sized,
@@ -1358,7 +1298,6 @@ where
         Pat::Box(_binding_0) => Pat::Box(f.fold_pat_box(_binding_0)),
         Pat::Ident(_binding_0) => Pat::Ident(f.fold_pat_ident(_binding_0)),
         Pat::Lit(_binding_0) => Pat::Lit(f.fold_pat_lit(_binding_0)),
-        Pat::Macro(_binding_0) => Pat::Macro(f.fold_pat_macro(_binding_0)),
         Pat::Or(_binding_0) => Pat::Or(f.fold_pat_or(_binding_0)),
         Pat::Path(_binding_0) => Pat::Path(f.fold_pat_path(_binding_0)),
         Pat::Range(_binding_0) => Pat::Range(f.fold_pat_range(_binding_0)),
@@ -1411,16 +1350,6 @@ where
     PatLit {
         attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         expr: Box::new(f.fold_expr(*node.expr)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_pat_macro<F>(f: &mut F, node: PatMacro) -> PatMacro
-where
-    F: Fold + ?Sized,
-{
-    PatMacro {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        mac: f.fold_macro(node.mac),
     }
 }
 #[cfg(feature = "full")]
@@ -1711,7 +1640,6 @@ where
         Type::Group(_binding_0) => Type::Group(f.fold_type_group(_binding_0)),
         Type::ImplTrait(_binding_0) => Type::ImplTrait(f.fold_type_impl_trait(_binding_0)),
         Type::Infer(_binding_0) => Type::Infer(f.fold_type_infer(_binding_0)),
-        Type::Macro(_binding_0) => Type::Macro(f.fold_type_macro(_binding_0)),
         Type::Never(_binding_0) => Type::Never(f.fold_type_never(_binding_0)),
         Type::Paren(_binding_0) => Type::Paren(f.fold_type_paren(_binding_0)),
         Type::Path(_binding_0) => Type::Path(f.fold_type_path(_binding_0)),
@@ -1779,15 +1707,6 @@ where
 {
     TypeInfer {
         underscore_token: Token![_](tokens_helper(f, &node.underscore_token.spans)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_type_macro<F>(f: &mut F, node: TypeMacro) -> TypeMacro
-where
-    F: Fold + ?Sized,
-{
-    TypeMacro {
-        mac: f.fold_macro(node.mac),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

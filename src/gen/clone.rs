@@ -149,8 +149,6 @@ impl Clone for Expr {
             Expr::Let(v0) => Expr::Let(v0.clone()),
             Expr::Lit(v0) => Expr::Lit(v0.clone()),
             #[cfg(feature = "full")]
-            Expr::Macro(v0) => Expr::Macro(v0.clone()),
-            #[cfg(feature = "full")]
             Expr::Match(v0) => Expr::Match(v0.clone()),
             #[cfg(feature = "full")]
             Expr::MethodCall(v0) => Expr::MethodCall(v0.clone()),
@@ -291,15 +289,6 @@ impl Clone for ExprLit {
         ExprLit {
             attrs: self.attrs.clone(),
             lit: self.lit.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprMacro {
-    fn clone(&self) -> Self {
-        ExprMacro {
-            attrs: self.attrs.clone(),
-            mac: self.mac.clone(),
         }
     }
 }
@@ -566,27 +555,6 @@ impl Clone for Local {
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for Macro {
-    fn clone(&self) -> Self {
-        Macro {
-            path: self.path.clone(),
-            bang_token: self.bang_token.clone(),
-            delimiter: self.delimiter.clone(),
-            tokens: self.tokens.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for MacroDelimiter {
-    fn clone(&self) -> Self {
-        match self {
-            MacroDelimiter::Paren(v0) => MacroDelimiter::Paren(v0.clone()),
-            MacroDelimiter::Brace(v0) => MacroDelimiter::Brace(v0.clone()),
-            MacroDelimiter::Bracket(v0) => MacroDelimiter::Bracket(v0.clone()),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 impl Clone for Member {
     fn clone(&self) -> Self {
         match self {
@@ -662,7 +630,6 @@ impl Clone for Pat {
             Pat::Box(v0) => Pat::Box(v0.clone()),
             Pat::Ident(v0) => Pat::Ident(v0.clone()),
             Pat::Lit(v0) => Pat::Lit(v0.clone()),
-            Pat::Macro(v0) => Pat::Macro(v0.clone()),
             Pat::Or(v0) => Pat::Or(v0.clone()),
             Pat::Path(v0) => Pat::Path(v0.clone()),
             Pat::Range(v0) => Pat::Range(v0.clone()),
@@ -707,15 +674,6 @@ impl Clone for PatLit {
         PatLit {
             attrs: self.attrs.clone(),
             expr: self.expr.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for PatMacro {
-    fn clone(&self) -> Self {
-        PatMacro {
-            attrs: self.attrs.clone(),
-            mac: self.mac.clone(),
         }
     }
 }
@@ -958,7 +916,6 @@ impl Clone for Type {
             Type::Group(v0) => Type::Group(v0.clone()),
             Type::ImplTrait(v0) => Type::ImplTrait(v0.clone()),
             Type::Infer(v0) => Type::Infer(v0.clone()),
-            Type::Macro(v0) => Type::Macro(v0.clone()),
             Type::Never(v0) => Type::Never(v0.clone()),
             Type::Paren(v0) => Type::Paren(v0.clone()),
             Type::Path(v0) => Type::Path(v0.clone()),
@@ -1021,14 +978,6 @@ impl Clone for TypeInfer {
     fn clone(&self) -> Self {
         TypeInfer {
             underscore_token: self.underscore_token.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for TypeMacro {
-    fn clone(&self) -> Self {
-        TypeMacro {
-            mac: self.mac.clone(),
         }
     }
 }

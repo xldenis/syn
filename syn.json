@@ -513,11 +513,6 @@
             "syn": "ExprLit"
           }
         ],
-        "Macro": [
-          {
-            "syn": "ExprMacro"
-          }
-        ],
         "Match": [
           {
             "syn": "ExprMatch"
@@ -889,24 +884,6 @@
         },
         "lit": {
           "syn": "Lit"
-        }
-      }
-    },
-    {
-      "ident": "ExprMacro",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "mac": {
-          "syn": "Macro"
         }
       }
     },
@@ -1655,55 +1632,6 @@
       }
     },
     {
-      "ident": "Macro",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "fields": {
-        "path": {
-          "syn": "Path"
-        },
-        "bang_token": {
-          "token": "Bang"
-        },
-        "delimiter": {
-          "syn": "MacroDelimiter"
-        },
-        "tokens": {
-          "proc_macro2": "TokenStream"
-        }
-      }
-    },
-    {
-      "ident": "MacroDelimiter",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "variants": {
-        "Paren": [
-          {
-            "group": "Paren"
-          }
-        ],
-        "Brace": [
-          {
-            "group": "Brace"
-          }
-        ],
-        "Bracket": [
-          {
-            "group": "Bracket"
-          }
-        ]
-      }
-    },
-    {
       "ident": "Member",
       "features": {
         "any": [
@@ -1891,11 +1819,6 @@
             "syn": "PatLit"
           }
         ],
-        "Macro": [
-          {
-            "syn": "PatMacro"
-          }
-        ],
         "Or": [
           {
             "syn": "PatOr"
@@ -2041,24 +1964,6 @@
           "box": {
             "syn": "Expr"
           }
-        }
-      }
-    },
-    {
-      "ident": "PatMacro",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "mac": {
-          "syn": "Macro"
         }
       }
     },
@@ -2656,11 +2561,6 @@
             "syn": "TypeInfer"
           }
         ],
-        "Macro": [
-          {
-            "syn": "TypeMacro"
-          }
-        ],
         "Never": [
           {
             "syn": "TypeNever"
@@ -2834,20 +2734,6 @@
       "fields": {
         "underscore_token": {
           "token": "Underscore"
-        }
-      }
-    },
-    {
-      "ident": "TypeMacro",
-      "features": {
-        "any": [
-          "derive",
-          "full"
-        ]
-      },
-      "fields": {
-        "mac": {
-          "syn": "Macro"
         }
       }
     },

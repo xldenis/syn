@@ -472,14 +472,6 @@ impl Debug for Lite<syn::Expr> {
                 formatter.field("lit", Lite(&_val.lit));
                 formatter.finish()
             }
-            syn::Expr::Macro(_val) => {
-                let mut formatter = formatter.debug_struct("Expr::Macro");
-                if !_val.attrs.is_empty() {
-                    formatter.field("attrs", Lite(&_val.attrs));
-                }
-                formatter.field("mac", Lite(&_val.mac));
-                formatter.finish()
-            }
             syn::Expr::Match(_val) => {
                 let mut formatter = formatter.debug_struct("Expr::Match");
                 if !_val.attrs.is_empty() {
@@ -883,17 +875,6 @@ impl Debug for Lite<syn::ExprLit> {
             formatter.field("attrs", Lite(&_val.attrs));
         }
         formatter.field("lit", Lite(&_val.lit));
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::ExprMacro> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("ExprMacro");
-        if !_val.attrs.is_empty() {
-            formatter.field("attrs", Lite(&_val.attrs));
-        }
-        formatter.field("mac", Lite(&_val.mac));
         formatter.finish()
     }
 }
@@ -1498,35 +1479,6 @@ impl Debug for Lite<syn::Local> {
         formatter.finish()
     }
 }
-impl Debug for Lite<syn::Macro> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("Macro");
-        formatter.field("path", Lite(&_val.path));
-        formatter.field("delimiter", Lite(&_val.delimiter));
-        formatter.field("tokens", Lite(&_val.tokens));
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::MacroDelimiter> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        match _val {
-            syn::MacroDelimiter::Paren(_val) => {
-                formatter.write_str("Paren")?;
-                Ok(())
-            }
-            syn::MacroDelimiter::Brace(_val) => {
-                formatter.write_str("Brace")?;
-                Ok(())
-            }
-            syn::MacroDelimiter::Bracket(_val) => {
-                formatter.write_str("Bracket")?;
-                Ok(())
-            }
-        }
-    }
-}
 impl Debug for Lite<syn::Member> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let _val = &self.value;
@@ -1704,14 +1656,6 @@ impl Debug for Lite<syn::Pat> {
                     formatter.field("attrs", Lite(&_val.attrs));
                 }
                 formatter.field("expr", Lite(&_val.expr));
-                formatter.finish()
-            }
-            syn::Pat::Macro(_val) => {
-                let mut formatter = formatter.debug_struct("Pat::Macro");
-                if !_val.attrs.is_empty() {
-                    formatter.field("attrs", Lite(&_val.attrs));
-                }
-                formatter.field("mac", Lite(&_val.mac));
                 formatter.finish()
             }
             syn::Pat::Or(_val) => {
@@ -1946,17 +1890,6 @@ impl Debug for Lite<syn::PatLit> {
             formatter.field("attrs", Lite(&_val.attrs));
         }
         formatter.field("expr", Lite(&_val.expr));
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::PatMacro> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("PatMacro");
-        if !_val.attrs.is_empty() {
-            formatter.field("attrs", Lite(&_val.attrs));
-        }
-        formatter.field("mac", Lite(&_val.mac));
         formatter.finish()
     }
 }
@@ -2475,11 +2408,6 @@ impl Debug for Lite<syn::Type> {
                 let mut formatter = formatter.debug_struct("Type::Infer");
                 formatter.finish()
             }
-            syn::Type::Macro(_val) => {
-                let mut formatter = formatter.debug_struct("Type::Macro");
-                formatter.field("mac", Lite(&_val.mac));
-                formatter.finish()
-            }
             syn::Type::Never(_val) => {
                 let mut formatter = formatter.debug_struct("Type::Never");
                 formatter.finish()
@@ -2716,14 +2644,6 @@ impl Debug for Lite<syn::TypeInfer> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let _val = &self.value;
         let mut formatter = formatter.debug_struct("TypeInfer");
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::TypeMacro> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("TypeMacro");
-        formatter.field("mac", Lite(&_val.mac));
         formatter.finish()
     }
 }

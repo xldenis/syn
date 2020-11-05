@@ -337,12 +337,6 @@ impl Debug for Expr {
                 formatter.finish()
             }
             #[cfg(feature = "full")]
-            Expr::Macro(v0) => {
-                let mut formatter = formatter.debug_tuple("Macro");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
             Expr::Match(v0) => {
                 let mut formatter = formatter.debug_tuple("Match");
                 formatter.field(v0);
@@ -535,15 +529,6 @@ impl Debug for ExprLit {
         let mut formatter = formatter.debug_struct("ExprLit");
         formatter.field("attrs", &self.attrs);
         formatter.field("lit", &self.lit);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprMacro {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprMacro");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("mac", &self.mac);
         formatter.finish()
     }
 }
@@ -882,39 +867,6 @@ impl Debug for Local {
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for Macro {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("Macro");
-        formatter.field("path", &self.path);
-        formatter.field("bang_token", &self.bang_token);
-        formatter.field("delimiter", &self.delimiter);
-        formatter.field("tokens", &self.tokens);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for MacroDelimiter {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            MacroDelimiter::Paren(v0) => {
-                let mut formatter = formatter.debug_tuple("Paren");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            MacroDelimiter::Brace(v0) => {
-                let mut formatter = formatter.debug_tuple("Brace");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            MacroDelimiter::Bracket(v0) => {
-                let mut formatter = formatter.debug_tuple("Bracket");
-                formatter.field(v0);
-                formatter.finish()
-            }
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 impl Debug for Member {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         match self {
@@ -1030,11 +982,6 @@ impl Debug for Pat {
                 formatter.field(v0);
                 formatter.finish()
             }
-            Pat::Macro(v0) => {
-                let mut formatter = formatter.debug_tuple("Macro");
-                formatter.field(v0);
-                formatter.finish()
-            }
             Pat::Or(v0) => {
                 let mut formatter = formatter.debug_tuple("Or");
                 formatter.field(v0);
@@ -1127,15 +1074,6 @@ impl Debug for PatLit {
         let mut formatter = formatter.debug_struct("PatLit");
         formatter.field("attrs", &self.attrs);
         formatter.field("expr", &self.expr);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for PatMacro {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("PatMacro");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("mac", &self.mac);
         formatter.finish()
     }
 }
@@ -1438,11 +1376,6 @@ impl Debug for Type {
                 formatter.field(v0);
                 formatter.finish()
             }
-            Type::Macro(v0) => {
-                let mut formatter = formatter.debug_tuple("Macro");
-                formatter.field(v0);
-                formatter.finish()
-            }
             Type::Never(v0) => {
                 let mut formatter = formatter.debug_tuple("Never");
                 formatter.field(v0);
@@ -1541,14 +1474,6 @@ impl Debug for TypeInfer {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("TypeInfer");
         formatter.field("underscore_token", &self.underscore_token);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for TypeMacro {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("TypeMacro");
-        formatter.field("mac", &self.mac);
         formatter.finish()
     }
 }

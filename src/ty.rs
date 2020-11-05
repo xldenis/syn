@@ -33,9 +33,6 @@ ast_enum_of_structs! {
         /// Indication that a type should be inferred by the compiler: `_`.
         Infer(TypeInfer),
 
-        /// A macro in the type position.
-        Macro(TypeMacro),
-
         /// The never type: `!`.
         Never(TypeNever),
 
@@ -130,16 +127,6 @@ ast_struct! {
     /// `"full"` feature.*
     pub struct TypeInfer {
         pub underscore_token: Token![_],
-    }
-}
-
-ast_struct! {
-    /// A macro in the type position.
-    ///
-    /// *This type is available only if Syn is built with the `"derive"` or
-    /// `"full"` feature.*
-    pub struct TypeMacro {
-        pub mac: Macro,
     }
 }
 
@@ -483,31 +470,6 @@ pub mod parsing {
                 return Ok(Type::Path(ty));
             }
 
-            if input.peek(Token![!]) && !input.peek(Token![!=]) {
-                let mut contains_arguments = false;
-                for segment in &ty.path.segments {
-                    match segment.arguments {
-                        PathArguments::None => {}
-                        PathArguments::AngleBracketed(_) | PathArguments::Parenthesized(_) => {
-                            contains_arguments = true;
-                        }
-                    }
-                }
-
-                if !contains_arguments {
-                    let bang_token: Token![!] = input.parse()?;
-                    let (delimiter, tokens) = mac::parse_delimiter(input)?;
-                    return Ok(Type::Macro(TypeMacro {
-                        mac: Macro {
-                            path: ty.path,
-                            bang_token,
-                            delimiter,
-                            tokens,
-                        },
-                    }));
-                }
-            }
-
             if lifetimes.is_some() || allow_plus && input.peek(Token![+]) {
                 let mut bounds = Punctuated::new();
                 bounds.push_value(TypeParamBound::Trait(TraitBound {
@@ -719,14 +681,6 @@ pub mod parsing {
                     elems.extend(rest);
                     elems
                 },
-            })
-        }
-    }
-
-    impl Parse for TypeMacro {
-        fn parse(input: ParseStream) -> Result<Self> {
-            Ok(TypeMacro {
-                mac: input.parse()?,
             })
         }
     }
@@ -1081,12 +1035,6 @@ mod printing {
     impl ToTokens for TypeInfer {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.underscore_token.to_tokens(tokens);
-        }
-    }
-
-    impl ToTokens for TypeMacro {
-        fn to_tokens(&self, tokens: &mut TokenStream) {
-            self.mac.to_tokens(tokens);
         }
     }
 

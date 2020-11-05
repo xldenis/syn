@@ -128,10 +128,6 @@ pub trait Visit<'ast> {
         visit_expr_lit(self, i)
     }
     #[cfg(feature = "full")]
-    fn visit_expr_macro(&mut self, i: &'ast ExprMacro) {
-        visit_expr_macro(self, i)
-    }
-    #[cfg(feature = "full")]
     fn visit_expr_match(&mut self, i: &'ast ExprMatch) {
         visit_expr_match(self, i)
     }
@@ -250,14 +246,6 @@ pub trait Visit<'ast> {
         visit_local(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_macro(&mut self, i: &'ast Macro) {
-        visit_macro(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_macro_delimiter(&mut self, i: &'ast MacroDelimiter) {
-        visit_macro_delimiter(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_member(&mut self, i: &'ast Member) {
         visit_member(self, i)
     }
@@ -300,10 +288,6 @@ pub trait Visit<'ast> {
     #[cfg(feature = "full")]
     fn visit_pat_lit(&mut self, i: &'ast PatLit) {
         visit_pat_lit(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pat_macro(&mut self, i: &'ast PatMacro) {
-        visit_pat_macro(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_pat_or(&mut self, i: &'ast PatOr) {
@@ -423,10 +407,6 @@ pub trait Visit<'ast> {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_type_infer(&mut self, i: &'ast TypeInfer) {
         visit_type_infer(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_type_macro(&mut self, i: &'ast TypeMacro) {
-        visit_type_macro(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_type_never(&mut self, i: &'ast TypeNever) {
@@ -771,9 +751,6 @@ where
         Expr::Lit(_binding_0) => {
             v.visit_expr_lit(_binding_0);
         }
-        Expr::Macro(_binding_0) => {
-            full!(v.visit_expr_macro(_binding_0));
-        }
         Expr::Match(_binding_0) => {
             full!(v.visit_expr_match(_binding_0));
         }
@@ -961,16 +938,6 @@ where
         v.visit_attribute(it)
     }
     v.visit_lit(&node.lit);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_macro<'ast, V>(v: &mut V, node: &'ast ExprMacro)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_macro(&node.mac);
 }
 #[cfg(feature = "full")]
 pub fn visit_expr_match<'ast, V>(v: &mut V, node: &'ast ExprMatch)
@@ -1392,33 +1359,6 @@ where
     tokens_helper(v, &node.semi_token.spans);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_macro<'ast, V>(v: &mut V, node: &'ast Macro)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    v.visit_path(&node.path);
-    tokens_helper(v, &node.bang_token.spans);
-    v.visit_macro_delimiter(&node.delimiter);
-    skip!(node.tokens);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_macro_delimiter<'ast, V>(v: &mut V, node: &'ast MacroDelimiter)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    match node {
-        MacroDelimiter::Paren(_binding_0) => {
-            tokens_helper(v, &_binding_0.span);
-        }
-        MacroDelimiter::Brace(_binding_0) => {
-            tokens_helper(v, &_binding_0.span);
-        }
-        MacroDelimiter::Bracket(_binding_0) => {
-            tokens_helper(v, &_binding_0.span);
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_member<'ast, V>(v: &mut V, node: &'ast Member)
 where
     V: Visit<'ast> + ?Sized,
@@ -1535,9 +1475,6 @@ where
         Pat::Lit(_binding_0) => {
             v.visit_pat_lit(_binding_0);
         }
-        Pat::Macro(_binding_0) => {
-            v.visit_pat_macro(_binding_0);
-        }
         Pat::Or(_binding_0) => {
             v.visit_pat_or(_binding_0);
         }
@@ -1617,16 +1554,6 @@ where
         v.visit_attribute(it)
     }
     v.visit_expr(&*node.expr);
-}
-#[cfg(feature = "full")]
-pub fn visit_pat_macro<'ast, V>(v: &mut V, node: &'ast PatMacro)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_macro(&node.mac);
 }
 #[cfg(feature = "full")]
 pub fn visit_pat_or<'ast, V>(v: &mut V, node: &'ast PatOr)
@@ -1975,9 +1902,6 @@ where
         Type::Infer(_binding_0) => {
             v.visit_type_infer(_binding_0);
         }
-        Type::Macro(_binding_0) => {
-            v.visit_type_macro(_binding_0);
-        }
         Type::Never(_binding_0) => {
             v.visit_type_never(_binding_0);
         }
@@ -2074,13 +1998,6 @@ where
     V: Visit<'ast> + ?Sized,
 {
     tokens_helper(v, &node.underscore_token.spans);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_type_macro<'ast, V>(v: &mut V, node: &'ast TypeMacro)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    v.visit_macro(&node.mac);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_type_never<'ast, V>(v: &mut V, node: &'ast TypeNever)

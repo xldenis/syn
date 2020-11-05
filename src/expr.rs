@@ -129,9 +129,6 @@ ast_enum_of_structs! {
         /// A literal in place of an expression: `1`, `"foo"`.
         Lit(ExprLit),
 
-        /// A macro invocation expression: `format!("{}", q)`.
-        Macro(ExprMacro),
-
         /// A `match` expression: `match n { Some(n) => {}, None => {} }`.
         Match(ExprMatch),
 
@@ -326,16 +323,6 @@ ast_struct! {
 }
 
 ast_struct! {
-    /// A macro invocation expression: `format!("{}", q)`.
-    ///
-    /// *This type is available only if Syn is built with the `"full"` feature.*
-    pub struct ExprMacro #full {
-        pub attrs: Vec<Attribute>,
-        pub mac: Macro,
-    }
-}
-
-ast_struct! {
     /// A `match` expression: `match n { Some(n) => {}, None => {} }`.
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
@@ -513,7 +500,6 @@ impl Expr {
             | Expr::Path(ExprPath { attrs, .. })
             | Expr::Reference(ExprReference { attrs, .. })
             | Expr::Return(ExprReturn { attrs, .. })
-            | Expr::Macro(ExprMacro { attrs, .. })
             | Expr::Struct(ExprStruct { attrs, .. })
             | Expr::Repeat(ExprRepeat { attrs, .. })
             | Expr::Paren(ExprParen { attrs, .. })
@@ -1327,7 +1313,7 @@ pub(crate) mod parsing {
             || input.peek(Token![super])
             || input.peek(Token![crate])
         {
-            path_or_macro_or_struct(input, allow_struct)
+            path_or_struct(input, allow_struct)
         } else if input.peek(token::Paren) {
             paren_or_tuple(input)
         } else if input.peek(Token![return]) {
@@ -1382,36 +1368,10 @@ pub(crate) mod parsing {
     }
 
     #[cfg(feature = "full")]
-    fn path_or_macro_or_struct(input: ParseStream, allow_struct: AllowStruct) -> Result<Expr> {
+    fn path_or_struct(input: ParseStream, allow_struct: AllowStruct) -> Result<Expr> {
         let expr: ExprPath = input.parse()?;
         if expr.qself.is_some() {
             return Ok(Expr::Path(expr));
-        }
-
-        if input.peek(Token![!]) && !input.peek(Token![!=]) {
-            let mut contains_arguments = false;
-            for segment in &expr.path.segments {
-                match segment.arguments {
-                    PathArguments::None => {}
-                    PathArguments::AngleBracketed(_) | PathArguments::Parenthesized(_) => {
-                        contains_arguments = true;
-                    }
-                }
-            }
-
-            if !contains_arguments {
-                let bang_token: Token![!] = input.parse()?;
-                let (delimiter, tokens) = mac::parse_delimiter(input)?;
-                return Ok(Expr::Macro(ExprMacro {
-                    attrs: Vec::new(),
-                    mac: Macro {
-                        path: expr.path,
-                        bang_token,
-                        delimiter,
-                        tokens,
-                    },
-                }));
-            }
         }
 
         if allow_struct.0 && input.peek(token::Brace) {
@@ -1702,7 +1662,6 @@ pub(crate) mod parsing {
         ExprRange, Range, "expected range expression",
         ExprReference, Reference, "expected referencing operation",
         ExprReturn, Return, "expected return expression",
-        ExprMacro, Macro, "expected macro invocation expression",
         ExprStruct, Struct, "expected struct literal expression",
         ExprRepeat, Repeat, "expected array literal constructed from one repeated element",
         ExprParen, Paren, "expected parenthesized expression",
@@ -2281,14 +2240,6 @@ pub(crate) mod printing {
             outer_attrs_to_tokens(&self.attrs, tokens);
             self.return_token.to_tokens(tokens);
             self.expr.to_tokens(tokens);
-        }
-    }
-
-    #[cfg(feature = "full")]
-    impl ToTokens for ExprMacro {
-        fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
-            self.mac.to_tokens(tokens);
         }
     }
 

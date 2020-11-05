@@ -167,8 +167,6 @@ impl PartialEq for Expr {
             (Expr::Let(self0), Expr::Let(other0)) => self0 == other0,
             (Expr::Lit(self0), Expr::Lit(other0)) => self0 == other0,
             #[cfg(feature = "full")]
-            (Expr::Macro(self0), Expr::Macro(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
             (Expr::Match(self0), Expr::Match(other0)) => self0 == other0,
             #[cfg(feature = "full")]
             (Expr::MethodCall(self0), Expr::MethodCall(other0)) => self0 == other0,
@@ -288,14 +286,6 @@ impl Eq for ExprLit {}
 impl PartialEq for ExprLit {
     fn eq(&self, other: &Self) -> bool {
         self.attrs == other.attrs && self.lit == other.lit
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprMacro {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprMacro {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.mac == other.mac
     }
 }
 #[cfg(feature = "full")]
@@ -544,29 +534,6 @@ impl PartialEq for Local {
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for Macro {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for Macro {
-    fn eq(&self, other: &Self) -> bool {
-        self.path == other.path
-            && self.delimiter == other.delimiter
-            && TokenStreamHelper(&self.tokens) == TokenStreamHelper(&other.tokens)
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for MacroDelimiter {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for MacroDelimiter {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (MacroDelimiter::Paren(_), MacroDelimiter::Paren(_)) => true,
-            (MacroDelimiter::Brace(_), MacroDelimiter::Brace(_)) => true,
-            (MacroDelimiter::Bracket(_), MacroDelimiter::Bracket(_)) => true,
-            _ => false,
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
 impl Eq for Meta {}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl PartialEq for Meta {
@@ -632,7 +599,6 @@ impl PartialEq for Pat {
             (Pat::Box(self0), Pat::Box(other0)) => self0 == other0,
             (Pat::Ident(self0), Pat::Ident(other0)) => self0 == other0,
             (Pat::Lit(self0), Pat::Lit(other0)) => self0 == other0,
-            (Pat::Macro(self0), Pat::Macro(other0)) => self0 == other0,
             (Pat::Or(self0), Pat::Or(other0)) => self0 == other0,
             (Pat::Path(self0), Pat::Path(other0)) => self0 == other0,
             (Pat::Range(self0), Pat::Range(other0)) => self0 == other0,
@@ -677,14 +643,6 @@ impl Eq for PatLit {}
 impl PartialEq for PatLit {
     fn eq(&self, other: &Self) -> bool {
         self.attrs == other.attrs && self.expr == other.expr
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for PatMacro {}
-#[cfg(feature = "full")]
-impl PartialEq for PatMacro {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.mac == other.mac
     }
 }
 #[cfg(feature = "full")]
@@ -921,7 +879,6 @@ impl PartialEq for Type {
             (Type::Group(self0), Type::Group(other0)) => self0 == other0,
             (Type::ImplTrait(self0), Type::ImplTrait(other0)) => self0 == other0,
             (Type::Infer(self0), Type::Infer(other0)) => self0 == other0,
-            (Type::Macro(self0), Type::Macro(other0)) => self0 == other0,
             (Type::Never(self0), Type::Never(other0)) => self0 == other0,
             (Type::Paren(self0), Type::Paren(other0)) => self0 == other0,
             (Type::Path(self0), Type::Path(other0)) => self0 == other0,
@@ -980,14 +937,6 @@ impl Eq for TypeInfer {}
 impl PartialEq for TypeInfer {
     fn eq(&self, _other: &Self) -> bool {
         true
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for TypeMacro {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for TypeMacro {
-    fn eq(&self, other: &Self) -> bool {
-        self.mac == other.mac
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
