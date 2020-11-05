@@ -422,9 +422,6 @@ pub mod parse_macro_input;
 #[cfg(all(feature = "parsing", feature = "printing"))]
 pub mod spanned;
 
-#[cfg(all(feature = "parsing", feature = "full"))]
-mod whitespace;
-
 mod gen {
     /// Syntax tree traversal to walk a shared borrow of a syntax tree.
     ///

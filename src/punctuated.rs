@@ -24,8 +24,6 @@
 use std::fmt::{self, Debug};
 #[cfg(feature = "extra-traits")]
 use std::hash::{Hash, Hasher};
-#[cfg(any(feature = "full", feature = "derive"))]
-use std::iter;
 use std::iter::FromIterator;
 use std::ops::{Index, IndexMut};
 use std::option;
@@ -701,13 +699,6 @@ struct PrivateIter<'a, T: 'a, P: 'a> {
     last: option::IntoIter<&'a T>,
 }
 
-#[cfg(any(feature = "full", feature = "derive"))]
-pub(crate) fn empty_punctuated_iter<'a, T>() -> Iter<'a, T> {
-    Iter {
-        inner: Box::new(iter::empty()),
-    }
-}
-
 // No Clone bound on T.
 impl<'a, T> Clone for Iter<'a, T> {
     fn clone(&self) -> Self {
@@ -802,13 +793,6 @@ trait IterMutTrait<'a, T: 'a>:
 struct PrivateIterMut<'a, T: 'a, P: 'a> {
     inner: slice::IterMut<'a, (T, P)>,
     last: option::IntoIter<&'a mut T>,
-}
-
-#[cfg(any(feature = "full", feature = "derive"))]
-pub(crate) fn empty_punctuated_iter_mut<'a, T>() -> IterMut<'a, T> {
-    IterMut {
-        inner: Box::new(iter::empty()),
-    }
 }
 
 impl<'a, T> Iterator for IterMut<'a, T> {
