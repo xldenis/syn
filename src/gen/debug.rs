@@ -272,69 +272,6 @@ impl Debug for Constraint {
         formatter.finish()
     }
 }
-#[cfg(feature = "derive")]
-impl Debug for Data {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            Data::Struct(v0) => {
-                let mut formatter = formatter.debug_tuple("Struct");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Data::Enum(v0) => {
-                let mut formatter = formatter.debug_tuple("Enum");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Data::Union(v0) => {
-                let mut formatter = formatter.debug_tuple("Union");
-                formatter.field(v0);
-                formatter.finish()
-            }
-        }
-    }
-}
-#[cfg(feature = "derive")]
-impl Debug for DataEnum {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("DataEnum");
-        formatter.field("enum_token", &self.enum_token);
-        formatter.field("brace_token", &self.brace_token);
-        formatter.field("variants", &self.variants);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "derive")]
-impl Debug for DataStruct {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("DataStruct");
-        formatter.field("struct_token", &self.struct_token);
-        formatter.field("fields", &self.fields);
-        formatter.field("semi_token", &self.semi_token);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "derive")]
-impl Debug for DataUnion {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("DataUnion");
-        formatter.field("union_token", &self.union_token);
-        formatter.field("fields", &self.fields);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "derive")]
-impl Debug for DeriveInput {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("DeriveInput");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("vis", &self.vis);
-        formatter.field("ident", &self.ident);
-        formatter.field("generics", &self.generics);
-        formatter.field("data", &self.data);
-        formatter.finish()
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Debug for Expr {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {

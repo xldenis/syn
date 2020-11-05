@@ -128,57 +128,6 @@ impl Clone for Constraint {
         }
     }
 }
-#[cfg(feature = "derive")]
-impl Clone for Data {
-    fn clone(&self) -> Self {
-        match self {
-            Data::Struct(v0) => Data::Struct(v0.clone()),
-            Data::Enum(v0) => Data::Enum(v0.clone()),
-            Data::Union(v0) => Data::Union(v0.clone()),
-        }
-    }
-}
-#[cfg(feature = "derive")]
-impl Clone for DataEnum {
-    fn clone(&self) -> Self {
-        DataEnum {
-            enum_token: self.enum_token.clone(),
-            brace_token: self.brace_token.clone(),
-            variants: self.variants.clone(),
-        }
-    }
-}
-#[cfg(feature = "derive")]
-impl Clone for DataStruct {
-    fn clone(&self) -> Self {
-        DataStruct {
-            struct_token: self.struct_token.clone(),
-            fields: self.fields.clone(),
-            semi_token: self.semi_token.clone(),
-        }
-    }
-}
-#[cfg(feature = "derive")]
-impl Clone for DataUnion {
-    fn clone(&self) -> Self {
-        DataUnion {
-            union_token: self.union_token.clone(),
-            fields: self.fields.clone(),
-        }
-    }
-}
-#[cfg(feature = "derive")]
-impl Clone for DeriveInput {
-    fn clone(&self) -> Self {
-        DeriveInput {
-            attrs: self.attrs.clone(),
-            vis: self.vis.clone(),
-            ident: self.ident.clone(),
-            generics: self.generics.clone(),
-            data: self.data.clone(),
-        }
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Clone for Expr {
     fn clone(&self) -> Self {

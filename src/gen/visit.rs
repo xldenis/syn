@@ -79,26 +79,6 @@ pub trait Visit<'ast> {
     fn visit_constraint(&mut self, i: &'ast Constraint) {
         visit_constraint(self, i)
     }
-    #[cfg(feature = "derive")]
-    fn visit_data(&mut self, i: &'ast Data) {
-        visit_data(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn visit_data_enum(&mut self, i: &'ast DataEnum) {
-        visit_data_enum(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn visit_data_struct(&mut self, i: &'ast DataStruct) {
-        visit_data_struct(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn visit_data_union(&mut self, i: &'ast DataUnion) {
-        visit_data_union(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn visit_derive_input(&mut self, i: &'ast DeriveInput) {
-        visit_derive_input(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr(&mut self, i: &'ast Expr) {
         visit_expr(self, i)
@@ -787,70 +767,6 @@ where
             tokens_helper(v, &p.spans);
         }
     }
-}
-#[cfg(feature = "derive")]
-pub fn visit_data<'ast, V>(v: &mut V, node: &'ast Data)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    match node {
-        Data::Struct(_binding_0) => {
-            v.visit_data_struct(_binding_0);
-        }
-        Data::Enum(_binding_0) => {
-            v.visit_data_enum(_binding_0);
-        }
-        Data::Union(_binding_0) => {
-            v.visit_data_union(_binding_0);
-        }
-    }
-}
-#[cfg(feature = "derive")]
-pub fn visit_data_enum<'ast, V>(v: &mut V, node: &'ast DataEnum)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.enum_token.span);
-    tokens_helper(v, &node.brace_token.span);
-    for el in Punctuated::pairs(&node.variants) {
-        let (it, p) = el.into_tuple();
-        v.visit_variant(it);
-        if let Some(p) = p {
-            tokens_helper(v, &p.spans);
-        }
-    }
-}
-#[cfg(feature = "derive")]
-pub fn visit_data_struct<'ast, V>(v: &mut V, node: &'ast DataStruct)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.struct_token.span);
-    v.visit_fields(&node.fields);
-    if let Some(it) = &node.semi_token {
-        tokens_helper(v, &it.spans)
-    };
-}
-#[cfg(feature = "derive")]
-pub fn visit_data_union<'ast, V>(v: &mut V, node: &'ast DataUnion)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.union_token.span);
-    v.visit_fields_named(&node.fields);
-}
-#[cfg(feature = "derive")]
-pub fn visit_derive_input<'ast, V>(v: &mut V, node: &'ast DeriveInput)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_visibility(&node.vis);
-    v.visit_ident(&node.ident);
-    v.visit_generics(&node.generics);
-    v.visit_data(&node.data);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_expr<'ast, V>(v: &mut V, node: &'ast Expr)

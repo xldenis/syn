@@ -80,26 +80,6 @@ pub trait Fold {
     fn fold_constraint(&mut self, i: Constraint) -> Constraint {
         fold_constraint(self, i)
     }
-    #[cfg(feature = "derive")]
-    fn fold_data(&mut self, i: Data) -> Data {
-        fold_data(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn fold_data_enum(&mut self, i: DataEnum) -> DataEnum {
-        fold_data_enum(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn fold_data_struct(&mut self, i: DataStruct) -> DataStruct {
-        fold_data_struct(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn fold_data_union(&mut self, i: DataUnion) -> DataUnion {
-        fold_data_union(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn fold_derive_input(&mut self, i: DeriveInput) -> DeriveInput {
-        fold_derive_input(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_expr(&mut self, i: Expr) -> Expr {
         fold_expr(self, i)
@@ -737,62 +717,6 @@ where
         ident: f.fold_ident(node.ident),
         colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
         bounds: FoldHelper::lift(node.bounds, |it| f.fold_type_param_bound(it)),
-    }
-}
-#[cfg(feature = "derive")]
-pub fn fold_data<F>(f: &mut F, node: Data) -> Data
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        Data::Struct(_binding_0) => Data::Struct(f.fold_data_struct(_binding_0)),
-        Data::Enum(_binding_0) => Data::Enum(f.fold_data_enum(_binding_0)),
-        Data::Union(_binding_0) => Data::Union(f.fold_data_union(_binding_0)),
-    }
-}
-#[cfg(feature = "derive")]
-pub fn fold_data_enum<F>(f: &mut F, node: DataEnum) -> DataEnum
-where
-    F: Fold + ?Sized,
-{
-    DataEnum {
-        enum_token: Token![enum](tokens_helper(f, &node.enum_token.span)),
-        brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
-        variants: FoldHelper::lift(node.variants, |it| f.fold_variant(it)),
-    }
-}
-#[cfg(feature = "derive")]
-pub fn fold_data_struct<F>(f: &mut F, node: DataStruct) -> DataStruct
-where
-    F: Fold + ?Sized,
-{
-    DataStruct {
-        struct_token: Token![struct](tokens_helper(f, &node.struct_token.span)),
-        fields: f.fold_fields(node.fields),
-        semi_token: (node.semi_token).map(|it| Token ! [;](tokens_helper(f, &it.spans))),
-    }
-}
-#[cfg(feature = "derive")]
-pub fn fold_data_union<F>(f: &mut F, node: DataUnion) -> DataUnion
-where
-    F: Fold + ?Sized,
-{
-    DataUnion {
-        union_token: Token![union](tokens_helper(f, &node.union_token.span)),
-        fields: f.fold_fields_named(node.fields),
-    }
-}
-#[cfg(feature = "derive")]
-pub fn fold_derive_input<F>(f: &mut F, node: DeriveInput) -> DeriveInput
-where
-    F: Fold + ?Sized,
-{
-    DeriveInput {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        ident: f.fold_ident(node.ident),
-        generics: f.fold_generics(node.generics),
-        data: f.fold_data(node.data),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

@@ -378,11 +378,6 @@ mod mac;
 pub use crate::mac::{Macro, MacroDelimiter};
 
 #[cfg(any(feature = "full", feature = "derive"))]
-mod derive;
-#[cfg(feature = "derive")]
-pub use crate::derive::{Data, DataEnum, DataStruct, DataUnion, DeriveInput};
-
-#[cfg(any(feature = "full", feature = "derive"))]
 mod op;
 #[cfg(any(feature = "full", feature = "derive"))]
 pub use crate::op::{BinOp, UnOp};

@@ -144,55 +144,6 @@ impl PartialEq for Constraint {
         self.ident == other.ident && self.bounds == other.bounds
     }
 }
-#[cfg(feature = "derive")]
-impl Eq for Data {}
-#[cfg(feature = "derive")]
-impl PartialEq for Data {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Data::Struct(self0), Data::Struct(other0)) => self0 == other0,
-            (Data::Enum(self0), Data::Enum(other0)) => self0 == other0,
-            (Data::Union(self0), Data::Union(other0)) => self0 == other0,
-            _ => false,
-        }
-    }
-}
-#[cfg(feature = "derive")]
-impl Eq for DataEnum {}
-#[cfg(feature = "derive")]
-impl PartialEq for DataEnum {
-    fn eq(&self, other: &Self) -> bool {
-        self.variants == other.variants
-    }
-}
-#[cfg(feature = "derive")]
-impl Eq for DataStruct {}
-#[cfg(feature = "derive")]
-impl PartialEq for DataStruct {
-    fn eq(&self, other: &Self) -> bool {
-        self.fields == other.fields && self.semi_token == other.semi_token
-    }
-}
-#[cfg(feature = "derive")]
-impl Eq for DataUnion {}
-#[cfg(feature = "derive")]
-impl PartialEq for DataUnion {
-    fn eq(&self, other: &Self) -> bool {
-        self.fields == other.fields
-    }
-}
-#[cfg(feature = "derive")]
-impl Eq for DeriveInput {}
-#[cfg(feature = "derive")]
-impl PartialEq for DeriveInput {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs
-            && self.vis == other.vis
-            && self.ident == other.ident
-            && self.generics == other.generics
-            && self.data == other.data
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Eq for Expr {}
 #[cfg(any(feature = "derive", feature = "full"))]

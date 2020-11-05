@@ -83,26 +83,6 @@ pub trait VisitMut {
     fn visit_constraint_mut(&mut self, i: &mut Constraint) {
         visit_constraint_mut(self, i)
     }
-    #[cfg(feature = "derive")]
-    fn visit_data_mut(&mut self, i: &mut Data) {
-        visit_data_mut(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn visit_data_enum_mut(&mut self, i: &mut DataEnum) {
-        visit_data_enum_mut(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn visit_data_struct_mut(&mut self, i: &mut DataStruct) {
-        visit_data_struct_mut(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn visit_data_union_mut(&mut self, i: &mut DataUnion) {
-        visit_data_union_mut(self, i)
-    }
-    #[cfg(feature = "derive")]
-    fn visit_derive_input_mut(&mut self, i: &mut DeriveInput) {
-        visit_derive_input_mut(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_mut(&mut self, i: &mut Expr) {
         visit_expr_mut(self, i)
@@ -791,70 +771,6 @@ where
             tokens_helper(v, &mut p.spans);
         }
     }
-}
-#[cfg(feature = "derive")]
-pub fn visit_data_mut<V>(v: &mut V, node: &mut Data)
-where
-    V: VisitMut + ?Sized,
-{
-    match node {
-        Data::Struct(_binding_0) => {
-            v.visit_data_struct_mut(_binding_0);
-        }
-        Data::Enum(_binding_0) => {
-            v.visit_data_enum_mut(_binding_0);
-        }
-        Data::Union(_binding_0) => {
-            v.visit_data_union_mut(_binding_0);
-        }
-    }
-}
-#[cfg(feature = "derive")]
-pub fn visit_data_enum_mut<V>(v: &mut V, node: &mut DataEnum)
-where
-    V: VisitMut + ?Sized,
-{
-    tokens_helper(v, &mut node.enum_token.span);
-    tokens_helper(v, &mut node.brace_token.span);
-    for el in Punctuated::pairs_mut(&mut node.variants) {
-        let (it, p) = el.into_tuple();
-        v.visit_variant_mut(it);
-        if let Some(p) = p {
-            tokens_helper(v, &mut p.spans);
-        }
-    }
-}
-#[cfg(feature = "derive")]
-pub fn visit_data_struct_mut<V>(v: &mut V, node: &mut DataStruct)
-where
-    V: VisitMut + ?Sized,
-{
-    tokens_helper(v, &mut node.struct_token.span);
-    v.visit_fields_mut(&mut node.fields);
-    if let Some(it) = &mut node.semi_token {
-        tokens_helper(v, &mut it.spans)
-    };
-}
-#[cfg(feature = "derive")]
-pub fn visit_data_union_mut<V>(v: &mut V, node: &mut DataUnion)
-where
-    V: VisitMut + ?Sized,
-{
-    tokens_helper(v, &mut node.union_token.span);
-    v.visit_fields_named_mut(&mut node.fields);
-}
-#[cfg(feature = "derive")]
-pub fn visit_derive_input_mut<V>(v: &mut V, node: &mut DeriveInput)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    v.visit_visibility_mut(&mut node.vis);
-    v.visit_ident_mut(&mut node.ident);
-    v.visit_generics_mut(&mut node.generics);
-    v.visit_data_mut(&mut node.data);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_expr_mut<V>(v: &mut V, node: &mut Expr)

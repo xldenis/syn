@@ -220,69 +220,6 @@ impl Hash for Constraint {
         self.bounds.hash(state);
     }
 }
-#[cfg(feature = "derive")]
-impl Hash for Data {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        match self {
-            Data::Struct(v0) => {
-                state.write_u8(0u8);
-                v0.hash(state);
-            }
-            Data::Enum(v0) => {
-                state.write_u8(1u8);
-                v0.hash(state);
-            }
-            Data::Union(v0) => {
-                state.write_u8(2u8);
-                v0.hash(state);
-            }
-        }
-    }
-}
-#[cfg(feature = "derive")]
-impl Hash for DataEnum {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.variants.hash(state);
-    }
-}
-#[cfg(feature = "derive")]
-impl Hash for DataStruct {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.fields.hash(state);
-        self.semi_token.hash(state);
-    }
-}
-#[cfg(feature = "derive")]
-impl Hash for DataUnion {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.fields.hash(state);
-    }
-}
-#[cfg(feature = "derive")]
-impl Hash for DeriveInput {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.attrs.hash(state);
-        self.vis.hash(state);
-        self.ident.hash(state);
-        self.generics.hash(state);
-        self.data.hash(state);
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Hash for Expr {
     fn hash<H>(&self, state: &mut H)
