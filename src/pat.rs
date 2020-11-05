@@ -488,7 +488,6 @@ pub mod parsing {
             Ok(Pat::Range(PatRange {
                 attrs: Vec::new(),
                 lo: Box::new(Expr::Path(ExprPath {
-                    attrs: Vec::new(),
                     qself,
                     path,
                 })),
@@ -602,7 +601,6 @@ pub mod parsing {
 
         Ok(Some(Box::new(if let Some(neg) = neg {
             Expr::Unary(ExprUnary {
-                attrs: Vec::new(),
                 op: UnOp::Neg(neg),
                 expr: Box::new(expr),
             })

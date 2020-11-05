@@ -30,7 +30,6 @@ impl Hash for Arm {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.pat.hash(state);
         self.guard.hash(state);
         self.body.hash(state);
@@ -347,7 +346,6 @@ impl Hash for ExprArray {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.elems.hash(state);
     }
 }
@@ -357,7 +355,6 @@ impl Hash for ExprBinary {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.left.hash(state);
         self.op.hash(state);
         self.right.hash(state);
@@ -369,7 +366,6 @@ impl Hash for ExprBlock {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.label.hash(state);
         self.block.hash(state);
     }
@@ -380,7 +376,6 @@ impl Hash for ExprCall {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.func.hash(state);
         self.args.hash(state);
     }
@@ -391,7 +386,6 @@ impl Hash for ExprCast {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
         self.ty.hash(state);
     }
@@ -402,7 +396,6 @@ impl Hash for ExprField {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.base.hash(state);
         self.member.hash(state);
     }
@@ -413,7 +406,6 @@ impl Hash for ExprGroup {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
     }
 }
@@ -423,7 +415,6 @@ impl Hash for ExprIf {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.cond.hash(state);
         self.then_branch.hash(state);
         self.else_branch.hash(state);
@@ -435,7 +426,6 @@ impl Hash for ExprIndex {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
         self.index.hash(state);
     }
@@ -446,7 +436,6 @@ impl Hash for ExprLet {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.pat.hash(state);
         self.expr.hash(state);
     }
@@ -457,7 +446,6 @@ impl Hash for ExprLit {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.lit.hash(state);
     }
 }
@@ -467,7 +455,6 @@ impl Hash for ExprMatch {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
         self.arms.hash(state);
     }
@@ -478,7 +465,6 @@ impl Hash for ExprMethodCall {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.receiver.hash(state);
         self.method.hash(state);
         self.turbofish.hash(state);
@@ -491,7 +477,6 @@ impl Hash for ExprParen {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
     }
 }
@@ -501,7 +486,6 @@ impl Hash for ExprPath {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.qself.hash(state);
         self.path.hash(state);
     }
@@ -512,7 +496,6 @@ impl Hash for ExprRange {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.from.hash(state);
         self.limits.hash(state);
         self.to.hash(state);
@@ -524,7 +507,6 @@ impl Hash for ExprReference {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.mutability.hash(state);
         self.expr.hash(state);
     }
@@ -535,7 +517,6 @@ impl Hash for ExprRepeat {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
         self.len.hash(state);
     }
@@ -546,7 +527,6 @@ impl Hash for ExprReturn {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
     }
 }
@@ -556,7 +536,6 @@ impl Hash for ExprStruct {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.path.hash(state);
         self.fields.hash(state);
         self.dot2_token.hash(state);
@@ -569,7 +548,6 @@ impl Hash for ExprTuple {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.elems.hash(state);
     }
 }
@@ -579,7 +557,6 @@ impl Hash for ExprType {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.expr.hash(state);
         self.ty.hash(state);
     }
@@ -590,7 +567,6 @@ impl Hash for ExprUnary {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.op.hash(state);
         self.expr.hash(state);
     }
@@ -613,7 +589,6 @@ impl Hash for FieldValue {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.member.hash(state);
         self.colon_token.hash(state);
         self.expr.hash(state);
@@ -777,7 +752,6 @@ impl Hash for Local {
     where
         H: Hasher,
     {
-        self.attrs.hash(state);
         self.pat.hash(state);
         self.init.hash(state);
     }

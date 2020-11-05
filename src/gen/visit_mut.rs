@@ -504,9 +504,6 @@ pub fn visit_arm_mut<V>(v: &mut V, node: &mut Arm)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_pat_mut(&mut node.pat);
     if let Some(it) = &mut node.guard {
         tokens_helper(v, &mut (it).0.span);
@@ -802,9 +799,6 @@ pub fn visit_expr_array_mut<V>(v: &mut V, node: &mut ExprArray)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.bracket_token.span);
     for el in Punctuated::pairs_mut(&mut node.elems) {
         let (it, p) = el.into_tuple();
@@ -819,9 +813,6 @@ pub fn visit_expr_binary_mut<V>(v: &mut V, node: &mut ExprBinary)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_expr_mut(&mut *node.left);
     v.visit_bin_op_mut(&mut node.op);
     v.visit_expr_mut(&mut *node.right);
@@ -831,9 +822,6 @@ pub fn visit_expr_block_mut<V>(v: &mut V, node: &mut ExprBlock)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     if let Some(it) = &mut node.label {
         v.visit_label_mut(it)
     };
@@ -844,9 +832,6 @@ pub fn visit_expr_call_mut<V>(v: &mut V, node: &mut ExprCall)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_expr_mut(&mut *node.func);
     tokens_helper(v, &mut node.paren_token.span);
     for el in Punctuated::pairs_mut(&mut node.args) {
@@ -862,9 +847,6 @@ pub fn visit_expr_cast_mut<V>(v: &mut V, node: &mut ExprCast)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_expr_mut(&mut *node.expr);
     tokens_helper(v, &mut node.as_token.span);
     v.visit_type_mut(&mut *node.ty);
@@ -874,9 +856,6 @@ pub fn visit_expr_field_mut<V>(v: &mut V, node: &mut ExprField)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_expr_mut(&mut *node.base);
     tokens_helper(v, &mut node.dot_token.spans);
     v.visit_member_mut(&mut node.member);
@@ -886,9 +865,6 @@ pub fn visit_expr_group_mut<V>(v: &mut V, node: &mut ExprGroup)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.group_token.span);
     v.visit_expr_mut(&mut *node.expr);
 }
@@ -897,9 +873,6 @@ pub fn visit_expr_if_mut<V>(v: &mut V, node: &mut ExprIf)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.if_token.span);
     v.visit_expr_mut(&mut *node.cond);
     v.visit_block_mut(&mut node.then_branch);
@@ -913,9 +886,6 @@ pub fn visit_expr_index_mut<V>(v: &mut V, node: &mut ExprIndex)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_expr_mut(&mut *node.expr);
     tokens_helper(v, &mut node.bracket_token.span);
     v.visit_expr_mut(&mut *node.index);
@@ -925,9 +895,6 @@ pub fn visit_expr_let_mut<V>(v: &mut V, node: &mut ExprLet)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.let_token.span);
     v.visit_pat_mut(&mut node.pat);
     tokens_helper(v, &mut node.eq_token.spans);
@@ -938,9 +905,6 @@ pub fn visit_expr_lit_mut<V>(v: &mut V, node: &mut ExprLit)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_lit_mut(&mut node.lit);
 }
 #[cfg(feature = "full")]
@@ -948,9 +912,6 @@ pub fn visit_expr_match_mut<V>(v: &mut V, node: &mut ExprMatch)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.match_token.span);
     v.visit_expr_mut(&mut *node.expr);
     tokens_helper(v, &mut node.brace_token.span);
@@ -963,9 +924,6 @@ pub fn visit_expr_method_call_mut<V>(v: &mut V, node: &mut ExprMethodCall)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_expr_mut(&mut *node.receiver);
     tokens_helper(v, &mut node.dot_token.spans);
     v.visit_ident_mut(&mut node.method);
@@ -986,9 +944,6 @@ pub fn visit_expr_paren_mut<V>(v: &mut V, node: &mut ExprParen)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.paren_token.span);
     v.visit_expr_mut(&mut *node.expr);
 }
@@ -997,9 +952,6 @@ pub fn visit_expr_path_mut<V>(v: &mut V, node: &mut ExprPath)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     if let Some(it) = &mut node.qself {
         v.visit_qself_mut(it)
     };
@@ -1010,9 +962,6 @@ pub fn visit_expr_range_mut<V>(v: &mut V, node: &mut ExprRange)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     if let Some(it) = &mut node.from {
         v.visit_expr_mut(&mut **it)
     };
@@ -1026,9 +975,6 @@ pub fn visit_expr_reference_mut<V>(v: &mut V, node: &mut ExprReference)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.and_token.spans);
     if let Some(it) = &mut node.mutability {
         tokens_helper(v, &mut it.span)
@@ -1040,9 +986,6 @@ pub fn visit_expr_repeat_mut<V>(v: &mut V, node: &mut ExprRepeat)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.bracket_token.span);
     v.visit_expr_mut(&mut *node.expr);
     tokens_helper(v, &mut node.semi_token.spans);
@@ -1053,9 +996,6 @@ pub fn visit_expr_return_mut<V>(v: &mut V, node: &mut ExprReturn)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.return_token.span);
     if let Some(it) = &mut node.expr {
         v.visit_expr_mut(&mut **it)
@@ -1066,9 +1006,6 @@ pub fn visit_expr_struct_mut<V>(v: &mut V, node: &mut ExprStruct)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_path_mut(&mut node.path);
     tokens_helper(v, &mut node.brace_token.span);
     for el in Punctuated::pairs_mut(&mut node.fields) {
@@ -1090,9 +1027,6 @@ pub fn visit_expr_tuple_mut<V>(v: &mut V, node: &mut ExprTuple)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.paren_token.span);
     for el in Punctuated::pairs_mut(&mut node.elems) {
         let (it, p) = el.into_tuple();
@@ -1107,9 +1041,6 @@ pub fn visit_expr_type_mut<V>(v: &mut V, node: &mut ExprType)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_expr_mut(&mut *node.expr);
     tokens_helper(v, &mut node.colon_token.spans);
     v.visit_type_mut(&mut *node.ty);
@@ -1119,9 +1050,6 @@ pub fn visit_expr_unary_mut<V>(v: &mut V, node: &mut ExprUnary)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_un_op_mut(&mut node.op);
     v.visit_expr_mut(&mut *node.expr);
 }
@@ -1144,9 +1072,6 @@ pub fn visit_field_value_mut<V>(v: &mut V, node: &mut FieldValue)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     v.visit_member_mut(&mut node.member);
     if let Some(it) = &mut node.colon_token {
         tokens_helper(v, &mut it.spans)
@@ -1353,9 +1278,6 @@ pub fn visit_local_mut<V>(v: &mut V, node: &mut Local)
 where
     V: VisitMut + ?Sized,
 {
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
     tokens_helper(v, &mut node.let_token.span);
     v.visit_pat_mut(&mut node.pat);
     if let Some(it) = &mut node.init {

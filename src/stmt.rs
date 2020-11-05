@@ -32,7 +32,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct Local {
-        pub attrs: Vec<Attribute>,
         pub let_token: Token![let],
         pub pat: Pat,
         pub init: Option<(Token![=], Box<Expr>)>,
@@ -142,18 +141,15 @@ pub mod parsing {
     }
 
     fn parse_stmt(input: ParseStream, allow_nosemi: bool) -> Result<Stmt> {
-        let mut attrs = input.call(Attribute::parse_outer)?;
-
         if input.peek(Token![let]) {
-            stmt_local(input, attrs).map(Stmt::Local)
+            stmt_local(input).map(Stmt::Local)
         } else {
-            stmt_expr(input, allow_nosemi, attrs)
+            stmt_expr(input, allow_nosemi)
         }
     }
 
-    fn stmt_local(input: ParseStream, attrs: Vec<Attribute>) -> Result<Local> {
+    fn stmt_local(input: ParseStream) -> Result<Local> {
         Ok(Local {
-            attrs,
             let_token: input.parse()?,
             pat: {
                 let mut pat: Pat = pat::parsing::multi_pat_with_leading_vert(input)?;
@@ -185,16 +181,8 @@ pub mod parsing {
     fn stmt_expr(
         input: ParseStream,
         allow_nosemi: bool,
-        mut attrs: Vec<Attribute>,
     ) -> Result<Stmt> {
-        let mut e = expr::parsing::expr_early(input)?;
-
-        let mut attr_target = &mut e;
-        while let Expr::Binary(e) = attr_target {
-            attr_target = &mut e.left;
-        }
-        attrs.extend(attr_target.replace_attrs(Vec::new()));
-        attr_target.replace_attrs(attrs);
+        let e = expr::parsing::expr_early(input)?;
 
         if input.peek(Token![;]) {
             return Ok(Stmt::Semi(e, input.parse()?));
@@ -237,7 +225,6 @@ mod printing {
 
     impl ToTokens for Local {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            expr::printing::outer_attrs_to_tokens(&self.attrs, tokens);
             self.let_token.to_tokens(tokens);
             self.pat.to_tokens(tokens);
             if let Some((eq_token, init)) = &self.init {

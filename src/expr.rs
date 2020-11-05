@@ -184,7 +184,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprArray #full {
-        pub attrs: Vec<Attribute>,
         pub bracket_token: token::Bracket,
         pub elems: Punctuated<Expr, Token![,]>,
     }
@@ -196,7 +195,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprBinary {
-        pub attrs: Vec<Attribute>,
         pub left: Box<Expr>,
         pub op: BinOp,
         pub right: Box<Expr>,
@@ -208,7 +206,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprBlock #full {
-        pub attrs: Vec<Attribute>,
         pub label: Option<Label>,
         pub block: Block,
     }
@@ -220,7 +217,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprCall {
-        pub attrs: Vec<Attribute>,
         pub func: Box<Expr>,
         pub paren_token: token::Paren,
         pub args: Punctuated<Expr, Token![,]>,
@@ -233,7 +229,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprCast {
-        pub attrs: Vec<Attribute>,
         pub expr: Box<Expr>,
         pub as_token: Token![as],
         pub ty: Box<Type>,
@@ -246,7 +241,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprField {
-        pub attrs: Vec<Attribute>,
         pub base: Box<Expr>,
         pub dot_token: Token![.],
         pub member: Member,
@@ -262,7 +256,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprGroup #full {
-        pub attrs: Vec<Attribute>,
         pub group_token: token::Group,
         pub expr: Box<Expr>,
     }
@@ -277,7 +270,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprIf #full {
-        pub attrs: Vec<Attribute>,
         pub if_token: Token![if],
         pub cond: Box<Expr>,
         pub then_branch: Block,
@@ -291,7 +283,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprIndex {
-        pub attrs: Vec<Attribute>,
         pub expr: Box<Expr>,
         pub bracket_token: token::Bracket,
         pub index: Box<Expr>,
@@ -303,7 +294,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprLet #full {
-        pub attrs: Vec<Attribute>,
         pub let_token: Token![let],
         pub pat: Pat,
         pub eq_token: Token![=],
@@ -317,7 +307,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprLit {
-        pub attrs: Vec<Attribute>,
         pub lit: Lit,
     }
 }
@@ -327,7 +316,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprMatch #full {
-        pub attrs: Vec<Attribute>,
         pub match_token: Token![match],
         pub expr: Box<Expr>,
         pub brace_token: token::Brace,
@@ -340,7 +328,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprMethodCall #full {
-        pub attrs: Vec<Attribute>,
         pub receiver: Box<Expr>,
         pub dot_token: Token![.],
         pub method: Ident,
@@ -355,7 +342,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprParen {
-        pub attrs: Vec<Attribute>,
         pub paren_token: token::Paren,
         pub expr: Box<Expr>,
     }
@@ -370,7 +356,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprPath {
-        pub attrs: Vec<Attribute>,
         pub qself: Option<QSelf>,
         pub path: Path,
     }
@@ -381,7 +366,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprRange #full {
-        pub attrs: Vec<Attribute>,
         pub from: Option<Box<Expr>>,
         pub limits: RangeLimits,
         pub to: Option<Box<Expr>>,
@@ -393,7 +377,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprReference #full {
-        pub attrs: Vec<Attribute>,
         pub and_token: Token![&],
         pub raw: Reserved,
         pub mutability: Option<Token![mut]>,
@@ -406,7 +389,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprRepeat #full {
-        pub attrs: Vec<Attribute>,
         pub bracket_token: token::Bracket,
         pub expr: Box<Expr>,
         pub semi_token: Token![;],
@@ -419,7 +401,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprReturn #full {
-        pub attrs: Vec<Attribute>,
         pub return_token: Token![return],
         pub expr: Option<Box<Expr>>,
     }
@@ -433,7 +414,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprStruct #full {
-        pub attrs: Vec<Attribute>,
         pub path: Path,
         pub brace_token: token::Brace,
         pub fields: Punctuated<FieldValue, Token![,]>,
@@ -447,7 +427,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprTuple #full {
-        pub attrs: Vec<Attribute>,
         pub paren_token: token::Paren,
         pub elems: Punctuated<Expr, Token![,]>,
     }
@@ -458,7 +437,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprType #full {
-        pub attrs: Vec<Attribute>,
         pub expr: Box<Expr>,
         pub colon_token: Token![:],
         pub ty: Box<Type>,
@@ -471,42 +449,8 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprUnary {
-        pub attrs: Vec<Attribute>,
         pub op: UnOp,
         pub expr: Box<Expr>,
-    }
-}
-
-impl Expr {
-    #[cfg(all(feature = "parsing", feature = "full"))]
-    pub(crate) fn replace_attrs(&mut self, new: Vec<Attribute>) -> Vec<Attribute> {
-        match self {
-            Expr::Array(ExprArray { attrs, .. })
-            | Expr::Call(ExprCall { attrs, .. })
-            | Expr::MethodCall(ExprMethodCall { attrs, .. })
-            | Expr::Tuple(ExprTuple { attrs, .. })
-            | Expr::Binary(ExprBinary { attrs, .. })
-            | Expr::Unary(ExprUnary { attrs, .. })
-            | Expr::Lit(ExprLit { attrs, .. })
-            | Expr::Cast(ExprCast { attrs, .. })
-            | Expr::Type(ExprType { attrs, .. })
-            | Expr::Let(ExprLet { attrs, .. })
-            | Expr::If(ExprIf { attrs, .. })
-            | Expr::Match(ExprMatch { attrs, .. })
-            | Expr::Block(ExprBlock { attrs, .. })
-            | Expr::Field(ExprField { attrs, .. })
-            | Expr::Index(ExprIndex { attrs, .. })
-            | Expr::Range(ExprRange { attrs, .. })
-            | Expr::Path(ExprPath { attrs, .. })
-            | Expr::Reference(ExprReference { attrs, .. })
-            | Expr::Return(ExprReturn { attrs, .. })
-            | Expr::Struct(ExprStruct { attrs, .. })
-            | Expr::Repeat(ExprRepeat { attrs, .. })
-            | Expr::Paren(ExprParen { attrs, .. })
-            | Expr::Group(ExprGroup { attrs, .. }) => mem::replace(attrs, new),
-            Expr::Verbatim(_) => Vec::new(),
-            Expr::__Nonexhaustive => unreachable!(),
-        }
     }
 }
 
@@ -645,7 +589,6 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct FieldValue {
         /// Attributes tagged on the field.
-        pub attrs: Vec<Attribute>,
 
         /// Name or index of the field.
         pub member: Member,
@@ -692,7 +635,6 @@ ast_struct! {
     ///
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct Arm {
-        pub attrs: Vec<Attribute>,
         pub pat: Pat,
         pub guard: Option<(Token![if], Box<Expr>)>,
         pub fat_arrow_token: Token![=>],
@@ -939,7 +881,6 @@ pub(crate) mod parsing {
                 }
                 lhs = {
                     Expr::Binary(ExprBinary {
-                        attrs: Vec::new(),
                         left: Box::new(lhs),
                         op,
                         right: Box::new(rhs),
@@ -966,7 +907,6 @@ pub(crate) mod parsing {
                     Some(rhs)
                 };
                 lhs = Expr::Range(ExprRange {
-                    attrs: Vec::new(),
                     from: Some(Box::new(lhs)),
                     limits,
                     to: rhs.map(Box::new),
@@ -975,7 +915,6 @@ pub(crate) mod parsing {
                 let as_token: Token![as] = input.parse()?;
                 let ty = input.call(Type::without_plus)?;
                 lhs = Expr::Cast(ExprCast {
-                    attrs: Vec::new(),
                     expr: Box::new(lhs),
                     as_token,
                     ty: Box::new(ty),
@@ -984,7 +923,6 @@ pub(crate) mod parsing {
                 let colon_token: Token![:] = input.parse()?;
                 let ty = input.call(Type::without_plus)?;
                 lhs = Expr::Type(ExprType {
-                    attrs: Vec::new(),
                     expr: Box::new(lhs),
                     colon_token,
                     ty: Box::new(ty),
@@ -1022,7 +960,6 @@ pub(crate) mod parsing {
                     }
                 }
                 lhs = Expr::Binary(ExprBinary {
-                    attrs: Vec::new(),
                     left: Box::new(lhs),
                     op,
                     right: Box::new(rhs),
@@ -1031,7 +968,6 @@ pub(crate) mod parsing {
                 let as_token: Token![as] = input.parse()?;
                 let ty = input.call(Type::without_plus)?;
                 lhs = Expr::Cast(ExprCast {
-                    attrs: Vec::new(),
                     expr: Box::new(lhs),
                     as_token,
                     ty: Box::new(ty),
@@ -1063,30 +999,6 @@ pub(crate) mod parsing {
         parse_expr(input, lhs, allow_struct, Precedence::Any)
     }
 
-    #[cfg(feature = "full")]
-    fn expr_attrs(input: ParseStream) -> Result<Vec<Attribute>> {
-        let mut attrs = Vec::new();
-        loop {
-            if input.peek(token::Group) {
-                let ahead = input.fork();
-                let group = crate::group::parse_group(&ahead)?;
-                if !group.content.peek(Token![#]) || group.content.peek2(Token![!]) {
-                    break;
-                }
-                let attr = group.content.call(attr::parsing::single_parse_outer)?;
-                if !group.content.is_empty() {
-                    break;
-                }
-                attrs.push(attr);
-            } else if input.peek(Token![#]) {
-                attrs.push(input.call(attr::parsing::single_parse_outer)?);
-            } else {
-                break;
-            }
-        }
-        Ok(attrs)
-    }
-
     // <UnOp> <trailer>
     // & <trailer>
     // &mut <trailer>
@@ -1094,7 +1006,6 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     fn unary_expr(input: ParseStream, allow_struct: AllowStruct) -> Result<Expr> {
         let begin = input.fork();
-        let attrs = input.call(expr_attrs)?;
         if input.peek(Token![&]) {
             let and_token: Token![&] = input.parse()?;
             let raw: Option<raw> =
@@ -1112,7 +1023,6 @@ pub(crate) mod parsing {
                 Ok(Expr::Verbatim(verbatim::between(begin, input)))
             } else {
                 Ok(Expr::Reference(ExprReference {
-                    attrs,
                     and_token,
                     raw: Reserved::default(),
                     mutability,
@@ -1121,12 +1031,11 @@ pub(crate) mod parsing {
             }
         } else if input.peek(Token![*]) || input.peek(Token![!]) || input.peek(Token![-]) {
             Ok(Expr::Unary(ExprUnary {
-                attrs,
                 op: input.parse()?,
                 expr: Box::new(unary_expr(input, allow_struct)?),
             }))
         } else {
-            trailer_expr(attrs, input, allow_struct)
+            trailer_expr(input, allow_struct)
         }
     }
 
@@ -1134,7 +1043,6 @@ pub(crate) mod parsing {
     fn unary_expr(input: ParseStream, allow_struct: AllowStruct) -> Result<Expr> {
         if input.peek(Token![*]) || input.peek(Token![!]) || input.peek(Token![-]) {
             Ok(Expr::Unary(ExprUnary {
-                attrs: Vec::new(),
                 op: input.parse()?,
                 expr: Box::new(unary_expr(input, allow_struct)?),
             }))
@@ -1151,16 +1059,11 @@ pub(crate) mod parsing {
     // <atom> ? ...
     #[cfg(feature = "full")]
     fn trailer_expr(
-        outer_attrs: Vec<Attribute>,
         input: ParseStream,
         allow_struct: AllowStruct,
     ) -> Result<Expr> {
         let atom = atom_expr(input, allow_struct)?;
-        let mut e = trailer_helper(input, atom)?;
-
-        let inner_attrs = e.replace_attrs(Vec::new());
-        let attrs = private::attrs(outer_attrs, inner_attrs);
-        e.replace_attrs(attrs);
+        let e = trailer_helper(input, atom)?;
         Ok(e)
     }
 
@@ -1170,7 +1073,6 @@ pub(crate) mod parsing {
             if input.peek(token::Paren) {
                 let content;
                 e = Expr::Call(ExprCall {
-                    attrs: Vec::new(),
                     func: Box::new(e),
                     paren_token: parenthesized!(content in input),
                     args: content.parse_terminated(Expr::parse)?,
@@ -1216,7 +1118,6 @@ pub(crate) mod parsing {
                     if let Member::Named(method) = member {
                         let content;
                         e = Expr::MethodCall(ExprMethodCall {
-                            attrs: Vec::new(),
                             receiver: Box::new(e),
                             dot_token,
                             method,
@@ -1229,7 +1130,6 @@ pub(crate) mod parsing {
                 }
 
                 e = Expr::Field(ExprField {
-                    attrs: Vec::new(),
                     base: Box::new(e),
                     dot_token,
                     member,
@@ -1237,7 +1137,6 @@ pub(crate) mod parsing {
             } else if input.peek(token::Bracket) {
                 let content;
                 e = Expr::Index(ExprIndex {
-                    attrs: Vec::new(),
                     expr: Box::new(e),
                     bracket_token: bracketed!(content in input),
                     index: content.parse()?,
@@ -1257,7 +1156,6 @@ pub(crate) mod parsing {
             if input.peek(token::Paren) {
                 let content;
                 e = Expr::Call(ExprCall {
-                    attrs: Vec::new(),
                     func: Box::new(e),
                     paren_token: parenthesized!(content in input),
                     args: content.parse_terminated(Expr::parse)?,
@@ -1272,7 +1170,6 @@ pub(crate) mod parsing {
                     }
                 }
                 e = Expr::Field(ExprField {
-                    attrs: Vec::new(),
                     base: Box::new(e),
                     dot_token,
                     member: input.parse()?,
@@ -1280,7 +1177,6 @@ pub(crate) mod parsing {
             } else if input.peek(token::Bracket) {
                 let content;
                 e = Expr::Index(ExprIndex {
-                    attrs: Vec::new(),
                     expr: Box::new(e),
                     bracket_token: bracketed!(content in input),
                     index: content.parse()?,
@@ -1375,8 +1271,7 @@ pub(crate) mod parsing {
         }
 
         if allow_struct.0 && input.peek(token::Brace) {
-            let outer_attrs = Vec::new();
-            expr_struct_helper(input, outer_attrs, expr.path).map(Expr::Struct)
+            expr_struct_helper(input, expr.path).map(Expr::Struct)
         } else {
             Ok(Expr::Path(expr))
         }
@@ -1386,10 +1281,8 @@ pub(crate) mod parsing {
     fn paren_or_tuple(input: ParseStream) -> Result<Expr> {
         let content;
         let paren_token = parenthesized!(content in input);
-        let inner_attrs = content.call(Attribute::parse_inner)?;
         if content.is_empty() {
             return Ok(Expr::Tuple(ExprTuple {
-                attrs: inner_attrs,
                 paren_token,
                 elems: Punctuated::new(),
             }));
@@ -1398,7 +1291,6 @@ pub(crate) mod parsing {
         let first: Expr = content.parse()?;
         if content.is_empty() {
             return Ok(Expr::Paren(ExprParen {
-                attrs: inner_attrs,
                 paren_token,
                 expr: Box::new(first),
             }));
@@ -1416,7 +1308,6 @@ pub(crate) mod parsing {
             elems.push_value(value);
         }
         Ok(Expr::Tuple(ExprTuple {
-            attrs: inner_attrs,
             paren_token,
             elems,
         }))
@@ -1426,10 +1317,8 @@ pub(crate) mod parsing {
     fn array_or_repeat(input: ParseStream) -> Result<Expr> {
         let content;
         let bracket_token = bracketed!(content in input);
-        let inner_attrs = content.call(Attribute::parse_inner)?;
         if content.is_empty() {
             return Ok(Expr::Array(ExprArray {
-                attrs: inner_attrs,
                 bracket_token,
                 elems: Punctuated::new(),
             }));
@@ -1449,7 +1338,6 @@ pub(crate) mod parsing {
                 elems.push_value(value);
             }
             Ok(Expr::Array(ExprArray {
-                attrs: inner_attrs,
                 bracket_token,
                 elems,
             }))
@@ -1457,7 +1345,6 @@ pub(crate) mod parsing {
             let semi_token: Token![;] = content.parse()?;
             let len: Expr = content.parse()?;
             Ok(Expr::Repeat(ExprRepeat {
-                attrs: inner_attrs,
                 bracket_token,
                 expr: Box::new(first),
                 semi_token,
@@ -1470,7 +1357,6 @@ pub(crate) mod parsing {
 
     #[cfg(feature = "full")]
     pub(crate) fn expr_early(input: ParseStream) -> Result<Expr> {
-        let mut attrs = input.call(expr_attrs)?;
         let mut expr = if input.peek(Token![if]) {
             Expr::If(input.parse()?)
         } else if input.peek(Token![match]) {
@@ -1479,10 +1365,7 @@ pub(crate) mod parsing {
             Expr::Block(input.call(expr_block)?)
         } else {
             let allow_struct = AllowStruct(true);
-            let mut expr = unary_expr(input, allow_struct)?;
-
-            attrs.extend(expr.replace_attrs(Vec::new()));
-            expr.replace_attrs(attrs);
+            let expr = unary_expr(input, allow_struct)?;
 
             return parse_expr(input, expr, allow_struct, Precedence::Any);
         };
@@ -1490,22 +1373,16 @@ pub(crate) mod parsing {
         if input.peek(Token![.]) && !input.peek(Token![..]) || input.peek(Token![?]) {
             expr = trailer_helper(input, expr)?;
 
-            attrs.extend(expr.replace_attrs(Vec::new()));
-            expr.replace_attrs(attrs);
-
             let allow_struct = AllowStruct(true);
             return parse_expr(input, expr, allow_struct, Precedence::Any);
         }
 
-        attrs.extend(expr.replace_attrs(Vec::new()));
-        expr.replace_attrs(attrs);
         Ok(expr)
     }
 
     impl Parse for ExprLit {
         fn parse(input: ParseStream) -> Result<Self> {
             Ok(ExprLit {
-                attrs: Vec::new(),
                 lit: input.parse()?,
             })
         }
@@ -1515,7 +1392,6 @@ pub(crate) mod parsing {
     fn expr_group(input: ParseStream) -> Result<ExprGroup> {
         let group = crate::group::parse_group(input)?;
         Ok(ExprGroup {
-            attrs: Vec::new(),
             group_token: group.token,
             expr: group.content.parse()?,
         })
@@ -1525,7 +1401,6 @@ pub(crate) mod parsing {
     fn expr_paren(input: ParseStream) -> Result<ExprParen> {
         let content;
         Ok(ExprParen {
-            attrs: Vec::new(),
             paren_token: parenthesized!(content in input),
             expr: content.parse()?,
         })
@@ -1549,7 +1424,6 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     fn expr_let(input: ParseStream) -> Result<ExprLet> {
         Ok(ExprLet {
-            attrs: Vec::new(),
             let_token: input.parse()?,
             pat: pat::parsing::multi_pat_with_leading_vert(input)?,
             eq_token: input.parse()?,
@@ -1560,9 +1434,7 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     impl Parse for ExprIf {
         fn parse(input: ParseStream) -> Result<Self> {
-            let attrs = input.call(Attribute::parse_outer)?;
             Ok(ExprIf {
-                attrs,
                 if_token: input.parse()?,
                 cond: Box::new(input.call(Expr::parse_without_eager_brace)?),
                 then_branch: input.parse()?,
@@ -1586,7 +1458,6 @@ pub(crate) mod parsing {
             input.parse().map(Expr::If)?
         } else if input.peek(token::Brace) {
             Expr::Block(ExprBlock {
-                attrs: Vec::new(),
                 label: None,
                 block: input.parse()?,
             })
@@ -1600,13 +1471,11 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     impl Parse for ExprMatch {
         fn parse(input: ParseStream) -> Result<Self> {
-            let outer_attrs = input.call(Attribute::parse_outer)?;
             let match_token: Token![match] = input.parse()?;
             let expr = Expr::parse_without_eager_brace(input)?;
 
             let content;
             let brace_token = braced!(content in input);
-            let inner_attrs = content.call(Attribute::parse_inner)?;
 
             let mut arms = Vec::new();
             while !content.is_empty() {
@@ -1614,7 +1483,6 @@ pub(crate) mod parsing {
             }
 
             Ok(ExprMatch {
-                attrs: private::attrs(outer_attrs, inner_attrs),
                 match_token,
                 expr: Box::new(expr),
                 brace_token,
@@ -1691,7 +1559,6 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     fn expr_ret(input: ParseStream, allow_struct: AllowStruct) -> Result<ExprReturn> {
         Ok(ExprReturn {
-            attrs: Vec::new(),
             return_token: input.parse()?,
             expr: {
                 if input.is_empty() || input.peek(Token![,]) || input.peek(Token![;]) {
@@ -1712,7 +1579,6 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     impl Parse for FieldValue {
         fn parse(input: ParseStream) -> Result<Self> {
-            let attrs = input.call(Attribute::parse_outer)?;
             let member: Member = input.parse()?;
             let (colon_token, value) = if input.peek(Token![:]) || !member.is_named() {
                 let colon_token: Token![:] = input.parse()?;
@@ -1720,7 +1586,6 @@ pub(crate) mod parsing {
                 (Some(colon_token), value)
             } else if let Member::Named(ident) = &member {
                 let value = Expr::Path(ExprPath {
-                    attrs: Vec::new(),
                     qself: None,
                     path: Path::from(ident.clone()),
                 });
@@ -1730,7 +1595,6 @@ pub(crate) mod parsing {
             };
 
             Ok(FieldValue {
-                attrs,
                 member,
                 colon_token,
                 expr: value,
@@ -1741,19 +1605,15 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     fn expr_struct_helper(
         input: ParseStream,
-        outer_attrs: Vec<Attribute>,
         path: Path,
     ) -> Result<ExprStruct> {
         let content;
         let brace_token = braced!(content in input);
-        let inner_attrs = content.call(Attribute::parse_inner)?;
-        let attrs = private::attrs(outer_attrs, inner_attrs);
 
         let mut fields = Punctuated::new();
         while !content.is_empty() {
             if content.peek(Token![..]) {
                 return Ok(ExprStruct {
-                    attrs,
                     brace_token,
                     path,
                     fields,
@@ -1771,7 +1631,6 @@ pub(crate) mod parsing {
         }
 
         Ok(ExprStruct {
-            attrs,
             brace_token,
             path,
             fields,
@@ -1786,11 +1645,9 @@ pub(crate) mod parsing {
 
         let content;
         let brace_token = braced!(content in input);
-        let inner_attrs = content.call(Attribute::parse_inner)?;
         let stmts = content.call(Block::parse_within)?;
 
         Ok(ExprBlock {
-            attrs: inner_attrs,
             label,
             block: Block { brace_token, stmts },
         })
@@ -1799,7 +1656,6 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     fn expr_range(input: ParseStream, allow_struct: AllowStruct) -> Result<ExprRange> {
         Ok(ExprRange {
-            attrs: Vec::new(),
             from: None,
             limits: input.parse()?,
             to: {
@@ -1836,14 +1692,8 @@ pub(crate) mod parsing {
 
     impl Parse for ExprPath {
         fn parse(input: ParseStream) -> Result<Self> {
-            #[cfg(not(feature = "full"))]
-            let attrs = Vec::new();
-            #[cfg(feature = "full")]
-            let attrs = input.call(Attribute::parse_outer)?;
-
             let (qself, path) = path::parsing::qpath(input, true)?;
-
-            Ok(ExprPath { attrs, qself, path })
+            Ok(ExprPath { qself, path })
         }
     }
 
@@ -1864,7 +1714,6 @@ pub(crate) mod parsing {
         fn parse(input: ParseStream) -> Result<Arm> {
             let requires_comma;
             Ok(Arm {
-                attrs: input.call(Attribute::parse_outer)?,
                 pat: pat::parsing::multi_pat_with_leading_vert(input)?,
                 guard: {
                     if input.peek(Token![if]) {
@@ -1919,7 +1768,6 @@ pub(crate) mod parsing {
             let index = crate::parse_str(part).map_err(|err| Error::new(float.span(), err))?;
             let base = mem::replace(e, Expr::__Nonexhaustive);
             *e = Expr::Field(ExprField {
-                attrs: Vec::new(),
                 base: Box::new(base),
                 dot_token: Token![.](dot_token.span),
                 member: Member::Unnamed(index),
@@ -1944,8 +1792,6 @@ pub(crate) mod parsing {
 pub(crate) mod printing {
     use super::*;
     #[cfg(feature = "full")]
-    use crate::attr::FilterAttrs;
-    #[cfg(feature = "full")]
     use crate::print::TokensOrDefault;
     use proc_macro2::{Literal, TokenStream};
     use quote::{ToTokens, TokenStreamExt};
@@ -1964,27 +1810,9 @@ pub(crate) mod printing {
     }
 
     #[cfg(feature = "full")]
-    pub(crate) fn outer_attrs_to_tokens(attrs: &[Attribute], tokens: &mut TokenStream) {
-        tokens.append_all(attrs.outer());
-    }
-
-    #[cfg(feature = "full")]
-    fn inner_attrs_to_tokens(attrs: &[Attribute], tokens: &mut TokenStream) {
-        tokens.append_all(attrs.inner());
-    }
-
-    #[cfg(not(feature = "full"))]
-    pub(crate) fn outer_attrs_to_tokens(_attrs: &[Attribute], _tokens: &mut TokenStream) {}
-
-    #[cfg(not(feature = "full"))]
-    fn inner_attrs_to_tokens(_attrs: &[Attribute], _tokens: &mut TokenStream) {}
-
-    #[cfg(feature = "full")]
     impl ToTokens for ExprArray {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.bracket_token.surround(tokens, |tokens| {
-                inner_attrs_to_tokens(&self.attrs, tokens);
                 self.elems.to_tokens(tokens);
             })
         }
@@ -1992,7 +1820,6 @@ pub(crate) mod printing {
 
     impl ToTokens for ExprCall {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.func.to_tokens(tokens);
             self.paren_token.surround(tokens, |tokens| {
                 self.args.to_tokens(tokens);
@@ -2003,7 +1830,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprMethodCall {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.receiver.to_tokens(tokens);
             self.dot_token.to_tokens(tokens);
             self.method.to_tokens(tokens);
@@ -2037,9 +1863,7 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprTuple {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.paren_token.surround(tokens, |tokens| {
-                inner_attrs_to_tokens(&self.attrs, tokens);
                 self.elems.to_tokens(tokens);
                 // If we only have one argument, we need a trailing comma to
                 // distinguish ExprTuple from ExprParen.
@@ -2052,7 +1876,6 @@ pub(crate) mod printing {
 
     impl ToTokens for ExprBinary {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.left.to_tokens(tokens);
             self.op.to_tokens(tokens);
             self.right.to_tokens(tokens);
@@ -2061,7 +1884,6 @@ pub(crate) mod printing {
 
     impl ToTokens for ExprUnary {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.op.to_tokens(tokens);
             self.expr.to_tokens(tokens);
         }
@@ -2069,14 +1891,12 @@ pub(crate) mod printing {
 
     impl ToTokens for ExprLit {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.lit.to_tokens(tokens);
         }
     }
 
     impl ToTokens for ExprCast {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.expr.to_tokens(tokens);
             self.as_token.to_tokens(tokens);
             self.ty.to_tokens(tokens);
@@ -2086,7 +1906,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprType {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.expr.to_tokens(tokens);
             self.colon_token.to_tokens(tokens);
             self.ty.to_tokens(tokens);
@@ -2116,7 +1935,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprLet {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.let_token.to_tokens(tokens);
             self.pat.to_tokens(tokens);
             self.eq_token.to_tokens(tokens);
@@ -2127,7 +1945,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprIf {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.if_token.to_tokens(tokens);
             wrap_bare_struct(tokens, &self.cond);
             self.then_branch.to_tokens(tokens);
@@ -2138,11 +1955,9 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprMatch {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.match_token.to_tokens(tokens);
             wrap_bare_struct(tokens, &self.expr);
             self.brace_token.surround(tokens, |tokens| {
-                inner_attrs_to_tokens(&self.attrs, tokens);
                 for (i, arm) in self.arms.iter().enumerate() {
                     arm.to_tokens(tokens);
                     // Ensure that we have a comma after a non-block arm, except
@@ -2159,10 +1974,8 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprBlock {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.label.to_tokens(tokens);
             self.block.brace_token.surround(tokens, |tokens| {
-                inner_attrs_to_tokens(&self.attrs, tokens);
                 tokens.append_all(&self.block.stmts);
             });
         }
@@ -2170,7 +1983,6 @@ pub(crate) mod printing {
 
     impl ToTokens for ExprField {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.base.to_tokens(tokens);
             self.dot_token.to_tokens(tokens);
             self.member.to_tokens(tokens);
@@ -2196,7 +2008,6 @@ pub(crate) mod printing {
 
     impl ToTokens for ExprIndex {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.expr.to_tokens(tokens);
             self.bracket_token.surround(tokens, |tokens| {
                 self.index.to_tokens(tokens);
@@ -2207,7 +2018,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprRange {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.from.to_tokens(tokens);
             match &self.limits {
                 RangeLimits::HalfOpen(t) => t.to_tokens(tokens),
@@ -2219,7 +2029,6 @@ pub(crate) mod printing {
 
     impl ToTokens for ExprPath {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             private::print_path(tokens, &self.qself, &self.path);
         }
     }
@@ -2227,7 +2036,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprReference {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.and_token.to_tokens(tokens);
             self.mutability.to_tokens(tokens);
             self.expr.to_tokens(tokens);
@@ -2237,7 +2045,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprReturn {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.return_token.to_tokens(tokens);
             self.expr.to_tokens(tokens);
         }
@@ -2246,10 +2053,8 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprStruct {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.path.to_tokens(tokens);
             self.brace_token.surround(tokens, |tokens| {
-                inner_attrs_to_tokens(&self.attrs, tokens);
                 self.fields.to_tokens(tokens);
                 if self.rest.is_some() {
                     TokensOrDefault(&self.dot2_token).to_tokens(tokens);
@@ -2262,9 +2067,7 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprRepeat {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.bracket_token.surround(tokens, |tokens| {
-                inner_attrs_to_tokens(&self.attrs, tokens);
                 self.expr.to_tokens(tokens);
                 self.semi_token.to_tokens(tokens);
                 self.len.to_tokens(tokens);
@@ -2275,7 +2078,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for ExprGroup {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.group_token.surround(tokens, |tokens| {
                 self.expr.to_tokens(tokens);
             });
@@ -2284,9 +2086,7 @@ pub(crate) mod printing {
 
     impl ToTokens for ExprParen {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.paren_token.surround(tokens, |tokens| {
-                inner_attrs_to_tokens(&self.attrs, tokens);
                 self.expr.to_tokens(tokens);
             });
         }
@@ -2303,7 +2103,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for FieldValue {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            outer_attrs_to_tokens(&self.attrs, tokens);
             self.member.to_tokens(tokens);
             if let Some(colon_token) = &self.colon_token {
                 colon_token.to_tokens(tokens);
@@ -2315,7 +2114,6 @@ pub(crate) mod printing {
     #[cfg(feature = "full")]
     impl ToTokens for Arm {
         fn to_tokens(&self, tokens: &mut TokenStream) {
-            tokens.append_all(&self.attrs);
             self.pat.to_tokens(tokens);
             if let Some((if_token, guard)) = &self.guard {
                 if_token.to_tokens(tokens);

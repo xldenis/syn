@@ -27,7 +27,6 @@ impl Clone for AngleBracketedGenericArguments {
 impl Clone for Arm {
     fn clone(&self) -> Self {
         Arm {
-            attrs: self.attrs.clone(),
             pat: self.pat.clone(),
             guard: self.guard.clone(),
             fat_arrow_token: self.fat_arrow_token.clone(),
@@ -178,7 +177,6 @@ impl Clone for Expr {
 impl Clone for ExprArray {
     fn clone(&self) -> Self {
         ExprArray {
-            attrs: self.attrs.clone(),
             bracket_token: self.bracket_token.clone(),
             elems: self.elems.clone(),
         }
@@ -188,7 +186,6 @@ impl Clone for ExprArray {
 impl Clone for ExprBinary {
     fn clone(&self) -> Self {
         ExprBinary {
-            attrs: self.attrs.clone(),
             left: self.left.clone(),
             op: self.op.clone(),
             right: self.right.clone(),
@@ -199,7 +196,6 @@ impl Clone for ExprBinary {
 impl Clone for ExprBlock {
     fn clone(&self) -> Self {
         ExprBlock {
-            attrs: self.attrs.clone(),
             label: self.label.clone(),
             block: self.block.clone(),
         }
@@ -209,7 +205,6 @@ impl Clone for ExprBlock {
 impl Clone for ExprCall {
     fn clone(&self) -> Self {
         ExprCall {
-            attrs: self.attrs.clone(),
             func: self.func.clone(),
             paren_token: self.paren_token.clone(),
             args: self.args.clone(),
@@ -220,7 +215,6 @@ impl Clone for ExprCall {
 impl Clone for ExprCast {
     fn clone(&self) -> Self {
         ExprCast {
-            attrs: self.attrs.clone(),
             expr: self.expr.clone(),
             as_token: self.as_token.clone(),
             ty: self.ty.clone(),
@@ -231,7 +225,6 @@ impl Clone for ExprCast {
 impl Clone for ExprField {
     fn clone(&self) -> Self {
         ExprField {
-            attrs: self.attrs.clone(),
             base: self.base.clone(),
             dot_token: self.dot_token.clone(),
             member: self.member.clone(),
@@ -242,7 +235,6 @@ impl Clone for ExprField {
 impl Clone for ExprGroup {
     fn clone(&self) -> Self {
         ExprGroup {
-            attrs: self.attrs.clone(),
             group_token: self.group_token.clone(),
             expr: self.expr.clone(),
         }
@@ -252,7 +244,6 @@ impl Clone for ExprGroup {
 impl Clone for ExprIf {
     fn clone(&self) -> Self {
         ExprIf {
-            attrs: self.attrs.clone(),
             if_token: self.if_token.clone(),
             cond: self.cond.clone(),
             then_branch: self.then_branch.clone(),
@@ -264,7 +255,6 @@ impl Clone for ExprIf {
 impl Clone for ExprIndex {
     fn clone(&self) -> Self {
         ExprIndex {
-            attrs: self.attrs.clone(),
             expr: self.expr.clone(),
             bracket_token: self.bracket_token.clone(),
             index: self.index.clone(),
@@ -275,7 +265,6 @@ impl Clone for ExprIndex {
 impl Clone for ExprLet {
     fn clone(&self) -> Self {
         ExprLet {
-            attrs: self.attrs.clone(),
             let_token: self.let_token.clone(),
             pat: self.pat.clone(),
             eq_token: self.eq_token.clone(),
@@ -287,7 +276,6 @@ impl Clone for ExprLet {
 impl Clone for ExprLit {
     fn clone(&self) -> Self {
         ExprLit {
-            attrs: self.attrs.clone(),
             lit: self.lit.clone(),
         }
     }
@@ -296,7 +284,6 @@ impl Clone for ExprLit {
 impl Clone for ExprMatch {
     fn clone(&self) -> Self {
         ExprMatch {
-            attrs: self.attrs.clone(),
             match_token: self.match_token.clone(),
             expr: self.expr.clone(),
             brace_token: self.brace_token.clone(),
@@ -308,7 +295,6 @@ impl Clone for ExprMatch {
 impl Clone for ExprMethodCall {
     fn clone(&self) -> Self {
         ExprMethodCall {
-            attrs: self.attrs.clone(),
             receiver: self.receiver.clone(),
             dot_token: self.dot_token.clone(),
             method: self.method.clone(),
@@ -322,7 +308,6 @@ impl Clone for ExprMethodCall {
 impl Clone for ExprParen {
     fn clone(&self) -> Self {
         ExprParen {
-            attrs: self.attrs.clone(),
             paren_token: self.paren_token.clone(),
             expr: self.expr.clone(),
         }
@@ -332,7 +317,6 @@ impl Clone for ExprParen {
 impl Clone for ExprPath {
     fn clone(&self) -> Self {
         ExprPath {
-            attrs: self.attrs.clone(),
             qself: self.qself.clone(),
             path: self.path.clone(),
         }
@@ -342,7 +326,6 @@ impl Clone for ExprPath {
 impl Clone for ExprRange {
     fn clone(&self) -> Self {
         ExprRange {
-            attrs: self.attrs.clone(),
             from: self.from.clone(),
             limits: self.limits.clone(),
             to: self.to.clone(),
@@ -353,7 +336,6 @@ impl Clone for ExprRange {
 impl Clone for ExprReference {
     fn clone(&self) -> Self {
         ExprReference {
-            attrs: self.attrs.clone(),
             and_token: self.and_token.clone(),
             raw: self.raw.clone(),
             mutability: self.mutability.clone(),
@@ -365,7 +347,6 @@ impl Clone for ExprReference {
 impl Clone for ExprRepeat {
     fn clone(&self) -> Self {
         ExprRepeat {
-            attrs: self.attrs.clone(),
             bracket_token: self.bracket_token.clone(),
             expr: self.expr.clone(),
             semi_token: self.semi_token.clone(),
@@ -377,7 +358,6 @@ impl Clone for ExprRepeat {
 impl Clone for ExprReturn {
     fn clone(&self) -> Self {
         ExprReturn {
-            attrs: self.attrs.clone(),
             return_token: self.return_token.clone(),
             expr: self.expr.clone(),
         }
@@ -387,7 +367,6 @@ impl Clone for ExprReturn {
 impl Clone for ExprStruct {
     fn clone(&self) -> Self {
         ExprStruct {
-            attrs: self.attrs.clone(),
             path: self.path.clone(),
             brace_token: self.brace_token.clone(),
             fields: self.fields.clone(),
@@ -400,7 +379,6 @@ impl Clone for ExprStruct {
 impl Clone for ExprTuple {
     fn clone(&self) -> Self {
         ExprTuple {
-            attrs: self.attrs.clone(),
             paren_token: self.paren_token.clone(),
             elems: self.elems.clone(),
         }
@@ -410,7 +388,6 @@ impl Clone for ExprTuple {
 impl Clone for ExprType {
     fn clone(&self) -> Self {
         ExprType {
-            attrs: self.attrs.clone(),
             expr: self.expr.clone(),
             colon_token: self.colon_token.clone(),
             ty: self.ty.clone(),
@@ -421,7 +398,6 @@ impl Clone for ExprType {
 impl Clone for ExprUnary {
     fn clone(&self) -> Self {
         ExprUnary {
-            attrs: self.attrs.clone(),
             op: self.op.clone(),
             expr: self.expr.clone(),
         }
@@ -442,7 +418,6 @@ impl Clone for FieldPat {
 impl Clone for FieldValue {
     fn clone(&self) -> Self {
         FieldValue {
-            attrs: self.attrs.clone(),
             member: self.member.clone(),
             colon_token: self.colon_token.clone(),
             expr: self.expr.clone(),
@@ -546,7 +521,6 @@ impl Clone for LitBool {
 impl Clone for Local {
     fn clone(&self) -> Self {
         Local {
-            attrs: self.attrs.clone(),
             let_token: self.let_token.clone(),
             pat: self.pat.clone(),
             init: self.init.clone(),

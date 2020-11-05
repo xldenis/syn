@@ -500,9 +500,6 @@ pub fn visit_arm<'ast, V>(v: &mut V, node: &'ast Arm)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_pat(&node.pat);
     if let Some(it) = &node.guard {
         tokens_helper(v, &(it).0.span);
@@ -798,9 +795,6 @@ pub fn visit_expr_array<'ast, V>(v: &mut V, node: &'ast ExprArray)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.bracket_token.span);
     for el in Punctuated::pairs(&node.elems) {
         let (it, p) = el.into_tuple();
@@ -815,9 +809,6 @@ pub fn visit_expr_binary<'ast, V>(v: &mut V, node: &'ast ExprBinary)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.left);
     v.visit_bin_op(&node.op);
     v.visit_expr(&*node.right);
@@ -827,9 +818,6 @@ pub fn visit_expr_block<'ast, V>(v: &mut V, node: &'ast ExprBlock)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     if let Some(it) = &node.label {
         v.visit_label(it)
     };
@@ -840,9 +828,6 @@ pub fn visit_expr_call<'ast, V>(v: &mut V, node: &'ast ExprCall)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.func);
     tokens_helper(v, &node.paren_token.span);
     for el in Punctuated::pairs(&node.args) {
@@ -858,9 +843,6 @@ pub fn visit_expr_cast<'ast, V>(v: &mut V, node: &'ast ExprCast)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.expr);
     tokens_helper(v, &node.as_token.span);
     v.visit_type(&*node.ty);
@@ -870,9 +852,6 @@ pub fn visit_expr_field<'ast, V>(v: &mut V, node: &'ast ExprField)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.base);
     tokens_helper(v, &node.dot_token.spans);
     v.visit_member(&node.member);
@@ -882,9 +861,6 @@ pub fn visit_expr_group<'ast, V>(v: &mut V, node: &'ast ExprGroup)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.group_token.span);
     v.visit_expr(&*node.expr);
 }
@@ -893,9 +869,6 @@ pub fn visit_expr_if<'ast, V>(v: &mut V, node: &'ast ExprIf)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.if_token.span);
     v.visit_expr(&*node.cond);
     v.visit_block(&node.then_branch);
@@ -909,9 +882,6 @@ pub fn visit_expr_index<'ast, V>(v: &mut V, node: &'ast ExprIndex)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.expr);
     tokens_helper(v, &node.bracket_token.span);
     v.visit_expr(&*node.index);
@@ -921,9 +891,6 @@ pub fn visit_expr_let<'ast, V>(v: &mut V, node: &'ast ExprLet)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.let_token.span);
     v.visit_pat(&node.pat);
     tokens_helper(v, &node.eq_token.spans);
@@ -934,9 +901,6 @@ pub fn visit_expr_lit<'ast, V>(v: &mut V, node: &'ast ExprLit)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_lit(&node.lit);
 }
 #[cfg(feature = "full")]
@@ -944,9 +908,6 @@ pub fn visit_expr_match<'ast, V>(v: &mut V, node: &'ast ExprMatch)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.match_token.span);
     v.visit_expr(&*node.expr);
     tokens_helper(v, &node.brace_token.span);
@@ -959,9 +920,6 @@ pub fn visit_expr_method_call<'ast, V>(v: &mut V, node: &'ast ExprMethodCall)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.receiver);
     tokens_helper(v, &node.dot_token.spans);
     v.visit_ident(&node.method);
@@ -982,9 +940,6 @@ pub fn visit_expr_paren<'ast, V>(v: &mut V, node: &'ast ExprParen)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.paren_token.span);
     v.visit_expr(&*node.expr);
 }
@@ -993,9 +948,6 @@ pub fn visit_expr_path<'ast, V>(v: &mut V, node: &'ast ExprPath)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     if let Some(it) = &node.qself {
         v.visit_qself(it)
     };
@@ -1006,9 +958,6 @@ pub fn visit_expr_range<'ast, V>(v: &mut V, node: &'ast ExprRange)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     if let Some(it) = &node.from {
         v.visit_expr(&**it)
     };
@@ -1022,9 +971,6 @@ pub fn visit_expr_reference<'ast, V>(v: &mut V, node: &'ast ExprReference)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.and_token.spans);
     if let Some(it) = &node.mutability {
         tokens_helper(v, &it.span)
@@ -1036,9 +982,6 @@ pub fn visit_expr_repeat<'ast, V>(v: &mut V, node: &'ast ExprRepeat)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.bracket_token.span);
     v.visit_expr(&*node.expr);
     tokens_helper(v, &node.semi_token.spans);
@@ -1049,9 +992,6 @@ pub fn visit_expr_return<'ast, V>(v: &mut V, node: &'ast ExprReturn)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.return_token.span);
     if let Some(it) = &node.expr {
         v.visit_expr(&**it)
@@ -1062,9 +1002,6 @@ pub fn visit_expr_struct<'ast, V>(v: &mut V, node: &'ast ExprStruct)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_path(&node.path);
     tokens_helper(v, &node.brace_token.span);
     for el in Punctuated::pairs(&node.fields) {
@@ -1086,9 +1023,6 @@ pub fn visit_expr_tuple<'ast, V>(v: &mut V, node: &'ast ExprTuple)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.paren_token.span);
     for el in Punctuated::pairs(&node.elems) {
         let (it, p) = el.into_tuple();
@@ -1103,9 +1037,6 @@ pub fn visit_expr_type<'ast, V>(v: &mut V, node: &'ast ExprType)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_expr(&*node.expr);
     tokens_helper(v, &node.colon_token.spans);
     v.visit_type(&*node.ty);
@@ -1115,9 +1046,6 @@ pub fn visit_expr_unary<'ast, V>(v: &mut V, node: &'ast ExprUnary)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_un_op(&node.op);
     v.visit_expr(&*node.expr);
 }
@@ -1140,9 +1068,6 @@ pub fn visit_field_value<'ast, V>(v: &mut V, node: &'ast FieldValue)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     v.visit_member(&node.member);
     if let Some(it) = &node.colon_token {
         tokens_helper(v, &it.spans)
@@ -1347,9 +1272,6 @@ pub fn visit_local<'ast, V>(v: &mut V, node: &'ast Local)
 where
     V: Visit<'ast> + ?Sized,
 {
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
     tokens_helper(v, &node.let_token.span);
     v.visit_pat(&node.pat);
     if let Some(it) = &node.init {
