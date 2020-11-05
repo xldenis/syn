@@ -2117,14 +2117,6 @@
           {
             "syn": "Expr"
           }
-        ],
-        "Semi": [
-          {
-            "syn": "Expr"
-          },
-          {
-            "token": "Semi"
-          }
         ]
       }
     },

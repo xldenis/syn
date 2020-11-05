@@ -1463,10 +1463,6 @@ where
     match node {
         Stmt::Local(_binding_0) => Stmt::Local(f.fold_local(_binding_0)),
         Stmt::Expr(_binding_0) => Stmt::Expr(f.fold_expr(_binding_0)),
-        Stmt::Semi(_binding_0, _binding_1) => Stmt::Semi(
-            f.fold_expr(_binding_0),
-            Token ! [;](tokens_helper(f, &_binding_1.spans)),
-        ),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

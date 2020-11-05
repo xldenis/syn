@@ -1186,12 +1186,6 @@ impl Debug for Stmt {
                 formatter.field(v0);
                 formatter.finish()
             }
-            Stmt::Semi(v0, v1) => {
-                let mut formatter = formatter.debug_tuple("Semi");
-                formatter.field(v0);
-                formatter.field(v1);
-                formatter.finish()
-            }
         }
     }
 }

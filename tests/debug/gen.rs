@@ -1923,11 +1923,6 @@ impl Debug for Lite<syn::Stmt> {
                 formatter.write_str(")")?;
                 Ok(())
             }
-            syn::Stmt::Semi(_v0, _v1) => {
-                let mut formatter = formatter.debug_tuple("Semi");
-                formatter.field(Lite(_v0));
-                formatter.finish()
-            }
         }
     }
 }

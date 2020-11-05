@@ -1621,10 +1621,6 @@ where
         Stmt::Expr(_binding_0) => {
             v.visit_expr_mut(_binding_0);
         }
-        Stmt::Semi(_binding_0, _binding_1) => {
-            v.visit_expr_mut(_binding_0);
-            tokens_helper(v, &mut _binding_1.spans);
-        }
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

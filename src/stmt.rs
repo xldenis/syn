@@ -21,9 +21,6 @@ ast_enum! {
 
         /// Expr without trailing semicolon.
         Expr(Expr),
-
-        /// Expression with trailing semicolon.
-        Semi(Expr, Token![;]),
     }
 }
 
@@ -43,8 +40,7 @@ ast_struct! {
 pub mod parsing {
     use super::*;
     use crate::parse::{Parse, ParseStream, Result};
-    use proc_macro2::TokenStream;
-
+    // Require it to end on expr
     impl Block {
         /// Parse the body of a block as zero or more statements, possibly
         /// including one trailing expression.
@@ -101,9 +97,6 @@ pub mod parsing {
         pub fn parse_within(input: ParseStream) -> Result<Vec<Stmt>> {
             let mut stmts = Vec::new();
             loop {
-                while let Some(semi) = input.parse::<Option<Token![;]>>()? {
-                    stmts.push(Stmt::Semi(Expr::Verbatim(TokenStream::new()), semi));
-                }
                 if input.is_empty() {
                     break;
                 }
@@ -183,10 +176,6 @@ pub mod parsing {
     ) -> Result<Stmt> {
         let e = expr::parsing::expr_early(input)?;
 
-        if input.peek(Token![;]) {
-            return Ok(Stmt::Semi(e, input.parse()?));
-        }
-
         if allow_nosemi || !expr::requires_terminator(&e) {
             Ok(Stmt::Expr(e))
         } else {
@@ -214,10 +203,6 @@ mod printing {
             match self {
                 Stmt::Local(local) => local.to_tokens(tokens),
                 Stmt::Expr(expr) => expr.to_tokens(tokens),
-                Stmt::Semi(expr, semi) => {
-                    expr.to_tokens(tokens);
-                    semi.to_tokens(tokens);
-                }
             }
         }
     }
