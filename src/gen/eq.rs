@@ -405,18 +405,6 @@ impl PartialEq for ExprUnary {
         self.attrs == other.attrs && self.op == other.op && self.expr == other.expr
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for Field {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for Field {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs
-            && self.vis == other.vis
-            && self.ident == other.ident
-            && self.colon_token == other.colon_token
-            && self.ty == other.ty
-    }
-}
 #[cfg(feature = "full")]
 impl Eq for FieldPat {}
 #[cfg(feature = "full")]
@@ -437,35 +425,6 @@ impl PartialEq for FieldValue {
             && self.member == other.member
             && self.colon_token == other.colon_token
             && self.expr == other.expr
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for Fields {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for Fields {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Fields::Named(self0), Fields::Named(other0)) => self0 == other0,
-            (Fields::Unnamed(self0), Fields::Unnamed(other0)) => self0 == other0,
-            (Fields::Unit, Fields::Unit) => true,
-            _ => false,
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for FieldsNamed {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for FieldsNamed {
-    fn eq(&self, other: &Self) -> bool {
-        self.named == other.named
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for FieldsUnnamed {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for FieldsUnnamed {
-    fn eq(&self, other: &Self) -> bool {
-        self.unnamed == other.unnamed
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1143,55 +1102,6 @@ impl Eq for Variadic {}
 impl PartialEq for Variadic {
     fn eq(&self, other: &Self) -> bool {
         self.attrs == other.attrs
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for Variant {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for Variant {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs
-            && self.ident == other.ident
-            && self.fields == other.fields
-            && self.discriminant == other.discriminant
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for VisCrate {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for VisCrate {
-    fn eq(&self, _other: &Self) -> bool {
-        true
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for VisPublic {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for VisPublic {
-    fn eq(&self, _other: &Self) -> bool {
-        true
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for VisRestricted {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for VisRestricted {
-    fn eq(&self, other: &Self) -> bool {
-        self.in_token == other.in_token && self.path == other.path
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Eq for Visibility {}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl PartialEq for Visibility {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Visibility::Public(self0), Visibility::Public(other0)) => self0 == other0,
-            (Visibility::Crate(self0), Visibility::Crate(other0)) => self0 == other0,
-            (Visibility::Restricted(self0), Visibility::Restricted(other0)) => self0 == other0,
-            (Visibility::Inherited, Visibility::Inherited) => true,
-            _ => false,
-        }
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

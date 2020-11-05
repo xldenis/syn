@@ -331,14 +331,6 @@ pub use crate::attr::{
 mod bigint;
 
 #[cfg(any(feature = "full", feature = "derive"))]
-mod data;
-#[cfg(any(feature = "full", feature = "derive"))]
-pub use crate::data::{
-    Field, Fields, FieldsNamed, FieldsUnnamed, Variant, VisCrate, VisPublic, VisRestricted,
-    Visibility,
-};
-
-#[cfg(any(feature = "full", feature = "derive"))]
 mod expr;
 #[cfg(feature = "full")]
 pub use crate::expr::{

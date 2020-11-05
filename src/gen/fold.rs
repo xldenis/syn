@@ -180,10 +180,6 @@ pub trait Fold {
     fn fold_expr_unary(&mut self, i: ExprUnary) -> ExprUnary {
         fold_expr_unary(self, i)
     }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_field(&mut self, i: Field) -> Field {
-        fold_field(self, i)
-    }
     #[cfg(feature = "full")]
     fn fold_field_pat(&mut self, i: FieldPat) -> FieldPat {
         fold_field_pat(self, i)
@@ -191,18 +187,6 @@ pub trait Fold {
     #[cfg(feature = "full")]
     fn fold_field_value(&mut self, i: FieldValue) -> FieldValue {
         fold_field_value(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_fields(&mut self, i: Fields) -> Fields {
-        fold_fields(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_fields_named(&mut self, i: FieldsNamed) -> FieldsNamed {
-        fold_fields_named(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_fields_unnamed(&mut self, i: FieldsUnnamed) -> FieldsUnnamed {
-        fold_fields_unnamed(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_generic_argument(&mut self, i: GenericArgument) -> GenericArgument {
@@ -495,26 +479,6 @@ pub trait Fold {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_variadic(&mut self, i: Variadic) -> Variadic {
         fold_variadic(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_variant(&mut self, i: Variant) -> Variant {
-        fold_variant(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_vis_crate(&mut self, i: VisCrate) -> VisCrate {
-        fold_vis_crate(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_vis_public(&mut self, i: VisPublic) -> VisPublic {
-        fold_vis_public(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_vis_restricted(&mut self, i: VisRestricted) -> VisRestricted {
-        fold_vis_restricted(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn fold_visibility(&mut self, i: Visibility) -> Visibility {
-        fold_visibility(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_where_clause(&mut self, i: WhereClause) -> WhereClause {
@@ -1046,19 +1010,6 @@ where
         expr: Box::new(f.fold_expr(*node.expr)),
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_field<F>(f: &mut F, node: Field) -> Field
-where
-    F: Fold + ?Sized,
-{
-    Field {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        vis: f.fold_visibility(node.vis),
-        ident: (node.ident).map(|it| f.fold_ident(it)),
-        colon_token: (node.colon_token).map(|it| Token ! [:](tokens_helper(f, &it.spans))),
-        ty: f.fold_type(node.ty),
-    }
-}
 #[cfg(feature = "full")]
 pub fn fold_field_pat<F>(f: &mut F, node: FieldPat) -> FieldPat
 where
@@ -1081,37 +1032,6 @@ where
         member: f.fold_member(node.member),
         colon_token: (node.colon_token).map(|it| Token ! [:](tokens_helper(f, &it.spans))),
         expr: f.fold_expr(node.expr),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_fields<F>(f: &mut F, node: Fields) -> Fields
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        Fields::Named(_binding_0) => Fields::Named(f.fold_fields_named(_binding_0)),
-        Fields::Unnamed(_binding_0) => Fields::Unnamed(f.fold_fields_unnamed(_binding_0)),
-        Fields::Unit => Fields::Unit,
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_fields_named<F>(f: &mut F, node: FieldsNamed) -> FieldsNamed
-where
-    F: Fold + ?Sized,
-{
-    FieldsNamed {
-        brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
-        named: FoldHelper::lift(node.named, |it| f.fold_field(it)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_fields_unnamed<F>(f: &mut F, node: FieldsUnnamed) -> FieldsUnnamed
-where
-    F: Fold + ?Sized,
-{
-    FieldsUnnamed {
-        paren_token: Paren(tokens_helper(f, &node.paren_token.span)),
-        unnamed: FoldHelper::lift(node.unnamed, |it| f.fold_field(it)),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1998,67 +1918,6 @@ where
     Variadic {
         attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         dots: Token ! [...](tokens_helper(f, &node.dots.spans)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_variant<F>(f: &mut F, node: Variant) -> Variant
-where
-    F: Fold + ?Sized,
-{
-    Variant {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        ident: f.fold_ident(node.ident),
-        fields: f.fold_fields(node.fields),
-        discriminant: (node.discriminant).map(|it| {
-            (
-                Token ! [=](tokens_helper(f, &(it).0.spans)),
-                f.fold_expr((it).1),
-            )
-        }),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_vis_crate<F>(f: &mut F, node: VisCrate) -> VisCrate
-where
-    F: Fold + ?Sized,
-{
-    VisCrate {
-        crate_token: Token![crate](tokens_helper(f, &node.crate_token.span)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_vis_public<F>(f: &mut F, node: VisPublic) -> VisPublic
-where
-    F: Fold + ?Sized,
-{
-    VisPublic {
-        pub_token: Token![pub](tokens_helper(f, &node.pub_token.span)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_vis_restricted<F>(f: &mut F, node: VisRestricted) -> VisRestricted
-where
-    F: Fold + ?Sized,
-{
-    VisRestricted {
-        pub_token: Token![pub](tokens_helper(f, &node.pub_token.span)),
-        paren_token: Paren(tokens_helper(f, &node.paren_token.span)),
-        in_token: (node.in_token).map(|it| Token![in](tokens_helper(f, &it.span))),
-        path: Box::new(f.fold_path(*node.path)),
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn fold_visibility<F>(f: &mut F, node: Visibility) -> Visibility
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        Visibility::Public(_binding_0) => Visibility::Public(f.fold_vis_public(_binding_0)),
-        Visibility::Crate(_binding_0) => Visibility::Crate(f.fold_vis_crate(_binding_0)),
-        Visibility::Restricted(_binding_0) => {
-            Visibility::Restricted(f.fold_vis_restricted(_binding_0))
-        }
-        Visibility::Inherited => Visibility::Inherited,
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

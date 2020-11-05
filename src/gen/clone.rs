@@ -438,18 +438,6 @@ impl Clone for ExprUnary {
         }
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for Field {
-    fn clone(&self) -> Self {
-        Field {
-            attrs: self.attrs.clone(),
-            vis: self.vis.clone(),
-            ident: self.ident.clone(),
-            colon_token: self.colon_token.clone(),
-            ty: self.ty.clone(),
-        }
-    }
-}
 #[cfg(feature = "full")]
 impl Clone for FieldPat {
     fn clone(&self) -> Self {
@@ -469,34 +457,6 @@ impl Clone for FieldValue {
             member: self.member.clone(),
             colon_token: self.colon_token.clone(),
             expr: self.expr.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for Fields {
-    fn clone(&self) -> Self {
-        match self {
-            Fields::Named(v0) => Fields::Named(v0.clone()),
-            Fields::Unnamed(v0) => Fields::Unnamed(v0.clone()),
-            Fields::Unit => Fields::Unit,
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for FieldsNamed {
-    fn clone(&self) -> Self {
-        FieldsNamed {
-            brace_token: self.brace_token.clone(),
-            named: self.named.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for FieldsUnnamed {
-    fn clone(&self) -> Self {
-        FieldsUnnamed {
-            paren_token: self.paren_token.clone(),
-            unnamed: self.unnamed.clone(),
         }
     }
 }
@@ -1183,55 +1143,6 @@ impl Clone for Variadic {
         Variadic {
             attrs: self.attrs.clone(),
             dots: self.dots.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for Variant {
-    fn clone(&self) -> Self {
-        Variant {
-            attrs: self.attrs.clone(),
-            ident: self.ident.clone(),
-            fields: self.fields.clone(),
-            discriminant: self.discriminant.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for VisCrate {
-    fn clone(&self) -> Self {
-        VisCrate {
-            crate_token: self.crate_token.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for VisPublic {
-    fn clone(&self) -> Self {
-        VisPublic {
-            pub_token: self.pub_token.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for VisRestricted {
-    fn clone(&self) -> Self {
-        VisRestricted {
-            pub_token: self.pub_token.clone(),
-            paren_token: self.paren_token.clone(),
-            in_token: self.in_token.clone(),
-            path: self.path.clone(),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Clone for Visibility {
-    fn clone(&self) -> Self {
-        match self {
-            Visibility::Public(v0) => Visibility::Public(v0.clone()),
-            Visibility::Crate(v0) => Visibility::Crate(v0.clone()),
-            Visibility::Restricted(v0) => Visibility::Restricted(v0.clone()),
-            Visibility::Inherited => Visibility::Inherited,
         }
     }
 }

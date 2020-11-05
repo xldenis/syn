@@ -179,10 +179,6 @@ pub trait Visit<'ast> {
     fn visit_expr_unary(&mut self, i: &'ast ExprUnary) {
         visit_expr_unary(self, i)
     }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_field(&mut self, i: &'ast Field) {
-        visit_field(self, i)
-    }
     #[cfg(feature = "full")]
     fn visit_field_pat(&mut self, i: &'ast FieldPat) {
         visit_field_pat(self, i)
@@ -190,18 +186,6 @@ pub trait Visit<'ast> {
     #[cfg(feature = "full")]
     fn visit_field_value(&mut self, i: &'ast FieldValue) {
         visit_field_value(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_fields(&mut self, i: &'ast Fields) {
-        visit_fields(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_fields_named(&mut self, i: &'ast FieldsNamed) {
-        visit_fields_named(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_fields_unnamed(&mut self, i: &'ast FieldsUnnamed) {
-        visit_fields_unnamed(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_generic_argument(&mut self, i: &'ast GenericArgument) {
@@ -491,26 +475,6 @@ pub trait Visit<'ast> {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_variadic(&mut self, i: &'ast Variadic) {
         visit_variadic(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_variant(&mut self, i: &'ast Variant) {
-        visit_variant(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_vis_crate(&mut self, i: &'ast VisCrate) {
-        visit_vis_crate(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_vis_public(&mut self, i: &'ast VisPublic) {
-        visit_vis_public(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_vis_restricted(&mut self, i: &'ast VisRestricted) {
-        visit_vis_restricted(self, i)
-    }
-    #[cfg(any(feature = "derive", feature = "full"))]
-    fn visit_visibility(&mut self, i: &'ast Visibility) {
-        visit_visibility(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_where_clause(&mut self, i: &'ast WhereClause) {
@@ -1190,23 +1154,6 @@ where
     v.visit_un_op(&node.op);
     v.visit_expr(&*node.expr);
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_field<'ast, V>(v: &mut V, node: &'ast Field)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_visibility(&node.vis);
-    if let Some(it) = &node.ident {
-        v.visit_ident(it)
-    };
-    if let Some(it) = &node.colon_token {
-        tokens_helper(v, &it.spans)
-    };
-    v.visit_type(&node.ty);
-}
 #[cfg(feature = "full")]
 pub fn visit_field_pat<'ast, V>(v: &mut V, node: &'ast FieldPat)
 where
@@ -1234,49 +1181,6 @@ where
         tokens_helper(v, &it.spans)
     };
     v.visit_expr(&node.expr);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_fields<'ast, V>(v: &mut V, node: &'ast Fields)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    match node {
-        Fields::Named(_binding_0) => {
-            v.visit_fields_named(_binding_0);
-        }
-        Fields::Unnamed(_binding_0) => {
-            v.visit_fields_unnamed(_binding_0);
-        }
-        Fields::Unit => {}
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_fields_named<'ast, V>(v: &mut V, node: &'ast FieldsNamed)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.brace_token.span);
-    for el in Punctuated::pairs(&node.named) {
-        let (it, p) = el.into_tuple();
-        v.visit_field(it);
-        if let Some(p) = p {
-            tokens_helper(v, &p.spans);
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_fields_unnamed<'ast, V>(v: &mut V, node: &'ast FieldsUnnamed)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.paren_token.span);
-    for el in Punctuated::pairs(&node.unnamed) {
-        let (it, p) = el.into_tuple();
-        v.visit_field(it);
-        if let Some(p) = p {
-            tokens_helper(v, &p.spans);
-        }
-    }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_generic_argument<'ast, V>(v: &mut V, node: &'ast GenericArgument)
@@ -2335,65 +2239,6 @@ where
         v.visit_attribute(it)
     }
     tokens_helper(v, &node.dots.spans);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_variant<'ast, V>(v: &mut V, node: &'ast Variant)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_ident(&node.ident);
-    v.visit_fields(&node.fields);
-    if let Some(it) = &node.discriminant {
-        tokens_helper(v, &(it).0.spans);
-        v.visit_expr(&(it).1);
-    };
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_vis_crate<'ast, V>(v: &mut V, node: &'ast VisCrate)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.crate_token.span);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_vis_public<'ast, V>(v: &mut V, node: &'ast VisPublic)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.pub_token.span);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_vis_restricted<'ast, V>(v: &mut V, node: &'ast VisRestricted)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.pub_token.span);
-    tokens_helper(v, &node.paren_token.span);
-    if let Some(it) = &node.in_token {
-        tokens_helper(v, &it.span)
-    };
-    v.visit_path(&*node.path);
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-pub fn visit_visibility<'ast, V>(v: &mut V, node: &'ast Visibility)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    match node {
-        Visibility::Public(_binding_0) => {
-            v.visit_vis_public(_binding_0);
-        }
-        Visibility::Crate(_binding_0) => {
-            v.visit_vis_crate(_binding_0);
-        }
-        Visibility::Restricted(_binding_0) => {
-            v.visit_vis_restricted(_binding_0);
-        }
-        Visibility::Inherited => {}
-    }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_where_clause<'ast, V>(v: &mut V, node: &'ast WhereClause)

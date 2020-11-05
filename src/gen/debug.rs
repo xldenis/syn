@@ -682,18 +682,6 @@ impl Debug for ExprUnary {
         formatter.finish()
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for Field {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("Field");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("vis", &self.vis);
-        formatter.field("ident", &self.ident);
-        formatter.field("colon_token", &self.colon_token);
-        formatter.field("ty", &self.ty);
-        formatter.finish()
-    }
-}
 #[cfg(feature = "full")]
 impl Debug for FieldPat {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -713,42 +701,6 @@ impl Debug for FieldValue {
         formatter.field("member", &self.member);
         formatter.field("colon_token", &self.colon_token);
         formatter.field("expr", &self.expr);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for Fields {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            Fields::Named(v0) => {
-                let mut formatter = formatter.debug_tuple("Named");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Fields::Unnamed(v0) => {
-                let mut formatter = formatter.debug_tuple("Unnamed");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Fields::Unit => formatter.write_str("Unit"),
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for FieldsNamed {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("FieldsNamed");
-        formatter.field("brace_token", &self.brace_token);
-        formatter.field("named", &self.named);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for FieldsUnnamed {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("FieldsUnnamed");
-        formatter.field("paren_token", &self.paren_token);
-        formatter.field("unnamed", &self.unnamed);
         formatter.finish()
     }
 }
@@ -1734,67 +1686,6 @@ impl Debug for Variadic {
         formatter.field("attrs", &self.attrs);
         formatter.field("dots", &self.dots);
         formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for Variant {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("Variant");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("ident", &self.ident);
-        formatter.field("fields", &self.fields);
-        formatter.field("discriminant", &self.discriminant);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for VisCrate {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("VisCrate");
-        formatter.field("crate_token", &self.crate_token);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for VisPublic {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("VisPublic");
-        formatter.field("pub_token", &self.pub_token);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for VisRestricted {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("VisRestricted");
-        formatter.field("pub_token", &self.pub_token);
-        formatter.field("paren_token", &self.paren_token);
-        formatter.field("in_token", &self.in_token);
-        formatter.field("path", &self.path);
-        formatter.finish()
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Debug for Visibility {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            Visibility::Public(v0) => {
-                let mut formatter = formatter.debug_tuple("Public");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Visibility::Crate(v0) => {
-                let mut formatter = formatter.debug_tuple("Crate");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Visibility::Restricted(v0) => {
-                let mut formatter = formatter.debug_tuple("Restricted");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Visibility::Inherited => formatter.write_str("Inherited"),
-        }
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

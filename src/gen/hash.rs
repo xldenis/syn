@@ -610,19 +610,6 @@ impl Hash for ExprUnary {
         self.expr.hash(state);
     }
 }
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for Field {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.attrs.hash(state);
-        self.vis.hash(state);
-        self.ident.hash(state);
-        self.colon_token.hash(state);
-        self.ty.hash(state);
-    }
-}
 #[cfg(feature = "full")]
 impl Hash for FieldPat {
     fn hash<H>(&self, state: &mut H)
@@ -645,45 +632,6 @@ impl Hash for FieldValue {
         self.member.hash(state);
         self.colon_token.hash(state);
         self.expr.hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for Fields {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        match self {
-            Fields::Named(v0) => {
-                state.write_u8(0u8);
-                v0.hash(state);
-            }
-            Fields::Unnamed(v0) => {
-                state.write_u8(1u8);
-                v0.hash(state);
-            }
-            Fields::Unit => {
-                state.write_u8(2u8);
-            }
-        }
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for FieldsNamed {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.named.hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for FieldsUnnamed {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.unnamed.hash(state);
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1624,69 +1572,6 @@ impl Hash for Variadic {
         H: Hasher,
     {
         self.attrs.hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for Variant {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.attrs.hash(state);
-        self.ident.hash(state);
-        self.fields.hash(state);
-        self.discriminant.hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for VisCrate {
-    fn hash<H>(&self, _state: &mut H)
-    where
-        H: Hasher,
-    {
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for VisPublic {
-    fn hash<H>(&self, _state: &mut H)
-    where
-        H: Hasher,
-    {
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for VisRestricted {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.in_token.hash(state);
-        self.path.hash(state);
-    }
-}
-#[cfg(any(feature = "derive", feature = "full"))]
-impl Hash for Visibility {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        match self {
-            Visibility::Public(v0) => {
-                state.write_u8(0u8);
-                v0.hash(state);
-            }
-            Visibility::Crate(v0) => {
-                state.write_u8(1u8);
-                v0.hash(state);
-            }
-            Visibility::Restricted(v0) => {
-                state.write_u8(2u8);
-                v0.hash(state);
-            }
-            Visibility::Inherited => {
-                state.write_u8(3u8);
-            }
-        }
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
