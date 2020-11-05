@@ -111,22 +111,6 @@ pub trait VisitMut {
     fn visit_expr_array_mut(&mut self, i: &mut ExprArray) {
         visit_expr_array_mut(self, i)
     }
-    #[cfg(feature = "full")]
-    fn visit_expr_assign_mut(&mut self, i: &mut ExprAssign) {
-        visit_expr_assign_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_assign_op_mut(&mut self, i: &mut ExprAssignOp) {
-        visit_expr_assign_op_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_async_mut(&mut self, i: &mut ExprAsync) {
-        visit_expr_async_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_await_mut(&mut self, i: &mut ExprAwait) {
-        visit_expr_await_mut(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_binary_mut(&mut self, i: &mut ExprBinary) {
         visit_expr_binary_mut(self, i)
@@ -134,14 +118,6 @@ pub trait VisitMut {
     #[cfg(feature = "full")]
     fn visit_expr_block_mut(&mut self, i: &mut ExprBlock) {
         visit_expr_block_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_box_mut(&mut self, i: &mut ExprBox) {
-        visit_expr_box_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_break_mut(&mut self, i: &mut ExprBreak) {
-        visit_expr_break_mut(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_call_mut(&mut self, i: &mut ExprCall) {
@@ -151,21 +127,9 @@ pub trait VisitMut {
     fn visit_expr_cast_mut(&mut self, i: &mut ExprCast) {
         visit_expr_cast_mut(self, i)
     }
-    #[cfg(feature = "full")]
-    fn visit_expr_closure_mut(&mut self, i: &mut ExprClosure) {
-        visit_expr_closure_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_continue_mut(&mut self, i: &mut ExprContinue) {
-        visit_expr_continue_mut(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_field_mut(&mut self, i: &mut ExprField) {
         visit_expr_field_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_for_loop_mut(&mut self, i: &mut ExprForLoop) {
-        visit_expr_for_loop_mut(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_expr_group_mut(&mut self, i: &mut ExprGroup) {
@@ -186,10 +150,6 @@ pub trait VisitMut {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_lit_mut(&mut self, i: &mut ExprLit) {
         visit_expr_lit_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_loop_mut(&mut self, i: &mut ExprLoop) {
-        visit_expr_loop_mut(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_expr_macro_mut(&mut self, i: &mut ExprMacro) {
@@ -232,14 +192,6 @@ pub trait VisitMut {
         visit_expr_struct_mut(self, i)
     }
     #[cfg(feature = "full")]
-    fn visit_expr_try_mut(&mut self, i: &mut ExprTry) {
-        visit_expr_try_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_try_block_mut(&mut self, i: &mut ExprTryBlock) {
-        visit_expr_try_block_mut(self, i)
-    }
-    #[cfg(feature = "full")]
     fn visit_expr_tuple_mut(&mut self, i: &mut ExprTuple) {
         visit_expr_tuple_mut(self, i)
     }
@@ -250,18 +202,6 @@ pub trait VisitMut {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_unary_mut(&mut self, i: &mut ExprUnary) {
         visit_expr_unary_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_unsafe_mut(&mut self, i: &mut ExprUnsafe) {
-        visit_expr_unsafe_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_while_mut(&mut self, i: &mut ExprWhile) {
-        visit_expr_while_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_yield_mut(&mut self, i: &mut ExprYield) {
-        visit_expr_yield_mut(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_field_mut(&mut self, i: &mut Field) {
@@ -1093,29 +1033,11 @@ where
         Expr::Array(_binding_0) => {
             full!(v.visit_expr_array_mut(_binding_0));
         }
-        Expr::Assign(_binding_0) => {
-            full!(v.visit_expr_assign_mut(_binding_0));
-        }
-        Expr::AssignOp(_binding_0) => {
-            full!(v.visit_expr_assign_op_mut(_binding_0));
-        }
-        Expr::Async(_binding_0) => {
-            full!(v.visit_expr_async_mut(_binding_0));
-        }
-        Expr::Await(_binding_0) => {
-            full!(v.visit_expr_await_mut(_binding_0));
-        }
         Expr::Binary(_binding_0) => {
             v.visit_expr_binary_mut(_binding_0);
         }
         Expr::Block(_binding_0) => {
             full!(v.visit_expr_block_mut(_binding_0));
-        }
-        Expr::Box(_binding_0) => {
-            full!(v.visit_expr_box_mut(_binding_0));
-        }
-        Expr::Break(_binding_0) => {
-            full!(v.visit_expr_break_mut(_binding_0));
         }
         Expr::Call(_binding_0) => {
             v.visit_expr_call_mut(_binding_0);
@@ -1123,17 +1045,8 @@ where
         Expr::Cast(_binding_0) => {
             v.visit_expr_cast_mut(_binding_0);
         }
-        Expr::Closure(_binding_0) => {
-            full!(v.visit_expr_closure_mut(_binding_0));
-        }
-        Expr::Continue(_binding_0) => {
-            full!(v.visit_expr_continue_mut(_binding_0));
-        }
         Expr::Field(_binding_0) => {
             v.visit_expr_field_mut(_binding_0);
-        }
-        Expr::ForLoop(_binding_0) => {
-            full!(v.visit_expr_for_loop_mut(_binding_0));
         }
         Expr::Group(_binding_0) => {
             full!(v.visit_expr_group_mut(_binding_0));
@@ -1149,9 +1062,6 @@ where
         }
         Expr::Lit(_binding_0) => {
             v.visit_expr_lit_mut(_binding_0);
-        }
-        Expr::Loop(_binding_0) => {
-            full!(v.visit_expr_loop_mut(_binding_0));
         }
         Expr::Macro(_binding_0) => {
             full!(v.visit_expr_macro_mut(_binding_0));
@@ -1183,12 +1093,6 @@ where
         Expr::Struct(_binding_0) => {
             full!(v.visit_expr_struct_mut(_binding_0));
         }
-        Expr::Try(_binding_0) => {
-            full!(v.visit_expr_try_mut(_binding_0));
-        }
-        Expr::TryBlock(_binding_0) => {
-            full!(v.visit_expr_try_block_mut(_binding_0));
-        }
         Expr::Tuple(_binding_0) => {
             full!(v.visit_expr_tuple_mut(_binding_0));
         }
@@ -1198,17 +1102,8 @@ where
         Expr::Unary(_binding_0) => {
             v.visit_expr_unary_mut(_binding_0);
         }
-        Expr::Unsafe(_binding_0) => {
-            full!(v.visit_expr_unsafe_mut(_binding_0));
-        }
         Expr::Verbatim(_binding_0) => {
             skip!(_binding_0);
-        }
-        Expr::While(_binding_0) => {
-            full!(v.visit_expr_while_mut(_binding_0));
-        }
-        Expr::Yield(_binding_0) => {
-            full!(v.visit_expr_yield_mut(_binding_0));
         }
         _ => unreachable!(),
     }
@@ -1229,56 +1124,6 @@ where
             tokens_helper(v, &mut p.spans);
         }
     }
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_assign_mut<V>(v: &mut V, node: &mut ExprAssign)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    v.visit_expr_mut(&mut *node.left);
-    tokens_helper(v, &mut node.eq_token.spans);
-    v.visit_expr_mut(&mut *node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_assign_op_mut<V>(v: &mut V, node: &mut ExprAssignOp)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    v.visit_expr_mut(&mut *node.left);
-    v.visit_bin_op_mut(&mut node.op);
-    v.visit_expr_mut(&mut *node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_async_mut<V>(v: &mut V, node: &mut ExprAsync)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    tokens_helper(v, &mut node.async_token.span);
-    if let Some(it) = &mut node.capture {
-        tokens_helper(v, &mut it.span)
-    };
-    v.visit_block_mut(&mut node.block);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_await_mut<V>(v: &mut V, node: &mut ExprAwait)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    v.visit_expr_mut(&mut *node.base);
-    tokens_helper(v, &mut node.dot_token.spans);
-    tokens_helper(v, &mut node.await_token.span);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_expr_binary_mut<V>(v: &mut V, node: &mut ExprBinary)
@@ -1304,33 +1149,6 @@ where
         v.visit_label_mut(it)
     };
     v.visit_block_mut(&mut node.block);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_box_mut<V>(v: &mut V, node: &mut ExprBox)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    tokens_helper(v, &mut node.box_token.span);
-    v.visit_expr_mut(&mut *node.expr);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_break_mut<V>(v: &mut V, node: &mut ExprBreak)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    tokens_helper(v, &mut node.break_token.span);
-    if let Some(it) = &mut node.label {
-        v.visit_lifetime_mut(it)
-    };
-    if let Some(it) = &mut node.expr {
-        v.visit_expr_mut(&mut **it)
-    };
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_expr_call_mut<V>(v: &mut V, node: &mut ExprCall)
@@ -1362,48 +1180,6 @@ where
     tokens_helper(v, &mut node.as_token.span);
     v.visit_type_mut(&mut *node.ty);
 }
-#[cfg(feature = "full")]
-pub fn visit_expr_closure_mut<V>(v: &mut V, node: &mut ExprClosure)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    if let Some(it) = &mut node.asyncness {
-        tokens_helper(v, &mut it.span)
-    };
-    if let Some(it) = &mut node.movability {
-        tokens_helper(v, &mut it.span)
-    };
-    if let Some(it) = &mut node.capture {
-        tokens_helper(v, &mut it.span)
-    };
-    tokens_helper(v, &mut node.or1_token.spans);
-    for el in Punctuated::pairs_mut(&mut node.inputs) {
-        let (it, p) = el.into_tuple();
-        v.visit_pat_mut(it);
-        if let Some(p) = p {
-            tokens_helper(v, &mut p.spans);
-        }
-    }
-    tokens_helper(v, &mut node.or2_token.spans);
-    v.visit_return_type_mut(&mut node.output);
-    v.visit_expr_mut(&mut *node.body);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_continue_mut<V>(v: &mut V, node: &mut ExprContinue)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    tokens_helper(v, &mut node.continue_token.span);
-    if let Some(it) = &mut node.label {
-        v.visit_lifetime_mut(it)
-    };
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_expr_field_mut<V>(v: &mut V, node: &mut ExprField)
 where
@@ -1415,23 +1191,6 @@ where
     v.visit_expr_mut(&mut *node.base);
     tokens_helper(v, &mut node.dot_token.spans);
     v.visit_member_mut(&mut node.member);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_for_loop_mut<V>(v: &mut V, node: &mut ExprForLoop)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    if let Some(it) = &mut node.label {
-        v.visit_label_mut(it)
-    };
-    tokens_helper(v, &mut node.for_token.span);
-    v.visit_pat_mut(&mut node.pat);
-    tokens_helper(v, &mut node.in_token.span);
-    v.visit_expr_mut(&mut *node.expr);
-    v.visit_block_mut(&mut node.body);
 }
 #[cfg(feature = "full")]
 pub fn visit_expr_group_mut<V>(v: &mut V, node: &mut ExprGroup)
@@ -1494,20 +1253,6 @@ where
         v.visit_attribute_mut(it)
     }
     v.visit_lit_mut(&mut node.lit);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_loop_mut<V>(v: &mut V, node: &mut ExprLoop)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    if let Some(it) = &mut node.label {
-        v.visit_label_mut(it)
-    };
-    tokens_helper(v, &mut node.loop_token.span);
-    v.visit_block_mut(&mut node.body);
 }
 #[cfg(feature = "full")]
 pub fn visit_expr_macro_mut<V>(v: &mut V, node: &mut ExprMacro)
@@ -1662,28 +1407,6 @@ where
     };
 }
 #[cfg(feature = "full")]
-pub fn visit_expr_try_mut<V>(v: &mut V, node: &mut ExprTry)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    v.visit_expr_mut(&mut *node.expr);
-    tokens_helper(v, &mut node.question_token.spans);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_try_block_mut<V>(v: &mut V, node: &mut ExprTryBlock)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    tokens_helper(v, &mut node.try_token.span);
-    v.visit_block_mut(&mut node.block);
-}
-#[cfg(feature = "full")]
 pub fn visit_expr_tuple_mut<V>(v: &mut V, node: &mut ExprTuple)
 where
     V: VisitMut + ?Sized,
@@ -1722,45 +1445,6 @@ where
     }
     v.visit_un_op_mut(&mut node.op);
     v.visit_expr_mut(&mut *node.expr);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_unsafe_mut<V>(v: &mut V, node: &mut ExprUnsafe)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    tokens_helper(v, &mut node.unsafe_token.span);
-    v.visit_block_mut(&mut node.block);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_while_mut<V>(v: &mut V, node: &mut ExprWhile)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    if let Some(it) = &mut node.label {
-        v.visit_label_mut(it)
-    };
-    tokens_helper(v, &mut node.while_token.span);
-    v.visit_expr_mut(&mut *node.cond);
-    v.visit_block_mut(&mut node.body);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_yield_mut<V>(v: &mut V, node: &mut ExprYield)
-where
-    V: VisitMut + ?Sized,
-{
-    for it in &mut node.attrs {
-        v.visit_attribute_mut(it)
-    }
-    tokens_helper(v, &mut node.yield_token.span);
-    if let Some(it) = &mut node.expr {
-        v.visit_expr_mut(&mut **it)
-    };
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_field_mut<V>(v: &mut V, node: &mut Field)

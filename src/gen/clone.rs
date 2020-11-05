@@ -185,30 +185,12 @@ impl Clone for Expr {
         match self {
             #[cfg(feature = "full")]
             Expr::Array(v0) => Expr::Array(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Assign(v0) => Expr::Assign(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::AssignOp(v0) => Expr::AssignOp(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Async(v0) => Expr::Async(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Await(v0) => Expr::Await(v0.clone()),
             Expr::Binary(v0) => Expr::Binary(v0.clone()),
             #[cfg(feature = "full")]
             Expr::Block(v0) => Expr::Block(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Box(v0) => Expr::Box(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Break(v0) => Expr::Break(v0.clone()),
             Expr::Call(v0) => Expr::Call(v0.clone()),
             Expr::Cast(v0) => Expr::Cast(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Closure(v0) => Expr::Closure(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Continue(v0) => Expr::Continue(v0.clone()),
             Expr::Field(v0) => Expr::Field(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::ForLoop(v0) => Expr::ForLoop(v0.clone()),
             #[cfg(feature = "full")]
             Expr::Group(v0) => Expr::Group(v0.clone()),
             #[cfg(feature = "full")]
@@ -217,8 +199,6 @@ impl Clone for Expr {
             #[cfg(feature = "full")]
             Expr::Let(v0) => Expr::Let(v0.clone()),
             Expr::Lit(v0) => Expr::Lit(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Loop(v0) => Expr::Loop(v0.clone()),
             #[cfg(feature = "full")]
             Expr::Macro(v0) => Expr::Macro(v0.clone()),
             #[cfg(feature = "full")]
@@ -238,21 +218,11 @@ impl Clone for Expr {
             #[cfg(feature = "full")]
             Expr::Struct(v0) => Expr::Struct(v0.clone()),
             #[cfg(feature = "full")]
-            Expr::Try(v0) => Expr::Try(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::TryBlock(v0) => Expr::TryBlock(v0.clone()),
-            #[cfg(feature = "full")]
             Expr::Tuple(v0) => Expr::Tuple(v0.clone()),
             #[cfg(feature = "full")]
             Expr::Type(v0) => Expr::Type(v0.clone()),
             Expr::Unary(v0) => Expr::Unary(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Unsafe(v0) => Expr::Unsafe(v0.clone()),
             Expr::Verbatim(v0) => Expr::Verbatim(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::While(v0) => Expr::While(v0.clone()),
-            #[cfg(feature = "full")]
-            Expr::Yield(v0) => Expr::Yield(v0.clone()),
             _ => unreachable!(),
         }
     }
@@ -264,50 +234,6 @@ impl Clone for ExprArray {
             attrs: self.attrs.clone(),
             bracket_token: self.bracket_token.clone(),
             elems: self.elems.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprAssign {
-    fn clone(&self) -> Self {
-        ExprAssign {
-            attrs: self.attrs.clone(),
-            left: self.left.clone(),
-            eq_token: self.eq_token.clone(),
-            right: self.right.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprAssignOp {
-    fn clone(&self) -> Self {
-        ExprAssignOp {
-            attrs: self.attrs.clone(),
-            left: self.left.clone(),
-            op: self.op.clone(),
-            right: self.right.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprAsync {
-    fn clone(&self) -> Self {
-        ExprAsync {
-            attrs: self.attrs.clone(),
-            async_token: self.async_token.clone(),
-            capture: self.capture.clone(),
-            block: self.block.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprAwait {
-    fn clone(&self) -> Self {
-        ExprAwait {
-            attrs: self.attrs.clone(),
-            base: self.base.clone(),
-            dot_token: self.dot_token.clone(),
-            await_token: self.await_token.clone(),
         }
     }
 }
@@ -329,27 +255,6 @@ impl Clone for ExprBlock {
             attrs: self.attrs.clone(),
             label: self.label.clone(),
             block: self.block.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprBox {
-    fn clone(&self) -> Self {
-        ExprBox {
-            attrs: self.attrs.clone(),
-            box_token: self.box_token.clone(),
-            expr: self.expr.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprBreak {
-    fn clone(&self) -> Self {
-        ExprBreak {
-            attrs: self.attrs.clone(),
-            break_token: self.break_token.clone(),
-            label: self.label.clone(),
-            expr: self.expr.clone(),
         }
     }
 }
@@ -375,32 +280,6 @@ impl Clone for ExprCast {
         }
     }
 }
-#[cfg(feature = "full")]
-impl Clone for ExprClosure {
-    fn clone(&self) -> Self {
-        ExprClosure {
-            attrs: self.attrs.clone(),
-            asyncness: self.asyncness.clone(),
-            movability: self.movability.clone(),
-            capture: self.capture.clone(),
-            or1_token: self.or1_token.clone(),
-            inputs: self.inputs.clone(),
-            or2_token: self.or2_token.clone(),
-            output: self.output.clone(),
-            body: self.body.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprContinue {
-    fn clone(&self) -> Self {
-        ExprContinue {
-            attrs: self.attrs.clone(),
-            continue_token: self.continue_token.clone(),
-            label: self.label.clone(),
-        }
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Clone for ExprField {
     fn clone(&self) -> Self {
@@ -409,20 +288,6 @@ impl Clone for ExprField {
             base: self.base.clone(),
             dot_token: self.dot_token.clone(),
             member: self.member.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprForLoop {
-    fn clone(&self) -> Self {
-        ExprForLoop {
-            attrs: self.attrs.clone(),
-            label: self.label.clone(),
-            for_token: self.for_token.clone(),
-            pat: self.pat.clone(),
-            in_token: self.in_token.clone(),
-            expr: self.expr.clone(),
-            body: self.body.clone(),
         }
     }
 }
@@ -477,17 +342,6 @@ impl Clone for ExprLit {
         ExprLit {
             attrs: self.attrs.clone(),
             lit: self.lit.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprLoop {
-    fn clone(&self) -> Self {
-        ExprLoop {
-            attrs: self.attrs.clone(),
-            label: self.label.clone(),
-            loop_token: self.loop_token.clone(),
-            body: self.body.clone(),
         }
     }
 }
@@ -605,26 +459,6 @@ impl Clone for ExprStruct {
     }
 }
 #[cfg(feature = "full")]
-impl Clone for ExprTry {
-    fn clone(&self) -> Self {
-        ExprTry {
-            attrs: self.attrs.clone(),
-            expr: self.expr.clone(),
-            question_token: self.question_token.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprTryBlock {
-    fn clone(&self) -> Self {
-        ExprTryBlock {
-            attrs: self.attrs.clone(),
-            try_token: self.try_token.clone(),
-            block: self.block.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
 impl Clone for ExprTuple {
     fn clone(&self) -> Self {
         ExprTuple {
@@ -651,38 +485,6 @@ impl Clone for ExprUnary {
         ExprUnary {
             attrs: self.attrs.clone(),
             op: self.op.clone(),
-            expr: self.expr.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprUnsafe {
-    fn clone(&self) -> Self {
-        ExprUnsafe {
-            attrs: self.attrs.clone(),
-            unsafe_token: self.unsafe_token.clone(),
-            block: self.block.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprWhile {
-    fn clone(&self) -> Self {
-        ExprWhile {
-            attrs: self.attrs.clone(),
-            label: self.label.clone(),
-            while_token: self.while_token.clone(),
-            cond: self.cond.clone(),
-            body: self.body.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for ExprYield {
-    fn clone(&self) -> Self {
-        ExprYield {
-            attrs: self.attrs.clone(),
-            yield_token: self.yield_token.clone(),
             expr: self.expr.clone(),
         }
     }

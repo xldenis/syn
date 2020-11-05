@@ -346,11 +346,11 @@ pub use crate::expr::{
 };
 #[cfg(any(feature = "full", feature = "derive"))]
 pub use crate::expr::{
-    Expr, ExprArray, ExprAssign, ExprAssignOp, ExprAsync, ExprAwait, ExprBinary, ExprBlock,
-    ExprBox, ExprBreak, ExprCall, ExprCast, ExprClosure, ExprContinue, ExprField, ExprForLoop,
-    ExprGroup, ExprIf, ExprIndex, ExprLet, ExprLit, ExprLoop, ExprMacro, ExprMatch, ExprMethodCall,
-    ExprParen, ExprPath, ExprRange, ExprReference, ExprRepeat, ExprReturn, ExprStruct, ExprTry,
-    ExprTryBlock, ExprTuple, ExprType, ExprUnary, ExprUnsafe, ExprWhile, ExprYield, Index, Member,
+    Expr, ExprArray, ExprBinary, ExprBlock,
+    ExprCall, ExprCast, ExprField,
+    ExprGroup, ExprIf, ExprIndex, ExprLet, ExprLit, ExprMacro, ExprMatch, ExprMethodCall,
+    ExprParen, ExprPath, ExprRange, ExprReference, ExprRepeat, ExprReturn, ExprStruct,
+    ExprTuple, ExprType, ExprUnary, Index, Member,
 };
 
 #[cfg(any(feature = "full", feature = "derive"))]

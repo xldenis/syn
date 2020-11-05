@@ -107,22 +107,6 @@ pub trait Visit<'ast> {
     fn visit_expr_array(&mut self, i: &'ast ExprArray) {
         visit_expr_array(self, i)
     }
-    #[cfg(feature = "full")]
-    fn visit_expr_assign(&mut self, i: &'ast ExprAssign) {
-        visit_expr_assign(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_assign_op(&mut self, i: &'ast ExprAssignOp) {
-        visit_expr_assign_op(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_async(&mut self, i: &'ast ExprAsync) {
-        visit_expr_async(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_await(&mut self, i: &'ast ExprAwait) {
-        visit_expr_await(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_binary(&mut self, i: &'ast ExprBinary) {
         visit_expr_binary(self, i)
@@ -130,14 +114,6 @@ pub trait Visit<'ast> {
     #[cfg(feature = "full")]
     fn visit_expr_block(&mut self, i: &'ast ExprBlock) {
         visit_expr_block(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_box(&mut self, i: &'ast ExprBox) {
-        visit_expr_box(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_break(&mut self, i: &'ast ExprBreak) {
-        visit_expr_break(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_call(&mut self, i: &'ast ExprCall) {
@@ -147,21 +123,9 @@ pub trait Visit<'ast> {
     fn visit_expr_cast(&mut self, i: &'ast ExprCast) {
         visit_expr_cast(self, i)
     }
-    #[cfg(feature = "full")]
-    fn visit_expr_closure(&mut self, i: &'ast ExprClosure) {
-        visit_expr_closure(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_continue(&mut self, i: &'ast ExprContinue) {
-        visit_expr_continue(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_field(&mut self, i: &'ast ExprField) {
         visit_expr_field(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_for_loop(&mut self, i: &'ast ExprForLoop) {
-        visit_expr_for_loop(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_expr_group(&mut self, i: &'ast ExprGroup) {
@@ -182,10 +146,6 @@ pub trait Visit<'ast> {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_lit(&mut self, i: &'ast ExprLit) {
         visit_expr_lit(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_loop(&mut self, i: &'ast ExprLoop) {
-        visit_expr_loop(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_expr_macro(&mut self, i: &'ast ExprMacro) {
@@ -228,14 +188,6 @@ pub trait Visit<'ast> {
         visit_expr_struct(self, i)
     }
     #[cfg(feature = "full")]
-    fn visit_expr_try(&mut self, i: &'ast ExprTry) {
-        visit_expr_try(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_try_block(&mut self, i: &'ast ExprTryBlock) {
-        visit_expr_try_block(self, i)
-    }
-    #[cfg(feature = "full")]
     fn visit_expr_tuple(&mut self, i: &'ast ExprTuple) {
         visit_expr_tuple(self, i)
     }
@@ -246,18 +198,6 @@ pub trait Visit<'ast> {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_expr_unary(&mut self, i: &'ast ExprUnary) {
         visit_expr_unary(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_unsafe(&mut self, i: &'ast ExprUnsafe) {
-        visit_expr_unsafe(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_while(&mut self, i: &'ast ExprWhile) {
-        visit_expr_while(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_expr_yield(&mut self, i: &'ast ExprYield) {
-        visit_expr_yield(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_field(&mut self, i: &'ast Field) {
@@ -1089,29 +1029,11 @@ where
         Expr::Array(_binding_0) => {
             full!(v.visit_expr_array(_binding_0));
         }
-        Expr::Assign(_binding_0) => {
-            full!(v.visit_expr_assign(_binding_0));
-        }
-        Expr::AssignOp(_binding_0) => {
-            full!(v.visit_expr_assign_op(_binding_0));
-        }
-        Expr::Async(_binding_0) => {
-            full!(v.visit_expr_async(_binding_0));
-        }
-        Expr::Await(_binding_0) => {
-            full!(v.visit_expr_await(_binding_0));
-        }
         Expr::Binary(_binding_0) => {
             v.visit_expr_binary(_binding_0);
         }
         Expr::Block(_binding_0) => {
             full!(v.visit_expr_block(_binding_0));
-        }
-        Expr::Box(_binding_0) => {
-            full!(v.visit_expr_box(_binding_0));
-        }
-        Expr::Break(_binding_0) => {
-            full!(v.visit_expr_break(_binding_0));
         }
         Expr::Call(_binding_0) => {
             v.visit_expr_call(_binding_0);
@@ -1119,17 +1041,8 @@ where
         Expr::Cast(_binding_0) => {
             v.visit_expr_cast(_binding_0);
         }
-        Expr::Closure(_binding_0) => {
-            full!(v.visit_expr_closure(_binding_0));
-        }
-        Expr::Continue(_binding_0) => {
-            full!(v.visit_expr_continue(_binding_0));
-        }
         Expr::Field(_binding_0) => {
             v.visit_expr_field(_binding_0);
-        }
-        Expr::ForLoop(_binding_0) => {
-            full!(v.visit_expr_for_loop(_binding_0));
         }
         Expr::Group(_binding_0) => {
             full!(v.visit_expr_group(_binding_0));
@@ -1145,9 +1058,6 @@ where
         }
         Expr::Lit(_binding_0) => {
             v.visit_expr_lit(_binding_0);
-        }
-        Expr::Loop(_binding_0) => {
-            full!(v.visit_expr_loop(_binding_0));
         }
         Expr::Macro(_binding_0) => {
             full!(v.visit_expr_macro(_binding_0));
@@ -1179,12 +1089,6 @@ where
         Expr::Struct(_binding_0) => {
             full!(v.visit_expr_struct(_binding_0));
         }
-        Expr::Try(_binding_0) => {
-            full!(v.visit_expr_try(_binding_0));
-        }
-        Expr::TryBlock(_binding_0) => {
-            full!(v.visit_expr_try_block(_binding_0));
-        }
         Expr::Tuple(_binding_0) => {
             full!(v.visit_expr_tuple(_binding_0));
         }
@@ -1194,17 +1098,8 @@ where
         Expr::Unary(_binding_0) => {
             v.visit_expr_unary(_binding_0);
         }
-        Expr::Unsafe(_binding_0) => {
-            full!(v.visit_expr_unsafe(_binding_0));
-        }
         Expr::Verbatim(_binding_0) => {
             skip!(_binding_0);
-        }
-        Expr::While(_binding_0) => {
-            full!(v.visit_expr_while(_binding_0));
-        }
-        Expr::Yield(_binding_0) => {
-            full!(v.visit_expr_yield(_binding_0));
         }
         _ => unreachable!(),
     }
@@ -1225,56 +1120,6 @@ where
             tokens_helper(v, &p.spans);
         }
     }
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_assign<'ast, V>(v: &mut V, node: &'ast ExprAssign)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_expr(&*node.left);
-    tokens_helper(v, &node.eq_token.spans);
-    v.visit_expr(&*node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_assign_op<'ast, V>(v: &mut V, node: &'ast ExprAssignOp)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_expr(&*node.left);
-    v.visit_bin_op(&node.op);
-    v.visit_expr(&*node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_async<'ast, V>(v: &mut V, node: &'ast ExprAsync)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    tokens_helper(v, &node.async_token.span);
-    if let Some(it) = &node.capture {
-        tokens_helper(v, &it.span)
-    };
-    v.visit_block(&node.block);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_await<'ast, V>(v: &mut V, node: &'ast ExprAwait)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_expr(&*node.base);
-    tokens_helper(v, &node.dot_token.spans);
-    tokens_helper(v, &node.await_token.span);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_expr_binary<'ast, V>(v: &mut V, node: &'ast ExprBinary)
@@ -1300,33 +1145,6 @@ where
         v.visit_label(it)
     };
     v.visit_block(&node.block);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_box<'ast, V>(v: &mut V, node: &'ast ExprBox)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    tokens_helper(v, &node.box_token.span);
-    v.visit_expr(&*node.expr);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_break<'ast, V>(v: &mut V, node: &'ast ExprBreak)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    tokens_helper(v, &node.break_token.span);
-    if let Some(it) = &node.label {
-        v.visit_lifetime(it)
-    };
-    if let Some(it) = &node.expr {
-        v.visit_expr(&**it)
-    };
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_expr_call<'ast, V>(v: &mut V, node: &'ast ExprCall)
@@ -1358,48 +1176,6 @@ where
     tokens_helper(v, &node.as_token.span);
     v.visit_type(&*node.ty);
 }
-#[cfg(feature = "full")]
-pub fn visit_expr_closure<'ast, V>(v: &mut V, node: &'ast ExprClosure)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    if let Some(it) = &node.asyncness {
-        tokens_helper(v, &it.span)
-    };
-    if let Some(it) = &node.movability {
-        tokens_helper(v, &it.span)
-    };
-    if let Some(it) = &node.capture {
-        tokens_helper(v, &it.span)
-    };
-    tokens_helper(v, &node.or1_token.spans);
-    for el in Punctuated::pairs(&node.inputs) {
-        let (it, p) = el.into_tuple();
-        v.visit_pat(it);
-        if let Some(p) = p {
-            tokens_helper(v, &p.spans);
-        }
-    }
-    tokens_helper(v, &node.or2_token.spans);
-    v.visit_return_type(&node.output);
-    v.visit_expr(&*node.body);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_continue<'ast, V>(v: &mut V, node: &'ast ExprContinue)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    tokens_helper(v, &node.continue_token.span);
-    if let Some(it) = &node.label {
-        v.visit_lifetime(it)
-    };
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_expr_field<'ast, V>(v: &mut V, node: &'ast ExprField)
 where
@@ -1411,23 +1187,6 @@ where
     v.visit_expr(&*node.base);
     tokens_helper(v, &node.dot_token.spans);
     v.visit_member(&node.member);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_for_loop<'ast, V>(v: &mut V, node: &'ast ExprForLoop)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    if let Some(it) = &node.label {
-        v.visit_label(it)
-    };
-    tokens_helper(v, &node.for_token.span);
-    v.visit_pat(&node.pat);
-    tokens_helper(v, &node.in_token.span);
-    v.visit_expr(&*node.expr);
-    v.visit_block(&node.body);
 }
 #[cfg(feature = "full")]
 pub fn visit_expr_group<'ast, V>(v: &mut V, node: &'ast ExprGroup)
@@ -1490,20 +1249,6 @@ where
         v.visit_attribute(it)
     }
     v.visit_lit(&node.lit);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_loop<'ast, V>(v: &mut V, node: &'ast ExprLoop)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    if let Some(it) = &node.label {
-        v.visit_label(it)
-    };
-    tokens_helper(v, &node.loop_token.span);
-    v.visit_block(&node.body);
 }
 #[cfg(feature = "full")]
 pub fn visit_expr_macro<'ast, V>(v: &mut V, node: &'ast ExprMacro)
@@ -1658,28 +1403,6 @@ where
     };
 }
 #[cfg(feature = "full")]
-pub fn visit_expr_try<'ast, V>(v: &mut V, node: &'ast ExprTry)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    v.visit_expr(&*node.expr);
-    tokens_helper(v, &node.question_token.spans);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_try_block<'ast, V>(v: &mut V, node: &'ast ExprTryBlock)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    tokens_helper(v, &node.try_token.span);
-    v.visit_block(&node.block);
-}
-#[cfg(feature = "full")]
 pub fn visit_expr_tuple<'ast, V>(v: &mut V, node: &'ast ExprTuple)
 where
     V: Visit<'ast> + ?Sized,
@@ -1718,45 +1441,6 @@ where
     }
     v.visit_un_op(&node.op);
     v.visit_expr(&*node.expr);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_unsafe<'ast, V>(v: &mut V, node: &'ast ExprUnsafe)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    tokens_helper(v, &node.unsafe_token.span);
-    v.visit_block(&node.block);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_while<'ast, V>(v: &mut V, node: &'ast ExprWhile)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    if let Some(it) = &node.label {
-        v.visit_label(it)
-    };
-    tokens_helper(v, &node.while_token.span);
-    v.visit_expr(&*node.cond);
-    v.visit_block(&node.body);
-}
-#[cfg(feature = "full")]
-pub fn visit_expr_yield<'ast, V>(v: &mut V, node: &'ast ExprYield)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    for it in &node.attrs {
-        v.visit_attribute(it)
-    }
-    tokens_helper(v, &node.yield_token.span);
-    if let Some(it) = &node.expr {
-        v.visit_expr(&**it)
-    };
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_field<'ast, V>(v: &mut V, node: &'ast Field)

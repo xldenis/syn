@@ -108,22 +108,6 @@ pub trait Fold {
     fn fold_expr_array(&mut self, i: ExprArray) -> ExprArray {
         fold_expr_array(self, i)
     }
-    #[cfg(feature = "full")]
-    fn fold_expr_assign(&mut self, i: ExprAssign) -> ExprAssign {
-        fold_expr_assign(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_assign_op(&mut self, i: ExprAssignOp) -> ExprAssignOp {
-        fold_expr_assign_op(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_async(&mut self, i: ExprAsync) -> ExprAsync {
-        fold_expr_async(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_await(&mut self, i: ExprAwait) -> ExprAwait {
-        fold_expr_await(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_expr_binary(&mut self, i: ExprBinary) -> ExprBinary {
         fold_expr_binary(self, i)
@@ -131,14 +115,6 @@ pub trait Fold {
     #[cfg(feature = "full")]
     fn fold_expr_block(&mut self, i: ExprBlock) -> ExprBlock {
         fold_expr_block(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_box(&mut self, i: ExprBox) -> ExprBox {
-        fold_expr_box(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_break(&mut self, i: ExprBreak) -> ExprBreak {
-        fold_expr_break(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_expr_call(&mut self, i: ExprCall) -> ExprCall {
@@ -148,21 +124,9 @@ pub trait Fold {
     fn fold_expr_cast(&mut self, i: ExprCast) -> ExprCast {
         fold_expr_cast(self, i)
     }
-    #[cfg(feature = "full")]
-    fn fold_expr_closure(&mut self, i: ExprClosure) -> ExprClosure {
-        fold_expr_closure(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_continue(&mut self, i: ExprContinue) -> ExprContinue {
-        fold_expr_continue(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_expr_field(&mut self, i: ExprField) -> ExprField {
         fold_expr_field(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_for_loop(&mut self, i: ExprForLoop) -> ExprForLoop {
-        fold_expr_for_loop(self, i)
     }
     #[cfg(feature = "full")]
     fn fold_expr_group(&mut self, i: ExprGroup) -> ExprGroup {
@@ -183,10 +147,6 @@ pub trait Fold {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_expr_lit(&mut self, i: ExprLit) -> ExprLit {
         fold_expr_lit(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_loop(&mut self, i: ExprLoop) -> ExprLoop {
-        fold_expr_loop(self, i)
     }
     #[cfg(feature = "full")]
     fn fold_expr_macro(&mut self, i: ExprMacro) -> ExprMacro {
@@ -229,14 +189,6 @@ pub trait Fold {
         fold_expr_struct(self, i)
     }
     #[cfg(feature = "full")]
-    fn fold_expr_try(&mut self, i: ExprTry) -> ExprTry {
-        fold_expr_try(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_try_block(&mut self, i: ExprTryBlock) -> ExprTryBlock {
-        fold_expr_try_block(self, i)
-    }
-    #[cfg(feature = "full")]
     fn fold_expr_tuple(&mut self, i: ExprTuple) -> ExprTuple {
         fold_expr_tuple(self, i)
     }
@@ -247,18 +199,6 @@ pub trait Fold {
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_expr_unary(&mut self, i: ExprUnary) -> ExprUnary {
         fold_expr_unary(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_unsafe(&mut self, i: ExprUnsafe) -> ExprUnsafe {
-        fold_expr_unsafe(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_while(&mut self, i: ExprWhile) -> ExprWhile {
-        fold_expr_while(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_expr_yield(&mut self, i: ExprYield) -> ExprYield {
-        fold_expr_yield(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_field(&mut self, i: Field) -> Field {
@@ -1030,26 +970,16 @@ where
 {
     match node {
         Expr::Array(_binding_0) => Expr::Array(full!(f.fold_expr_array(_binding_0))),
-        Expr::Assign(_binding_0) => Expr::Assign(full!(f.fold_expr_assign(_binding_0))),
-        Expr::AssignOp(_binding_0) => Expr::AssignOp(full!(f.fold_expr_assign_op(_binding_0))),
-        Expr::Async(_binding_0) => Expr::Async(full!(f.fold_expr_async(_binding_0))),
-        Expr::Await(_binding_0) => Expr::Await(full!(f.fold_expr_await(_binding_0))),
         Expr::Binary(_binding_0) => Expr::Binary(f.fold_expr_binary(_binding_0)),
         Expr::Block(_binding_0) => Expr::Block(full!(f.fold_expr_block(_binding_0))),
-        Expr::Box(_binding_0) => Expr::Box(full!(f.fold_expr_box(_binding_0))),
-        Expr::Break(_binding_0) => Expr::Break(full!(f.fold_expr_break(_binding_0))),
         Expr::Call(_binding_0) => Expr::Call(f.fold_expr_call(_binding_0)),
         Expr::Cast(_binding_0) => Expr::Cast(f.fold_expr_cast(_binding_0)),
-        Expr::Closure(_binding_0) => Expr::Closure(full!(f.fold_expr_closure(_binding_0))),
-        Expr::Continue(_binding_0) => Expr::Continue(full!(f.fold_expr_continue(_binding_0))),
         Expr::Field(_binding_0) => Expr::Field(f.fold_expr_field(_binding_0)),
-        Expr::ForLoop(_binding_0) => Expr::ForLoop(full!(f.fold_expr_for_loop(_binding_0))),
         Expr::Group(_binding_0) => Expr::Group(full!(f.fold_expr_group(_binding_0))),
         Expr::If(_binding_0) => Expr::If(full!(f.fold_expr_if(_binding_0))),
         Expr::Index(_binding_0) => Expr::Index(f.fold_expr_index(_binding_0)),
         Expr::Let(_binding_0) => Expr::Let(full!(f.fold_expr_let(_binding_0))),
         Expr::Lit(_binding_0) => Expr::Lit(f.fold_expr_lit(_binding_0)),
-        Expr::Loop(_binding_0) => Expr::Loop(full!(f.fold_expr_loop(_binding_0))),
         Expr::Macro(_binding_0) => Expr::Macro(full!(f.fold_expr_macro(_binding_0))),
         Expr::Match(_binding_0) => Expr::Match(full!(f.fold_expr_match(_binding_0))),
         Expr::MethodCall(_binding_0) => {
@@ -1062,15 +992,10 @@ where
         Expr::Repeat(_binding_0) => Expr::Repeat(full!(f.fold_expr_repeat(_binding_0))),
         Expr::Return(_binding_0) => Expr::Return(full!(f.fold_expr_return(_binding_0))),
         Expr::Struct(_binding_0) => Expr::Struct(full!(f.fold_expr_struct(_binding_0))),
-        Expr::Try(_binding_0) => Expr::Try(full!(f.fold_expr_try(_binding_0))),
-        Expr::TryBlock(_binding_0) => Expr::TryBlock(full!(f.fold_expr_try_block(_binding_0))),
         Expr::Tuple(_binding_0) => Expr::Tuple(full!(f.fold_expr_tuple(_binding_0))),
         Expr::Type(_binding_0) => Expr::Type(full!(f.fold_expr_type(_binding_0))),
         Expr::Unary(_binding_0) => Expr::Unary(f.fold_expr_unary(_binding_0)),
-        Expr::Unsafe(_binding_0) => Expr::Unsafe(full!(f.fold_expr_unsafe(_binding_0))),
         Expr::Verbatim(_binding_0) => Expr::Verbatim(_binding_0),
-        Expr::While(_binding_0) => Expr::While(full!(f.fold_expr_while(_binding_0))),
-        Expr::Yield(_binding_0) => Expr::Yield(full!(f.fold_expr_yield(_binding_0))),
         _ => unreachable!(),
     }
 }
@@ -1083,54 +1008,6 @@ where
         attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         bracket_token: Bracket(tokens_helper(f, &node.bracket_token.span)),
         elems: FoldHelper::lift(node.elems, |it| f.fold_expr(it)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_assign<F>(f: &mut F, node: ExprAssign) -> ExprAssign
-where
-    F: Fold + ?Sized,
-{
-    ExprAssign {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        left: Box::new(f.fold_expr(*node.left)),
-        eq_token: Token ! [=](tokens_helper(f, &node.eq_token.spans)),
-        right: Box::new(f.fold_expr(*node.right)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_assign_op<F>(f: &mut F, node: ExprAssignOp) -> ExprAssignOp
-where
-    F: Fold + ?Sized,
-{
-    ExprAssignOp {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        left: Box::new(f.fold_expr(*node.left)),
-        op: f.fold_bin_op(node.op),
-        right: Box::new(f.fold_expr(*node.right)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_async<F>(f: &mut F, node: ExprAsync) -> ExprAsync
-where
-    F: Fold + ?Sized,
-{
-    ExprAsync {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        async_token: Token![async](tokens_helper(f, &node.async_token.span)),
-        capture: (node.capture).map(|it| Token![move](tokens_helper(f, &it.span))),
-        block: f.fold_block(node.block),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_await<F>(f: &mut F, node: ExprAwait) -> ExprAwait
-where
-    F: Fold + ?Sized,
-{
-    ExprAwait {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        base: Box::new(f.fold_expr(*node.base)),
-        dot_token: Token ! [.](tokens_helper(f, &node.dot_token.spans)),
-        await_token: crate::token::Await(tokens_helper(f, &node.await_token.span)),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1154,29 +1031,6 @@ where
         attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         label: (node.label).map(|it| f.fold_label(it)),
         block: f.fold_block(node.block),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_box<F>(f: &mut F, node: ExprBox) -> ExprBox
-where
-    F: Fold + ?Sized,
-{
-    ExprBox {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        box_token: Token![box](tokens_helper(f, &node.box_token.span)),
-        expr: Box::new(f.fold_expr(*node.expr)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_break<F>(f: &mut F, node: ExprBreak) -> ExprBreak
-where
-    F: Fold + ?Sized,
-{
-    ExprBreak {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        break_token: Token![break](tokens_helper(f, &node.break_token.span)),
-        label: (node.label).map(|it| f.fold_lifetime(it)),
-        expr: (node.expr).map(|it| Box::new(f.fold_expr(*it))),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1203,34 +1057,6 @@ where
         ty: Box::new(f.fold_type(*node.ty)),
     }
 }
-#[cfg(feature = "full")]
-pub fn fold_expr_closure<F>(f: &mut F, node: ExprClosure) -> ExprClosure
-where
-    F: Fold + ?Sized,
-{
-    ExprClosure {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        asyncness: (node.asyncness).map(|it| Token![async](tokens_helper(f, &it.span))),
-        movability: (node.movability).map(|it| Token![static](tokens_helper(f, &it.span))),
-        capture: (node.capture).map(|it| Token![move](tokens_helper(f, &it.span))),
-        or1_token: Token ! [|](tokens_helper(f, &node.or1_token.spans)),
-        inputs: FoldHelper::lift(node.inputs, |it| f.fold_pat(it)),
-        or2_token: Token ! [|](tokens_helper(f, &node.or2_token.spans)),
-        output: f.fold_return_type(node.output),
-        body: Box::new(f.fold_expr(*node.body)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_continue<F>(f: &mut F, node: ExprContinue) -> ExprContinue
-where
-    F: Fold + ?Sized,
-{
-    ExprContinue {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        continue_token: Token![continue](tokens_helper(f, &node.continue_token.span)),
-        label: (node.label).map(|it| f.fold_lifetime(it)),
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn fold_expr_field<F>(f: &mut F, node: ExprField) -> ExprField
 where
@@ -1241,21 +1067,6 @@ where
         base: Box::new(f.fold_expr(*node.base)),
         dot_token: Token ! [.](tokens_helper(f, &node.dot_token.spans)),
         member: f.fold_member(node.member),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_for_loop<F>(f: &mut F, node: ExprForLoop) -> ExprForLoop
-where
-    F: Fold + ?Sized,
-{
-    ExprForLoop {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        label: (node.label).map(|it| f.fold_label(it)),
-        for_token: Token![for](tokens_helper(f, &node.for_token.span)),
-        pat: f.fold_pat(node.pat),
-        in_token: Token![in](tokens_helper(f, &node.in_token.span)),
-        expr: Box::new(f.fold_expr(*node.expr)),
-        body: f.fold_block(node.body),
     }
 }
 #[cfg(feature = "full")]
@@ -1320,18 +1131,6 @@ where
     ExprLit {
         attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         lit: f.fold_lit(node.lit),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_loop<F>(f: &mut F, node: ExprLoop) -> ExprLoop
-where
-    F: Fold + ?Sized,
-{
-    ExprLoop {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        label: (node.label).map(|it| f.fold_label(it)),
-        loop_token: Token![loop](tokens_helper(f, &node.loop_token.span)),
-        body: f.fold_block(node.body),
     }
 }
 #[cfg(feature = "full")]
@@ -1458,28 +1257,6 @@ where
     }
 }
 #[cfg(feature = "full")]
-pub fn fold_expr_try<F>(f: &mut F, node: ExprTry) -> ExprTry
-where
-    F: Fold + ?Sized,
-{
-    ExprTry {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        expr: Box::new(f.fold_expr(*node.expr)),
-        question_token: Token ! [?](tokens_helper(f, &node.question_token.spans)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_try_block<F>(f: &mut F, node: ExprTryBlock) -> ExprTryBlock
-where
-    F: Fold + ?Sized,
-{
-    ExprTryBlock {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        try_token: Token![try](tokens_helper(f, &node.try_token.span)),
-        block: f.fold_block(node.block),
-    }
-}
-#[cfg(feature = "full")]
 pub fn fold_expr_tuple<F>(f: &mut F, node: ExprTuple) -> ExprTuple
 where
     F: Fold + ?Sized,
@@ -1511,41 +1288,6 @@ where
         attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
         op: f.fold_un_op(node.op),
         expr: Box::new(f.fold_expr(*node.expr)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_unsafe<F>(f: &mut F, node: ExprUnsafe) -> ExprUnsafe
-where
-    F: Fold + ?Sized,
-{
-    ExprUnsafe {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        unsafe_token: Token![unsafe](tokens_helper(f, &node.unsafe_token.span)),
-        block: f.fold_block(node.block),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_while<F>(f: &mut F, node: ExprWhile) -> ExprWhile
-where
-    F: Fold + ?Sized,
-{
-    ExprWhile {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        label: (node.label).map(|it| f.fold_label(it)),
-        while_token: Token![while](tokens_helper(f, &node.while_token.span)),
-        cond: Box::new(f.fold_expr(*node.cond)),
-        body: f.fold_block(node.body),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_expr_yield<F>(f: &mut F, node: ExprYield) -> ExprYield
-where
-    F: Fold + ?Sized,
-{
-    ExprYield {
-        attrs: FoldHelper::lift(node.attrs, |it| f.fold_attribute(it)),
-        yield_token: Token![yield](tokens_helper(f, &node.yield_token.span)),
-        expr: (node.expr).map(|it| Box::new(f.fold_expr(*it))),
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

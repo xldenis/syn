@@ -345,30 +345,6 @@ impl Debug for Expr {
                 formatter.field(v0);
                 formatter.finish()
             }
-            #[cfg(feature = "full")]
-            Expr::Assign(v0) => {
-                let mut formatter = formatter.debug_tuple("Assign");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::AssignOp(v0) => {
-                let mut formatter = formatter.debug_tuple("AssignOp");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::Async(v0) => {
-                let mut formatter = formatter.debug_tuple("Async");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::Await(v0) => {
-                let mut formatter = formatter.debug_tuple("Await");
-                formatter.field(v0);
-                formatter.finish()
-            }
             Expr::Binary(v0) => {
                 let mut formatter = formatter.debug_tuple("Binary");
                 formatter.field(v0);
@@ -377,18 +353,6 @@ impl Debug for Expr {
             #[cfg(feature = "full")]
             Expr::Block(v0) => {
                 let mut formatter = formatter.debug_tuple("Block");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::Box(v0) => {
-                let mut formatter = formatter.debug_tuple("Box");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::Break(v0) => {
-                let mut formatter = formatter.debug_tuple("Break");
                 formatter.field(v0);
                 formatter.finish()
             }
@@ -402,26 +366,8 @@ impl Debug for Expr {
                 formatter.field(v0);
                 formatter.finish()
             }
-            #[cfg(feature = "full")]
-            Expr::Closure(v0) => {
-                let mut formatter = formatter.debug_tuple("Closure");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::Continue(v0) => {
-                let mut formatter = formatter.debug_tuple("Continue");
-                formatter.field(v0);
-                formatter.finish()
-            }
             Expr::Field(v0) => {
                 let mut formatter = formatter.debug_tuple("Field");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::ForLoop(v0) => {
-                let mut formatter = formatter.debug_tuple("ForLoop");
                 formatter.field(v0);
                 formatter.finish()
             }
@@ -450,12 +396,6 @@ impl Debug for Expr {
             }
             Expr::Lit(v0) => {
                 let mut formatter = formatter.debug_tuple("Lit");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::Loop(v0) => {
-                let mut formatter = formatter.debug_tuple("Loop");
                 formatter.field(v0);
                 formatter.finish()
             }
@@ -518,18 +458,6 @@ impl Debug for Expr {
                 formatter.finish()
             }
             #[cfg(feature = "full")]
-            Expr::Try(v0) => {
-                let mut formatter = formatter.debug_tuple("Try");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::TryBlock(v0) => {
-                let mut formatter = formatter.debug_tuple("TryBlock");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
             Expr::Tuple(v0) => {
                 let mut formatter = formatter.debug_tuple("Tuple");
                 formatter.field(v0);
@@ -546,26 +474,8 @@ impl Debug for Expr {
                 formatter.field(v0);
                 formatter.finish()
             }
-            #[cfg(feature = "full")]
-            Expr::Unsafe(v0) => {
-                let mut formatter = formatter.debug_tuple("Unsafe");
-                formatter.field(v0);
-                formatter.finish()
-            }
             Expr::Verbatim(v0) => {
                 let mut formatter = formatter.debug_tuple("Verbatim");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::While(v0) => {
-                let mut formatter = formatter.debug_tuple("While");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            #[cfg(feature = "full")]
-            Expr::Yield(v0) => {
-                let mut formatter = formatter.debug_tuple("Yield");
                 formatter.field(v0);
                 formatter.finish()
             }
@@ -580,50 +490,6 @@ impl Debug for ExprArray {
         formatter.field("attrs", &self.attrs);
         formatter.field("bracket_token", &self.bracket_token);
         formatter.field("elems", &self.elems);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprAssign {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprAssign");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("left", &self.left);
-        formatter.field("eq_token", &self.eq_token);
-        formatter.field("right", &self.right);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprAssignOp {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprAssignOp");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("left", &self.left);
-        formatter.field("op", &self.op);
-        formatter.field("right", &self.right);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprAsync {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprAsync");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("async_token", &self.async_token);
-        formatter.field("capture", &self.capture);
-        formatter.field("block", &self.block);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprAwait {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprAwait");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("base", &self.base);
-        formatter.field("dot_token", &self.dot_token);
-        formatter.field("await_token", &self.await_token);
         formatter.finish()
     }
 }
@@ -645,27 +511,6 @@ impl Debug for ExprBlock {
         formatter.field("attrs", &self.attrs);
         formatter.field("label", &self.label);
         formatter.field("block", &self.block);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprBox {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprBox");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("box_token", &self.box_token);
-        formatter.field("expr", &self.expr);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprBreak {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprBreak");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("break_token", &self.break_token);
-        formatter.field("label", &self.label);
-        formatter.field("expr", &self.expr);
         formatter.finish()
     }
 }
@@ -691,32 +536,6 @@ impl Debug for ExprCast {
         formatter.finish()
     }
 }
-#[cfg(feature = "full")]
-impl Debug for ExprClosure {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprClosure");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("asyncness", &self.asyncness);
-        formatter.field("movability", &self.movability);
-        formatter.field("capture", &self.capture);
-        formatter.field("or1_token", &self.or1_token);
-        formatter.field("inputs", &self.inputs);
-        formatter.field("or2_token", &self.or2_token);
-        formatter.field("output", &self.output);
-        formatter.field("body", &self.body);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprContinue {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprContinue");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("continue_token", &self.continue_token);
-        formatter.field("label", &self.label);
-        formatter.finish()
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Debug for ExprField {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -725,20 +544,6 @@ impl Debug for ExprField {
         formatter.field("base", &self.base);
         formatter.field("dot_token", &self.dot_token);
         formatter.field("member", &self.member);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprForLoop {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprForLoop");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("label", &self.label);
-        formatter.field("for_token", &self.for_token);
-        formatter.field("pat", &self.pat);
-        formatter.field("in_token", &self.in_token);
-        formatter.field("expr", &self.expr);
-        formatter.field("body", &self.body);
         formatter.finish()
     }
 }
@@ -793,17 +598,6 @@ impl Debug for ExprLit {
         let mut formatter = formatter.debug_struct("ExprLit");
         formatter.field("attrs", &self.attrs);
         formatter.field("lit", &self.lit);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprLoop {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprLoop");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("label", &self.label);
-        formatter.field("loop_token", &self.loop_token);
-        formatter.field("body", &self.body);
         formatter.finish()
     }
 }
@@ -921,26 +715,6 @@ impl Debug for ExprStruct {
     }
 }
 #[cfg(feature = "full")]
-impl Debug for ExprTry {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprTry");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("expr", &self.expr);
-        formatter.field("question_token", &self.question_token);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprTryBlock {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprTryBlock");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("try_token", &self.try_token);
-        formatter.field("block", &self.block);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
 impl Debug for ExprTuple {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("ExprTuple");
@@ -967,38 +741,6 @@ impl Debug for ExprUnary {
         let mut formatter = formatter.debug_struct("ExprUnary");
         formatter.field("attrs", &self.attrs);
         formatter.field("op", &self.op);
-        formatter.field("expr", &self.expr);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprUnsafe {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprUnsafe");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("unsafe_token", &self.unsafe_token);
-        formatter.field("block", &self.block);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprWhile {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprWhile");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("label", &self.label);
-        formatter.field("while_token", &self.while_token);
-        formatter.field("cond", &self.cond);
-        formatter.field("body", &self.body);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for ExprYield {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("ExprYield");
-        formatter.field("attrs", &self.attrs);
-        formatter.field("yield_token", &self.yield_token);
         formatter.field("expr", &self.expr);
         formatter.finish()
     }

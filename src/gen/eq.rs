@@ -201,30 +201,12 @@ impl PartialEq for Expr {
         match (self, other) {
             #[cfg(feature = "full")]
             (Expr::Array(self0), Expr::Array(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Assign(self0), Expr::Assign(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::AssignOp(self0), Expr::AssignOp(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Async(self0), Expr::Async(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Await(self0), Expr::Await(other0)) => self0 == other0,
             (Expr::Binary(self0), Expr::Binary(other0)) => self0 == other0,
             #[cfg(feature = "full")]
             (Expr::Block(self0), Expr::Block(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Box(self0), Expr::Box(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Break(self0), Expr::Break(other0)) => self0 == other0,
             (Expr::Call(self0), Expr::Call(other0)) => self0 == other0,
             (Expr::Cast(self0), Expr::Cast(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Closure(self0), Expr::Closure(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Continue(self0), Expr::Continue(other0)) => self0 == other0,
             (Expr::Field(self0), Expr::Field(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::ForLoop(self0), Expr::ForLoop(other0)) => self0 == other0,
             #[cfg(feature = "full")]
             (Expr::Group(self0), Expr::Group(other0)) => self0 == other0,
             #[cfg(feature = "full")]
@@ -233,8 +215,6 @@ impl PartialEq for Expr {
             #[cfg(feature = "full")]
             (Expr::Let(self0), Expr::Let(other0)) => self0 == other0,
             (Expr::Lit(self0), Expr::Lit(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Loop(self0), Expr::Loop(other0)) => self0 == other0,
             #[cfg(feature = "full")]
             (Expr::Macro(self0), Expr::Macro(other0)) => self0 == other0,
             #[cfg(feature = "full")]
@@ -254,23 +234,13 @@ impl PartialEq for Expr {
             #[cfg(feature = "full")]
             (Expr::Struct(self0), Expr::Struct(other0)) => self0 == other0,
             #[cfg(feature = "full")]
-            (Expr::Try(self0), Expr::Try(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::TryBlock(self0), Expr::TryBlock(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
             (Expr::Tuple(self0), Expr::Tuple(other0)) => self0 == other0,
             #[cfg(feature = "full")]
             (Expr::Type(self0), Expr::Type(other0)) => self0 == other0,
             (Expr::Unary(self0), Expr::Unary(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Unsafe(self0), Expr::Unsafe(other0)) => self0 == other0,
             (Expr::Verbatim(self0), Expr::Verbatim(other0)) => {
                 TokenStreamHelper(self0) == TokenStreamHelper(other0)
             }
-            #[cfg(feature = "full")]
-            (Expr::While(self0), Expr::While(other0)) => self0 == other0,
-            #[cfg(feature = "full")]
-            (Expr::Yield(self0), Expr::Yield(other0)) => self0 == other0,
             _ => false,
         }
     }
@@ -281,41 +251,6 @@ impl Eq for ExprArray {}
 impl PartialEq for ExprArray {
     fn eq(&self, other: &Self) -> bool {
         self.attrs == other.attrs && self.elems == other.elems
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprAssign {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprAssign {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.left == other.left && self.right == other.right
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprAssignOp {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprAssignOp {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs
-            && self.left == other.left
-            && self.op == other.op
-            && self.right == other.right
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprAsync {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprAsync {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.capture == other.capture && self.block == other.block
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprAwait {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprAwait {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.base == other.base
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -337,22 +272,6 @@ impl PartialEq for ExprBlock {
         self.attrs == other.attrs && self.label == other.label && self.block == other.block
     }
 }
-#[cfg(feature = "full")]
-impl Eq for ExprBox {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprBox {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.expr == other.expr
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprBreak {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprBreak {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.label == other.label && self.expr == other.expr
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Eq for ExprCall {}
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -369,46 +288,12 @@ impl PartialEq for ExprCast {
         self.attrs == other.attrs && self.expr == other.expr && self.ty == other.ty
     }
 }
-#[cfg(feature = "full")]
-impl Eq for ExprClosure {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprClosure {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs
-            && self.asyncness == other.asyncness
-            && self.movability == other.movability
-            && self.capture == other.capture
-            && self.inputs == other.inputs
-            && self.output == other.output
-            && self.body == other.body
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprContinue {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprContinue {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.label == other.label
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Eq for ExprField {}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl PartialEq for ExprField {
     fn eq(&self, other: &Self) -> bool {
         self.attrs == other.attrs && self.base == other.base && self.member == other.member
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprForLoop {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprForLoop {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs
-            && self.label == other.label
-            && self.pat == other.pat
-            && self.expr == other.expr
-            && self.body == other.body
     }
 }
 #[cfg(feature = "full")]
@@ -452,14 +337,6 @@ impl Eq for ExprLit {}
 impl PartialEq for ExprLit {
     fn eq(&self, other: &Self) -> bool {
         self.attrs == other.attrs && self.lit == other.lit
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprLoop {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprLoop {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.label == other.label && self.body == other.body
     }
 }
 #[cfg(feature = "full")]
@@ -554,22 +431,6 @@ impl PartialEq for ExprStruct {
     }
 }
 #[cfg(feature = "full")]
-impl Eq for ExprTry {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprTry {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.expr == other.expr
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprTryBlock {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprTryBlock {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.block == other.block
-    }
-}
-#[cfg(feature = "full")]
 impl Eq for ExprTuple {}
 #[cfg(feature = "full")]
 impl PartialEq for ExprTuple {
@@ -591,33 +452,6 @@ impl Eq for ExprUnary {}
 impl PartialEq for ExprUnary {
     fn eq(&self, other: &Self) -> bool {
         self.attrs == other.attrs && self.op == other.op && self.expr == other.expr
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprUnsafe {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprUnsafe {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.block == other.block
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprWhile {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprWhile {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs
-            && self.label == other.label
-            && self.cond == other.cond
-            && self.body == other.body
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for ExprYield {}
-#[cfg(feature = "full")]
-impl PartialEq for ExprYield {
-    fn eq(&self, other: &Self) -> bool {
-        self.attrs == other.attrs && self.expr == other.expr
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

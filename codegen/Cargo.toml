@@ -17,7 +17,7 @@ semver = { version = "0.11", features = ["serde"] }
 serde = { version = "1.0.88", features = ["derive"] }
 serde_json = "1.0.38"
 syn-codegen = { path = "../json" }
-syn = { path = "..", features = ["derive", "parsing", "printing", "full"], default-features = false }
+syn = { features = ["derive", "parsing", "printing", "full"], default-features = false }
 thiserror = "1.0"
 toml = "0.5"
 

@@ -576,26 +576,6 @@
             "syn": "ExprArray"
           }
         ],
-        "Assign": [
-          {
-            "syn": "ExprAssign"
-          }
-        ],
-        "AssignOp": [
-          {
-            "syn": "ExprAssignOp"
-          }
-        ],
-        "Async": [
-          {
-            "syn": "ExprAsync"
-          }
-        ],
-        "Await": [
-          {
-            "syn": "ExprAwait"
-          }
-        ],
         "Binary": [
           {
             "syn": "ExprBinary"
@@ -604,16 +584,6 @@
         "Block": [
           {
             "syn": "ExprBlock"
-          }
-        ],
-        "Box": [
-          {
-            "syn": "ExprBox"
-          }
-        ],
-        "Break": [
-          {
-            "syn": "ExprBreak"
           }
         ],
         "Call": [
@@ -626,24 +596,9 @@
             "syn": "ExprCast"
           }
         ],
-        "Closure": [
-          {
-            "syn": "ExprClosure"
-          }
-        ],
-        "Continue": [
-          {
-            "syn": "ExprContinue"
-          }
-        ],
         "Field": [
           {
             "syn": "ExprField"
-          }
-        ],
-        "ForLoop": [
-          {
-            "syn": "ExprForLoop"
           }
         ],
         "Group": [
@@ -669,11 +624,6 @@
         "Lit": [
           {
             "syn": "ExprLit"
-          }
-        ],
-        "Loop": [
-          {
-            "syn": "ExprLoop"
           }
         ],
         "Macro": [
@@ -726,16 +676,6 @@
             "syn": "ExprStruct"
           }
         ],
-        "Try": [
-          {
-            "syn": "ExprTry"
-          }
-        ],
-        "TryBlock": [
-          {
-            "syn": "ExprTryBlock"
-          }
-        ],
         "Tuple": [
           {
             "syn": "ExprTuple"
@@ -751,24 +691,9 @@
             "syn": "ExprUnary"
           }
         ],
-        "Unsafe": [
-          {
-            "syn": "ExprUnsafe"
-          }
-        ],
         "Verbatim": [
           {
             "proc_macro2": "TokenStream"
-          }
-        ],
-        "While": [
-          {
-            "syn": "ExprWhile"
-          }
-        ],
-        "Yield": [
-          {
-            "syn": "ExprYield"
           }
         ]
       },
@@ -797,114 +722,6 @@
             },
             "punct": "Comma"
           }
-        }
-      }
-    },
-    {
-      "ident": "ExprAssign",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "left": {
-          "box": {
-            "syn": "Expr"
-          }
-        },
-        "eq_token": {
-          "token": "Eq"
-        },
-        "right": {
-          "box": {
-            "syn": "Expr"
-          }
-        }
-      }
-    },
-    {
-      "ident": "ExprAssignOp",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "left": {
-          "box": {
-            "syn": "Expr"
-          }
-        },
-        "op": {
-          "syn": "BinOp"
-        },
-        "right": {
-          "box": {
-            "syn": "Expr"
-          }
-        }
-      }
-    },
-    {
-      "ident": "ExprAsync",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "async_token": {
-          "token": "Async"
-        },
-        "capture": {
-          "option": {
-            "token": "Move"
-          }
-        },
-        "block": {
-          "syn": "Block"
-        }
-      }
-    },
-    {
-      "ident": "ExprAwait",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "base": {
-          "box": {
-            "syn": "Expr"
-          }
-        },
-        "dot_token": {
-          "token": "Dot"
-        },
-        "await_token": {
-          "token": "Await"
         }
       }
     },
@@ -957,59 +774,6 @@
         },
         "block": {
           "syn": "Block"
-        }
-      }
-    },
-    {
-      "ident": "ExprBox",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "box_token": {
-          "token": "Box"
-        },
-        "expr": {
-          "box": {
-            "syn": "Expr"
-          }
-        }
-      }
-    },
-    {
-      "ident": "ExprBreak",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "break_token": {
-          "token": "Break"
-        },
-        "label": {
-          "option": {
-            "syn": "Lifetime"
-          }
-        },
-        "expr": {
-          "option": {
-            "box": {
-              "syn": "Expr"
-            }
-          }
         }
       }
     },
@@ -1075,81 +839,6 @@
       }
     },
     {
-      "ident": "ExprClosure",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "asyncness": {
-          "option": {
-            "token": "Async"
-          }
-        },
-        "movability": {
-          "option": {
-            "token": "Static"
-          }
-        },
-        "capture": {
-          "option": {
-            "token": "Move"
-          }
-        },
-        "or1_token": {
-          "token": "Or"
-        },
-        "inputs": {
-          "punctuated": {
-            "element": {
-              "syn": "Pat"
-            },
-            "punct": "Comma"
-          }
-        },
-        "or2_token": {
-          "token": "Or"
-        },
-        "output": {
-          "syn": "ReturnType"
-        },
-        "body": {
-          "box": {
-            "syn": "Expr"
-          }
-        }
-      }
-    },
-    {
-      "ident": "ExprContinue",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "continue_token": {
-          "token": "Continue"
-        },
-        "label": {
-          "option": {
-            "syn": "Lifetime"
-          }
-        }
-      }
-    },
-    {
       "ident": "ExprField",
       "features": {
         "any": [
@@ -1173,43 +862,6 @@
         },
         "member": {
           "syn": "Member"
-        }
-      }
-    },
-    {
-      "ident": "ExprForLoop",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "label": {
-          "option": {
-            "syn": "Label"
-          }
-        },
-        "for_token": {
-          "token": "For"
-        },
-        "pat": {
-          "syn": "Pat"
-        },
-        "in_token": {
-          "token": "In"
-        },
-        "expr": {
-          "box": {
-            "syn": "Expr"
-          }
-        },
-        "body": {
-          "syn": "Block"
         }
       }
     },
@@ -1350,32 +1002,6 @@
         },
         "lit": {
           "syn": "Lit"
-        }
-      }
-    },
-    {
-      "ident": "ExprLoop",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "label": {
-          "option": {
-            "syn": "Label"
-          }
-        },
-        "loop_token": {
-          "token": "Loop"
-        },
-        "body": {
-          "syn": "Block"
         }
       }
     },
@@ -1679,50 +1305,6 @@
       }
     },
     {
-      "ident": "ExprTry",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "expr": {
-          "box": {
-            "syn": "Expr"
-          }
-        },
-        "question_token": {
-          "token": "Question"
-        }
-      }
-    },
-    {
-      "ident": "ExprTryBlock",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "try_token": {
-          "token": "Try"
-        },
-        "block": {
-          "syn": "Block"
-        }
-      }
-    },
-    {
       "ident": "ExprTuple",
       "features": {
         "any": [
@@ -1796,83 +1378,6 @@
         "expr": {
           "box": {
             "syn": "Expr"
-          }
-        }
-      }
-    },
-    {
-      "ident": "ExprUnsafe",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "unsafe_token": {
-          "token": "Unsafe"
-        },
-        "block": {
-          "syn": "Block"
-        }
-      }
-    },
-    {
-      "ident": "ExprWhile",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "label": {
-          "option": {
-            "syn": "Label"
-          }
-        },
-        "while_token": {
-          "token": "While"
-        },
-        "cond": {
-          "box": {
-            "syn": "Expr"
-          }
-        },
-        "body": {
-          "syn": "Block"
-        }
-      }
-    },
-    {
-      "ident": "ExprYield",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "attrs": {
-          "vec": {
-            "syn": "Attribute"
-          }
-        },
-        "yield_token": {
-          "token": "Yield"
-        },
-        "expr": {
-          "option": {
-            "box": {
-              "syn": "Expr"
-            }
           }
         }
       }
