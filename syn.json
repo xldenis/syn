@@ -4190,6 +4190,166 @@
       }
     },
     {
+      "ident": "Pred",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "variants": {
+        "Conj": [
+          {
+            "syn": "PredConj"
+          }
+        ],
+        "Disj": [
+          {
+            "syn": "PredDisj"
+          }
+        ],
+        "Binary": [
+          {
+            "syn": "PredBinary"
+          }
+        ],
+        "Impl": [
+          {
+            "syn": "PredImpl"
+          }
+        ],
+        "Neg": [
+          {
+            "syn": "PredNeg"
+          }
+        ],
+        "Paren": [
+          {
+            "syn": "PredParen"
+          }
+        ]
+      },
+      "exhaustive": false
+    },
+    {
+      "ident": "PredBinary",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "left": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "op": {
+          "syn": "BinOp"
+        },
+        "right": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "PredConj",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "left": {
+          "box": {
+            "syn": "Pred"
+          }
+        },
+        "conj_token": {
+          "token": "AndAnd"
+        },
+        "right": {
+          "box": {
+            "syn": "Pred"
+          }
+        }
+      }
+    },
+    {
+      "ident": "PredDisj",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "left": {
+          "box": {
+            "syn": "Pred"
+          }
+        },
+        "disj_token": {
+          "token": "OrOr"
+        },
+        "right": {
+          "box": {
+            "syn": "Pred"
+          }
+        }
+      }
+    },
+    {
+      "ident": "PredImpl",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "hyp": {
+          "box": {
+            "syn": "Pred"
+          }
+        },
+        "impl_token": {
+          "token": "PredImpl"
+        },
+        "cons": {
+          "box": {
+            "syn": "Pred"
+          }
+        }
+      }
+    },
+    {
+      "ident": "PredNeg",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {}
+    },
+    {
+      "ident": "PredParen",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "paren_token": {
+          "group": "Paren"
+        },
+        "pred": {
+          "box": {
+            "syn": "Pred"
+          }
+        }
+      }
+    },
+    {
       "ident": "PredicateEq",
       "features": {
         "any": [
@@ -4462,6 +4622,786 @@
             "token": "Semi"
           }
         ]
+      }
+    },
+    {
+      "ident": "Term",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "variants": {
+        "Array": [
+          {
+            "syn": "TermArray"
+          }
+        ],
+        "Binary": [
+          {
+            "syn": "TermBinary"
+          }
+        ],
+        "Block": [
+          {
+            "syn": "TermBlock"
+          }
+        ],
+        "Call": [
+          {
+            "syn": "TermCall"
+          }
+        ],
+        "Cast": [
+          {
+            "syn": "TermCast"
+          }
+        ],
+        "Field": [
+          {
+            "syn": "TermField"
+          }
+        ],
+        "Group": [
+          {
+            "syn": "TermGroup"
+          }
+        ],
+        "If": [
+          {
+            "syn": "TermIf"
+          }
+        ],
+        "Index": [
+          {
+            "syn": "TermIndex"
+          }
+        ],
+        "Let": [
+          {
+            "syn": "TermLet"
+          }
+        ],
+        "Lit": [
+          {
+            "syn": "TermLit"
+          }
+        ],
+        "Match": [
+          {
+            "syn": "TermMatch"
+          }
+        ],
+        "MethodCall": [
+          {
+            "syn": "TermMethodCall"
+          }
+        ],
+        "Paren": [
+          {
+            "syn": "TermParen"
+          }
+        ],
+        "Path": [
+          {
+            "syn": "TermPath"
+          }
+        ],
+        "Range": [
+          {
+            "syn": "TermRange"
+          }
+        ],
+        "Reference": [
+          {
+            "syn": "TermReference"
+          }
+        ],
+        "Repeat": [
+          {
+            "syn": "TermRepeat"
+          }
+        ],
+        "Return": [
+          {
+            "syn": "TermReturn"
+          }
+        ],
+        "Struct": [
+          {
+            "syn": "TermStruct"
+          }
+        ],
+        "Tuple": [
+          {
+            "syn": "TermTuple"
+          }
+        ],
+        "Type": [
+          {
+            "syn": "TermType"
+          }
+        ],
+        "Unary": [
+          {
+            "syn": "TermUnary"
+          }
+        ],
+        "Verbatim": [
+          {
+            "proc_macro2": "TokenStream"
+          }
+        ]
+      },
+      "exhaustive": false
+    },
+    {
+      "ident": "TermArm",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "pat": {
+          "syn": "Pat"
+        },
+        "guard": {
+          "option": {
+            "tuple": [
+              {
+                "token": "If"
+              },
+              {
+                "box": {
+                  "syn": "Term"
+                }
+              }
+            ]
+          }
+        },
+        "fat_arrow_token": {
+          "token": "FatArrow"
+        },
+        "body": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "comma": {
+          "option": {
+            "token": "Comma"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermArray",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "bracket_token": {
+          "group": "Bracket"
+        },
+        "elems": {
+          "punctuated": {
+            "element": {
+              "syn": "Term"
+            },
+            "punct": "Comma"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermBinary",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "left": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "op": {
+          "syn": "BinOp"
+        },
+        "right": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermBlock",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "label": {
+          "option": {
+            "syn": "Label"
+          }
+        },
+        "block": {
+          "syn": "Block"
+        }
+      }
+    },
+    {
+      "ident": "TermCall",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "func": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "paren_token": {
+          "group": "Paren"
+        },
+        "args": {
+          "punctuated": {
+            "element": {
+              "syn": "Term"
+            },
+            "punct": "Comma"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermCast",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "as_token": {
+          "token": "As"
+        },
+        "ty": {
+          "box": {
+            "syn": "Type"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermField",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "base": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "dot_token": {
+          "token": "Dot"
+        },
+        "member": {
+          "syn": "Member"
+        }
+      }
+    },
+    {
+      "ident": "TermFieldValue",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "member": {
+          "syn": "Member"
+        },
+        "colon_token": {
+          "option": {
+            "token": "Colon"
+          }
+        },
+        "expr": {
+          "syn": "Term"
+        }
+      }
+    },
+    {
+      "ident": "TermGenericMethodArgument",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "variants": {
+        "Type": [
+          {
+            "syn": "Type"
+          }
+        ],
+        "Const": [
+          {
+            "syn": "Term"
+          }
+        ]
+      }
+    },
+    {
+      "ident": "TermGroup",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "group_token": {
+          "group": "Group"
+        },
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermIf",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "if_token": {
+          "token": "If"
+        },
+        "cond": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "then_branch": {
+          "syn": "Block"
+        },
+        "else_branch": {
+          "option": {
+            "tuple": [
+              {
+                "token": "Else"
+              },
+              {
+                "box": {
+                  "syn": "Term"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermIndex",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "bracket_token": {
+          "group": "Bracket"
+        },
+        "index": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermLet",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "let_token": {
+          "token": "Let"
+        },
+        "pat": {
+          "syn": "Pat"
+        },
+        "eq_token": {
+          "token": "Eq"
+        },
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermLit",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "lit": {
+          "syn": "Lit"
+        }
+      }
+    },
+    {
+      "ident": "TermMatch",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "match_token": {
+          "token": "Match"
+        },
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "brace_token": {
+          "group": "Brace"
+        },
+        "arms": {
+          "vec": {
+            "syn": "TermArm"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermMethodCall",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "receiver": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "dot_token": {
+          "token": "Dot"
+        },
+        "method": {
+          "proc_macro2": "Ident"
+        },
+        "turbofish": {
+          "option": {
+            "syn": "TermMethodTurbofish"
+          }
+        },
+        "paren_token": {
+          "group": "Paren"
+        },
+        "args": {
+          "punctuated": {
+            "element": {
+              "syn": "Term"
+            },
+            "punct": "Comma"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermMethodTurbofish",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "colon2_token": {
+          "token": "Colon2"
+        },
+        "lt_token": {
+          "token": "Lt"
+        },
+        "args": {
+          "punctuated": {
+            "element": {
+              "syn": "TermGenericMethodArgument"
+            },
+            "punct": "Comma"
+          }
+        },
+        "gt_token": {
+          "token": "Gt"
+        }
+      }
+    },
+    {
+      "ident": "TermParen",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "paren_token": {
+          "group": "Paren"
+        },
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermPath",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "qself": {
+          "option": {
+            "syn": "QSelf"
+          }
+        },
+        "path": {
+          "syn": "Path"
+        }
+      }
+    },
+    {
+      "ident": "TermRange",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "from": {
+          "option": {
+            "box": {
+              "syn": "Term"
+            }
+          }
+        },
+        "limits": {
+          "syn": "RangeLimits"
+        },
+        "to": {
+          "option": {
+            "box": {
+              "syn": "Term"
+            }
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermReference",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "and_token": {
+          "token": "And"
+        },
+        "raw": {
+          "syn": "Reserved"
+        },
+        "mutability": {
+          "option": {
+            "token": "Mut"
+          }
+        },
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermRepeat",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "bracket_token": {
+          "group": "Bracket"
+        },
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "semi_token": {
+          "token": "Semi"
+        },
+        "len": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermReturn",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "return_token": {
+          "token": "Return"
+        },
+        "expr": {
+          "option": {
+            "box": {
+              "syn": "Term"
+            }
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermStruct",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "path": {
+          "syn": "Path"
+        },
+        "brace_token": {
+          "group": "Brace"
+        },
+        "fields": {
+          "punctuated": {
+            "element": {
+              "syn": "TermFieldValue"
+            },
+            "punct": "Comma"
+          }
+        },
+        "dot2_token": {
+          "option": {
+            "token": "Dot2"
+          }
+        },
+        "rest": {
+          "option": {
+            "box": {
+              "syn": "Term"
+            }
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermTuple",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "paren_token": {
+          "group": "Paren"
+        },
+        "elems": {
+          "punctuated": {
+            "element": {
+              "syn": "Term"
+            },
+            "punct": "Comma"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermType",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "colon_token": {
+          "token": "Colon"
+        },
+        "ty": {
+          "box": {
+            "syn": "Type"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermUnary",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "op": {
+          "syn": "UnOp"
+        },
+        "expr": {
+          "box": {
+            "syn": "Term"
+          }
+        }
       }
     },
     {
@@ -5553,6 +6493,7 @@
     "OrOr": "||",
     "Override": "override",
     "Pound": "#",
+    "PredImpl": "==>",
     "Priv": "priv",
     "Pub": "pub",
     "Question": "?",

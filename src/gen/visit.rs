@@ -573,6 +573,34 @@ pub trait Visit<'ast> {
     fn visit_path_segment(&mut self, i: &'ast PathSegment) {
         visit_path_segment(self, i)
     }
+    #[cfg(feature = "full")]
+    fn visit_pred(&mut self, i: &'ast Pred) {
+        visit_pred(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_binary(&mut self, i: &'ast PredBinary) {
+        visit_pred_binary(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_conj(&mut self, i: &'ast PredConj) {
+        visit_pred_conj(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_disj(&mut self, i: &'ast PredDisj) {
+        visit_pred_disj(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_impl(&mut self, i: &'ast PredImpl) {
+        visit_pred_impl(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_neg(&mut self, i: &'ast PredNeg) {
+        visit_pred_neg(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_paren(&mut self, i: &'ast PredParen) {
+        visit_pred_paren(self, i)
+    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_predicate_eq(&mut self, i: &'ast PredicateEq) {
         visit_predicate_eq(self, i)
@@ -611,6 +639,118 @@ pub trait Visit<'ast> {
     #[cfg(feature = "full")]
     fn visit_stmt(&mut self, i: &'ast Stmt) {
         visit_stmt(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term(&mut self, i: &'ast Term) {
+        visit_term(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_arm(&mut self, i: &'ast TermArm) {
+        visit_term_arm(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_array(&mut self, i: &'ast TermArray) {
+        visit_term_array(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_binary(&mut self, i: &'ast TermBinary) {
+        visit_term_binary(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_block(&mut self, i: &'ast TermBlock) {
+        visit_term_block(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_call(&mut self, i: &'ast TermCall) {
+        visit_term_call(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_cast(&mut self, i: &'ast TermCast) {
+        visit_term_cast(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_field(&mut self, i: &'ast TermField) {
+        visit_term_field(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_field_value(&mut self, i: &'ast TermFieldValue) {
+        visit_term_field_value(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_generic_method_argument(&mut self, i: &'ast TermGenericMethodArgument) {
+        visit_term_generic_method_argument(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_group(&mut self, i: &'ast TermGroup) {
+        visit_term_group(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_if(&mut self, i: &'ast TermIf) {
+        visit_term_if(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_index(&mut self, i: &'ast TermIndex) {
+        visit_term_index(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_let(&mut self, i: &'ast TermLet) {
+        visit_term_let(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_lit(&mut self, i: &'ast TermLit) {
+        visit_term_lit(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_match(&mut self, i: &'ast TermMatch) {
+        visit_term_match(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_method_call(&mut self, i: &'ast TermMethodCall) {
+        visit_term_method_call(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_method_turbofish(&mut self, i: &'ast TermMethodTurbofish) {
+        visit_term_method_turbofish(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_paren(&mut self, i: &'ast TermParen) {
+        visit_term_paren(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_path(&mut self, i: &'ast TermPath) {
+        visit_term_path(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_range(&mut self, i: &'ast TermRange) {
+        visit_term_range(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_reference(&mut self, i: &'ast TermReference) {
+        visit_term_reference(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_repeat(&mut self, i: &'ast TermRepeat) {
+        visit_term_repeat(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_return(&mut self, i: &'ast TermReturn) {
+        visit_term_return(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_struct(&mut self, i: &'ast TermStruct) {
+        visit_term_struct(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_tuple(&mut self, i: &'ast TermTuple) {
+        visit_term_tuple(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_type(&mut self, i: &'ast TermType) {
+        visit_term_type(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_unary(&mut self, i: &'ast TermUnary) {
+        visit_term_unary(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_trait_bound(&mut self, i: &'ast TraitBound) {
@@ -3044,6 +3184,83 @@ where
     v.visit_ident(&node.ident);
     v.visit_path_arguments(&node.arguments);
 }
+#[cfg(feature = "full")]
+pub fn visit_pred<'ast, V>(v: &mut V, node: &'ast Pred)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    match node {
+        Pred::Conj(_binding_0) => {
+            v.visit_pred_conj(_binding_0);
+        }
+        Pred::Disj(_binding_0) => {
+            v.visit_pred_disj(_binding_0);
+        }
+        Pred::Binary(_binding_0) => {
+            v.visit_pred_binary(_binding_0);
+        }
+        Pred::Impl(_binding_0) => {
+            v.visit_pred_impl(_binding_0);
+        }
+        Pred::Neg(_binding_0) => {
+            v.visit_pred_neg(_binding_0);
+        }
+        Pred::Paren(_binding_0) => {
+            v.visit_pred_paren(_binding_0);
+        }
+        _ => unreachable!(),
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_binary<'ast, V>(v: &mut V, node: &'ast PredBinary)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.left);
+    v.visit_bin_op(&node.op);
+    v.visit_term(&*node.right);
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_conj<'ast, V>(v: &mut V, node: &'ast PredConj)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_pred(&*node.left);
+    tokens_helper(v, &node.conj_token.spans);
+    v.visit_pred(&*node.right);
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_disj<'ast, V>(v: &mut V, node: &'ast PredDisj)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_pred(&*node.left);
+    tokens_helper(v, &node.disj_token.spans);
+    v.visit_pred(&*node.right);
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_impl<'ast, V>(v: &mut V, node: &'ast PredImpl)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_pred(&*node.hyp);
+    tokens_helper(v, &node.impl_token.spans);
+    v.visit_pred(&*node.cons);
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_neg<'ast, V>(v: &mut V, node: &'ast PredNeg)
+where
+    V: Visit<'ast> + ?Sized,
+{
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_paren<'ast, V>(v: &mut V, node: &'ast PredParen)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.paren_token.span);
+    v.visit_pred(&*node.pred);
+}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_predicate_eq<'ast, V>(v: &mut V, node: &'ast PredicateEq)
 where
@@ -3203,6 +3420,403 @@ where
             tokens_helper(v, &_binding_1.spans);
         }
     }
+}
+#[cfg(feature = "full")]
+pub fn visit_term<'ast, V>(v: &mut V, node: &'ast Term)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    match node {
+        Term::Array(_binding_0) => {
+            v.visit_term_array(_binding_0);
+        }
+        Term::Binary(_binding_0) => {
+            v.visit_term_binary(_binding_0);
+        }
+        Term::Block(_binding_0) => {
+            v.visit_term_block(_binding_0);
+        }
+        Term::Call(_binding_0) => {
+            v.visit_term_call(_binding_0);
+        }
+        Term::Cast(_binding_0) => {
+            v.visit_term_cast(_binding_0);
+        }
+        Term::Field(_binding_0) => {
+            v.visit_term_field(_binding_0);
+        }
+        Term::Group(_binding_0) => {
+            v.visit_term_group(_binding_0);
+        }
+        Term::If(_binding_0) => {
+            v.visit_term_if(_binding_0);
+        }
+        Term::Index(_binding_0) => {
+            v.visit_term_index(_binding_0);
+        }
+        Term::Let(_binding_0) => {
+            v.visit_term_let(_binding_0);
+        }
+        Term::Lit(_binding_0) => {
+            v.visit_term_lit(_binding_0);
+        }
+        Term::Match(_binding_0) => {
+            v.visit_term_match(_binding_0);
+        }
+        Term::MethodCall(_binding_0) => {
+            v.visit_term_method_call(_binding_0);
+        }
+        Term::Paren(_binding_0) => {
+            v.visit_term_paren(_binding_0);
+        }
+        Term::Path(_binding_0) => {
+            v.visit_term_path(_binding_0);
+        }
+        Term::Range(_binding_0) => {
+            v.visit_term_range(_binding_0);
+        }
+        Term::Reference(_binding_0) => {
+            v.visit_term_reference(_binding_0);
+        }
+        Term::Repeat(_binding_0) => {
+            v.visit_term_repeat(_binding_0);
+        }
+        Term::Return(_binding_0) => {
+            v.visit_term_return(_binding_0);
+        }
+        Term::Struct(_binding_0) => {
+            v.visit_term_struct(_binding_0);
+        }
+        Term::Tuple(_binding_0) => {
+            v.visit_term_tuple(_binding_0);
+        }
+        Term::Type(_binding_0) => {
+            v.visit_term_type(_binding_0);
+        }
+        Term::Unary(_binding_0) => {
+            v.visit_term_unary(_binding_0);
+        }
+        Term::Verbatim(_binding_0) => {
+            skip!(_binding_0);
+        }
+        _ => unreachable!(),
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_arm<'ast, V>(v: &mut V, node: &'ast TermArm)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_pat(&node.pat);
+    if let Some(it) = &node.guard {
+        tokens_helper(v, &(it).0.span);
+        v.visit_term(&*(it).1);
+    };
+    tokens_helper(v, &node.fat_arrow_token.spans);
+    v.visit_term(&*node.body);
+    if let Some(it) = &node.comma {
+        tokens_helper(v, &it.spans)
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_array<'ast, V>(v: &mut V, node: &'ast TermArray)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.bracket_token.span);
+    for el in Punctuated::pairs(&node.elems) {
+        let (it, p) = el.into_tuple();
+        v.visit_term(it);
+        if let Some(p) = p {
+            tokens_helper(v, &p.spans);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_binary<'ast, V>(v: &mut V, node: &'ast TermBinary)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.left);
+    v.visit_bin_op(&node.op);
+    v.visit_term(&*node.right);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_block<'ast, V>(v: &mut V, node: &'ast TermBlock)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    if let Some(it) = &node.label {
+        v.visit_label(it)
+    };
+    v.visit_block(&node.block);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_call<'ast, V>(v: &mut V, node: &'ast TermCall)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.func);
+    tokens_helper(v, &node.paren_token.span);
+    for el in Punctuated::pairs(&node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_term(it);
+        if let Some(p) = p {
+            tokens_helper(v, &p.spans);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_cast<'ast, V>(v: &mut V, node: &'ast TermCast)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.expr);
+    tokens_helper(v, &node.as_token.span);
+    v.visit_type(&*node.ty);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_field<'ast, V>(v: &mut V, node: &'ast TermField)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.base);
+    tokens_helper(v, &node.dot_token.spans);
+    v.visit_member(&node.member);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_field_value<'ast, V>(v: &mut V, node: &'ast TermFieldValue)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_member(&node.member);
+    if let Some(it) = &node.colon_token {
+        tokens_helper(v, &it.spans)
+    };
+    v.visit_term(&node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_generic_method_argument<'ast, V>(v: &mut V, node: &'ast TermGenericMethodArgument)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    match node {
+        TermGenericMethodArgument::Type(_binding_0) => {
+            v.visit_type(_binding_0);
+        }
+        TermGenericMethodArgument::Const(_binding_0) => {
+            v.visit_term(_binding_0);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_group<'ast, V>(v: &mut V, node: &'ast TermGroup)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.group_token.span);
+    v.visit_term(&*node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_if<'ast, V>(v: &mut V, node: &'ast TermIf)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.if_token.span);
+    v.visit_term(&*node.cond);
+    v.visit_block(&node.then_branch);
+    if let Some(it) = &node.else_branch {
+        tokens_helper(v, &(it).0.span);
+        v.visit_term(&*(it).1);
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_index<'ast, V>(v: &mut V, node: &'ast TermIndex)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.expr);
+    tokens_helper(v, &node.bracket_token.span);
+    v.visit_term(&*node.index);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_let<'ast, V>(v: &mut V, node: &'ast TermLet)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.let_token.span);
+    v.visit_pat(&node.pat);
+    tokens_helper(v, &node.eq_token.spans);
+    v.visit_term(&*node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_lit<'ast, V>(v: &mut V, node: &'ast TermLit)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_lit(&node.lit);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_match<'ast, V>(v: &mut V, node: &'ast TermMatch)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.match_token.span);
+    v.visit_term(&*node.expr);
+    tokens_helper(v, &node.brace_token.span);
+    for it in &node.arms {
+        v.visit_term_arm(it)
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_method_call<'ast, V>(v: &mut V, node: &'ast TermMethodCall)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.receiver);
+    tokens_helper(v, &node.dot_token.spans);
+    v.visit_ident(&node.method);
+    if let Some(it) = &node.turbofish {
+        v.visit_term_method_turbofish(it)
+    };
+    tokens_helper(v, &node.paren_token.span);
+    for el in Punctuated::pairs(&node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_term(it);
+        if let Some(p) = p {
+            tokens_helper(v, &p.spans);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_method_turbofish<'ast, V>(v: &mut V, node: &'ast TermMethodTurbofish)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.colon2_token.spans);
+    tokens_helper(v, &node.lt_token.spans);
+    for el in Punctuated::pairs(&node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_term_generic_method_argument(it);
+        if let Some(p) = p {
+            tokens_helper(v, &p.spans);
+        }
+    }
+    tokens_helper(v, &node.gt_token.spans);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_paren<'ast, V>(v: &mut V, node: &'ast TermParen)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.paren_token.span);
+    v.visit_term(&*node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_path<'ast, V>(v: &mut V, node: &'ast TermPath)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    if let Some(it) = &node.qself {
+        v.visit_qself(it)
+    };
+    v.visit_path(&node.path);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_range<'ast, V>(v: &mut V, node: &'ast TermRange)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    if let Some(it) = &node.from {
+        v.visit_term(&**it)
+    };
+    v.visit_range_limits(&node.limits);
+    if let Some(it) = &node.to {
+        v.visit_term(&**it)
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_reference<'ast, V>(v: &mut V, node: &'ast TermReference)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.and_token.spans);
+    if let Some(it) = &node.mutability {
+        tokens_helper(v, &it.span)
+    };
+    v.visit_term(&*node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_repeat<'ast, V>(v: &mut V, node: &'ast TermRepeat)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.bracket_token.span);
+    v.visit_term(&*node.expr);
+    tokens_helper(v, &node.semi_token.spans);
+    v.visit_term(&*node.len);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_return<'ast, V>(v: &mut V, node: &'ast TermReturn)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.return_token.span);
+    if let Some(it) = &node.expr {
+        v.visit_term(&**it)
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_struct<'ast, V>(v: &mut V, node: &'ast TermStruct)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_path(&node.path);
+    tokens_helper(v, &node.brace_token.span);
+    for el in Punctuated::pairs(&node.fields) {
+        let (it, p) = el.into_tuple();
+        v.visit_term_field_value(it);
+        if let Some(p) = p {
+            tokens_helper(v, &p.spans);
+        }
+    }
+    if let Some(it) = &node.dot2_token {
+        tokens_helper(v, &it.spans)
+    };
+    if let Some(it) = &node.rest {
+        v.visit_term(&**it)
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_tuple<'ast, V>(v: &mut V, node: &'ast TermTuple)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.paren_token.span);
+    for el in Punctuated::pairs(&node.elems) {
+        let (it, p) = el.into_tuple();
+        v.visit_term(it);
+        if let Some(p) = p {
+            tokens_helper(v, &p.spans);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_type<'ast, V>(v: &mut V, node: &'ast TermType)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.expr);
+    tokens_helper(v, &node.colon_token.spans);
+    v.visit_type(&*node.ty);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_unary<'ast, V>(v: &mut V, node: &'ast TermUnary)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_un_op(&node.op);
+    v.visit_term(&*node.expr);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_trait_bound<'ast, V>(v: &mut V, node: &'ast TraitBound)

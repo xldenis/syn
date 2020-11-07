@@ -2169,6 +2169,100 @@ impl Debug for PathSegment {
         formatter.finish()
     }
 }
+#[cfg(feature = "full")]
+impl Debug for Pred {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Pred::Conj(v0) => {
+                let mut formatter = formatter.debug_tuple("Conj");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Disj(v0) => {
+                let mut formatter = formatter.debug_tuple("Disj");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Binary(v0) => {
+                let mut formatter = formatter.debug_tuple("Binary");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Impl(v0) => {
+                let mut formatter = formatter.debug_tuple("Impl");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Neg(v0) => {
+                let mut formatter = formatter.debug_tuple("Neg");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Pred::Paren(v0) => {
+                let mut formatter = formatter.debug_tuple("Paren");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for PredBinary {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredBinary");
+        formatter.field("left", &self.left);
+        formatter.field("op", &self.op);
+        formatter.field("right", &self.right);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for PredConj {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredConj");
+        formatter.field("left", &self.left);
+        formatter.field("conj_token", &self.conj_token);
+        formatter.field("right", &self.right);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for PredDisj {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredDisj");
+        formatter.field("left", &self.left);
+        formatter.field("disj_token", &self.disj_token);
+        formatter.field("right", &self.right);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for PredImpl {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredImpl");
+        formatter.field("hyp", &self.hyp);
+        formatter.field("impl_token", &self.impl_token);
+        formatter.field("cons", &self.cons);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for PredNeg {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredNeg");
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for PredParen {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("PredParen");
+        formatter.field("paren_token", &self.paren_token);
+        formatter.field("pred", &self.pred);
+        formatter.finish()
+    }
+}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Debug for PredicateEq {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -2298,6 +2392,414 @@ impl Debug for Stmt {
                 formatter.finish()
             }
         }
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for Term {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Term::Array(v0) => {
+                let mut formatter = formatter.debug_tuple("Array");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Binary(v0) => {
+                let mut formatter = formatter.debug_tuple("Binary");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Block(v0) => {
+                let mut formatter = formatter.debug_tuple("Block");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Call(v0) => {
+                let mut formatter = formatter.debug_tuple("Call");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Cast(v0) => {
+                let mut formatter = formatter.debug_tuple("Cast");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Field(v0) => {
+                let mut formatter = formatter.debug_tuple("Field");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Group(v0) => {
+                let mut formatter = formatter.debug_tuple("Group");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::If(v0) => {
+                let mut formatter = formatter.debug_tuple("If");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Index(v0) => {
+                let mut formatter = formatter.debug_tuple("Index");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Let(v0) => {
+                let mut formatter = formatter.debug_tuple("Let");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Lit(v0) => {
+                let mut formatter = formatter.debug_tuple("Lit");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Match(v0) => {
+                let mut formatter = formatter.debug_tuple("Match");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::MethodCall(v0) => {
+                let mut formatter = formatter.debug_tuple("MethodCall");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Paren(v0) => {
+                let mut formatter = formatter.debug_tuple("Paren");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Path(v0) => {
+                let mut formatter = formatter.debug_tuple("Path");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Range(v0) => {
+                let mut formatter = formatter.debug_tuple("Range");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Reference(v0) => {
+                let mut formatter = formatter.debug_tuple("Reference");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Repeat(v0) => {
+                let mut formatter = formatter.debug_tuple("Repeat");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Return(v0) => {
+                let mut formatter = formatter.debug_tuple("Return");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Struct(v0) => {
+                let mut formatter = formatter.debug_tuple("Struct");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Tuple(v0) => {
+                let mut formatter = formatter.debug_tuple("Tuple");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Type(v0) => {
+                let mut formatter = formatter.debug_tuple("Type");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Unary(v0) => {
+                let mut formatter = formatter.debug_tuple("Unary");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Verbatim(v0) => {
+                let mut formatter = formatter.debug_tuple("Verbatim");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermArm {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermArm");
+        formatter.field("pat", &self.pat);
+        formatter.field("guard", &self.guard);
+        formatter.field("fat_arrow_token", &self.fat_arrow_token);
+        formatter.field("body", &self.body);
+        formatter.field("comma", &self.comma);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermArray {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermArray");
+        formatter.field("bracket_token", &self.bracket_token);
+        formatter.field("elems", &self.elems);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermBinary {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermBinary");
+        formatter.field("left", &self.left);
+        formatter.field("op", &self.op);
+        formatter.field("right", &self.right);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermBlock {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermBlock");
+        formatter.field("label", &self.label);
+        formatter.field("block", &self.block);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermCall {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermCall");
+        formatter.field("func", &self.func);
+        formatter.field("paren_token", &self.paren_token);
+        formatter.field("args", &self.args);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermCast {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermCast");
+        formatter.field("expr", &self.expr);
+        formatter.field("as_token", &self.as_token);
+        formatter.field("ty", &self.ty);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermField {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermField");
+        formatter.field("base", &self.base);
+        formatter.field("dot_token", &self.dot_token);
+        formatter.field("member", &self.member);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermFieldValue {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermFieldValue");
+        formatter.field("member", &self.member);
+        formatter.field("colon_token", &self.colon_token);
+        formatter.field("expr", &self.expr);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermGenericMethodArgument {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            TermGenericMethodArgument::Type(v0) => {
+                let mut formatter = formatter.debug_tuple("Type");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            TermGenericMethodArgument::Const(v0) => {
+                let mut formatter = formatter.debug_tuple("Const");
+                formatter.field(v0);
+                formatter.finish()
+            }
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermGroup {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermGroup");
+        formatter.field("group_token", &self.group_token);
+        formatter.field("expr", &self.expr);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermIf {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermIf");
+        formatter.field("if_token", &self.if_token);
+        formatter.field("cond", &self.cond);
+        formatter.field("then_branch", &self.then_branch);
+        formatter.field("else_branch", &self.else_branch);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermIndex {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermIndex");
+        formatter.field("expr", &self.expr);
+        formatter.field("bracket_token", &self.bracket_token);
+        formatter.field("index", &self.index);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermLet {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermLet");
+        formatter.field("let_token", &self.let_token);
+        formatter.field("pat", &self.pat);
+        formatter.field("eq_token", &self.eq_token);
+        formatter.field("expr", &self.expr);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermLit {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermLit");
+        formatter.field("lit", &self.lit);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermMatch {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermMatch");
+        formatter.field("match_token", &self.match_token);
+        formatter.field("expr", &self.expr);
+        formatter.field("brace_token", &self.brace_token);
+        formatter.field("arms", &self.arms);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermMethodCall {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermMethodCall");
+        formatter.field("receiver", &self.receiver);
+        formatter.field("dot_token", &self.dot_token);
+        formatter.field("method", &self.method);
+        formatter.field("turbofish", &self.turbofish);
+        formatter.field("paren_token", &self.paren_token);
+        formatter.field("args", &self.args);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermMethodTurbofish {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermMethodTurbofish");
+        formatter.field("colon2_token", &self.colon2_token);
+        formatter.field("lt_token", &self.lt_token);
+        formatter.field("args", &self.args);
+        formatter.field("gt_token", &self.gt_token);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermParen {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermParen");
+        formatter.field("paren_token", &self.paren_token);
+        formatter.field("expr", &self.expr);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermPath {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermPath");
+        formatter.field("qself", &self.qself);
+        formatter.field("path", &self.path);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermRange {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermRange");
+        formatter.field("from", &self.from);
+        formatter.field("limits", &self.limits);
+        formatter.field("to", &self.to);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermReference {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermReference");
+        formatter.field("and_token", &self.and_token);
+        formatter.field("raw", &self.raw);
+        formatter.field("mutability", &self.mutability);
+        formatter.field("expr", &self.expr);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermRepeat {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermRepeat");
+        formatter.field("bracket_token", &self.bracket_token);
+        formatter.field("expr", &self.expr);
+        formatter.field("semi_token", &self.semi_token);
+        formatter.field("len", &self.len);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermReturn {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermReturn");
+        formatter.field("return_token", &self.return_token);
+        formatter.field("expr", &self.expr);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermStruct {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermStruct");
+        formatter.field("path", &self.path);
+        formatter.field("brace_token", &self.brace_token);
+        formatter.field("fields", &self.fields);
+        formatter.field("dot2_token", &self.dot2_token);
+        formatter.field("rest", &self.rest);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermTuple {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermTuple");
+        formatter.field("paren_token", &self.paren_token);
+        formatter.field("elems", &self.elems);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermType {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermType");
+        formatter.field("expr", &self.expr);
+        formatter.field("colon_token", &self.colon_token);
+        formatter.field("ty", &self.ty);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermUnary {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermUnary");
+        formatter.field("op", &self.op);
+        formatter.field("expr", &self.expr);
+        formatter.finish()
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

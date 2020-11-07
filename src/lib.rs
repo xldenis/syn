@@ -338,6 +338,26 @@ pub use crate::data::{
     Visibility,
 };
 
+#[cfg(feature = "full")]
+mod term;
+
+#[cfg(feature = "full")]
+pub mod pred;
+
+
+#[cfg(feature = "full")]
+pub use crate::pred::{Pred, PredConj, PredBinary, PredDisj, PredImpl, PredNeg, PredParen};
+
+#[cfg(feature = "full")]
+pub use crate::term::{
+    TermArm, TermFieldValue, TermGenericMethodArgument, TermMethodTurbofish,
+    Term, TermArray, TermBinary, TermBlock,
+    TermCall, TermCast, TermField,
+    TermGroup, TermIf, TermIndex, TermLet, TermLit, TermMatch, TermMethodCall,
+    TermParen, TermPath, TermRange, TermReference, TermRepeat, TermReturn, TermStruct,
+    TermTuple, TermType, TermUnary,
+};
+
 #[cfg(any(feature = "full", feature = "derive"))]
 mod expr;
 #[cfg(feature = "full")]

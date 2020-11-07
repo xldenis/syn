@@ -577,6 +577,34 @@ pub trait VisitMut {
     fn visit_path_segment_mut(&mut self, i: &mut PathSegment) {
         visit_path_segment_mut(self, i)
     }
+    #[cfg(feature = "full")]
+    fn visit_pred_mut(&mut self, i: &mut Pred) {
+        visit_pred_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_binary_mut(&mut self, i: &mut PredBinary) {
+        visit_pred_binary_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_conj_mut(&mut self, i: &mut PredConj) {
+        visit_pred_conj_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_disj_mut(&mut self, i: &mut PredDisj) {
+        visit_pred_disj_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_impl_mut(&mut self, i: &mut PredImpl) {
+        visit_pred_impl_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_neg_mut(&mut self, i: &mut PredNeg) {
+        visit_pred_neg_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_pred_paren_mut(&mut self, i: &mut PredParen) {
+        visit_pred_paren_mut(self, i)
+    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_predicate_eq_mut(&mut self, i: &mut PredicateEq) {
         visit_predicate_eq_mut(self, i)
@@ -615,6 +643,118 @@ pub trait VisitMut {
     #[cfg(feature = "full")]
     fn visit_stmt_mut(&mut self, i: &mut Stmt) {
         visit_stmt_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_mut(&mut self, i: &mut Term) {
+        visit_term_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_arm_mut(&mut self, i: &mut TermArm) {
+        visit_term_arm_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_array_mut(&mut self, i: &mut TermArray) {
+        visit_term_array_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_binary_mut(&mut self, i: &mut TermBinary) {
+        visit_term_binary_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_block_mut(&mut self, i: &mut TermBlock) {
+        visit_term_block_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_call_mut(&mut self, i: &mut TermCall) {
+        visit_term_call_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_cast_mut(&mut self, i: &mut TermCast) {
+        visit_term_cast_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_field_mut(&mut self, i: &mut TermField) {
+        visit_term_field_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_field_value_mut(&mut self, i: &mut TermFieldValue) {
+        visit_term_field_value_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_generic_method_argument_mut(&mut self, i: &mut TermGenericMethodArgument) {
+        visit_term_generic_method_argument_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_group_mut(&mut self, i: &mut TermGroup) {
+        visit_term_group_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_if_mut(&mut self, i: &mut TermIf) {
+        visit_term_if_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_index_mut(&mut self, i: &mut TermIndex) {
+        visit_term_index_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_let_mut(&mut self, i: &mut TermLet) {
+        visit_term_let_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_lit_mut(&mut self, i: &mut TermLit) {
+        visit_term_lit_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_match_mut(&mut self, i: &mut TermMatch) {
+        visit_term_match_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_method_call_mut(&mut self, i: &mut TermMethodCall) {
+        visit_term_method_call_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_method_turbofish_mut(&mut self, i: &mut TermMethodTurbofish) {
+        visit_term_method_turbofish_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_paren_mut(&mut self, i: &mut TermParen) {
+        visit_term_paren_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_path_mut(&mut self, i: &mut TermPath) {
+        visit_term_path_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_range_mut(&mut self, i: &mut TermRange) {
+        visit_term_range_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_reference_mut(&mut self, i: &mut TermReference) {
+        visit_term_reference_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_repeat_mut(&mut self, i: &mut TermRepeat) {
+        visit_term_repeat_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_return_mut(&mut self, i: &mut TermReturn) {
+        visit_term_return_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_struct_mut(&mut self, i: &mut TermStruct) {
+        visit_term_struct_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_tuple_mut(&mut self, i: &mut TermTuple) {
+        visit_term_tuple_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_type_mut(&mut self, i: &mut TermType) {
+        visit_term_type_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_unary_mut(&mut self, i: &mut TermUnary) {
+        visit_term_unary_mut(self, i)
     }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_trait_bound_mut(&mut self, i: &mut TraitBound) {
@@ -3050,6 +3190,83 @@ where
     v.visit_ident_mut(&mut node.ident);
     v.visit_path_arguments_mut(&mut node.arguments);
 }
+#[cfg(feature = "full")]
+pub fn visit_pred_mut<V>(v: &mut V, node: &mut Pred)
+where
+    V: VisitMut + ?Sized,
+{
+    match node {
+        Pred::Conj(_binding_0) => {
+            v.visit_pred_conj_mut(_binding_0);
+        }
+        Pred::Disj(_binding_0) => {
+            v.visit_pred_disj_mut(_binding_0);
+        }
+        Pred::Binary(_binding_0) => {
+            v.visit_pred_binary_mut(_binding_0);
+        }
+        Pred::Impl(_binding_0) => {
+            v.visit_pred_impl_mut(_binding_0);
+        }
+        Pred::Neg(_binding_0) => {
+            v.visit_pred_neg_mut(_binding_0);
+        }
+        Pred::Paren(_binding_0) => {
+            v.visit_pred_paren_mut(_binding_0);
+        }
+        _ => unreachable!(),
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_binary_mut<V>(v: &mut V, node: &mut PredBinary)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.left);
+    v.visit_bin_op_mut(&mut node.op);
+    v.visit_term_mut(&mut *node.right);
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_conj_mut<V>(v: &mut V, node: &mut PredConj)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_pred_mut(&mut *node.left);
+    tokens_helper(v, &mut node.conj_token.spans);
+    v.visit_pred_mut(&mut *node.right);
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_disj_mut<V>(v: &mut V, node: &mut PredDisj)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_pred_mut(&mut *node.left);
+    tokens_helper(v, &mut node.disj_token.spans);
+    v.visit_pred_mut(&mut *node.right);
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_impl_mut<V>(v: &mut V, node: &mut PredImpl)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_pred_mut(&mut *node.hyp);
+    tokens_helper(v, &mut node.impl_token.spans);
+    v.visit_pred_mut(&mut *node.cons);
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_neg_mut<V>(v: &mut V, node: &mut PredNeg)
+where
+    V: VisitMut + ?Sized,
+{
+}
+#[cfg(feature = "full")]
+pub fn visit_pred_paren_mut<V>(v: &mut V, node: &mut PredParen)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.paren_token.span);
+    v.visit_pred_mut(&mut *node.pred);
+}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_predicate_eq_mut<V>(v: &mut V, node: &mut PredicateEq)
 where
@@ -3209,6 +3426,403 @@ where
             tokens_helper(v, &mut _binding_1.spans);
         }
     }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_mut<V>(v: &mut V, node: &mut Term)
+where
+    V: VisitMut + ?Sized,
+{
+    match node {
+        Term::Array(_binding_0) => {
+            v.visit_term_array_mut(_binding_0);
+        }
+        Term::Binary(_binding_0) => {
+            v.visit_term_binary_mut(_binding_0);
+        }
+        Term::Block(_binding_0) => {
+            v.visit_term_block_mut(_binding_0);
+        }
+        Term::Call(_binding_0) => {
+            v.visit_term_call_mut(_binding_0);
+        }
+        Term::Cast(_binding_0) => {
+            v.visit_term_cast_mut(_binding_0);
+        }
+        Term::Field(_binding_0) => {
+            v.visit_term_field_mut(_binding_0);
+        }
+        Term::Group(_binding_0) => {
+            v.visit_term_group_mut(_binding_0);
+        }
+        Term::If(_binding_0) => {
+            v.visit_term_if_mut(_binding_0);
+        }
+        Term::Index(_binding_0) => {
+            v.visit_term_index_mut(_binding_0);
+        }
+        Term::Let(_binding_0) => {
+            v.visit_term_let_mut(_binding_0);
+        }
+        Term::Lit(_binding_0) => {
+            v.visit_term_lit_mut(_binding_0);
+        }
+        Term::Match(_binding_0) => {
+            v.visit_term_match_mut(_binding_0);
+        }
+        Term::MethodCall(_binding_0) => {
+            v.visit_term_method_call_mut(_binding_0);
+        }
+        Term::Paren(_binding_0) => {
+            v.visit_term_paren_mut(_binding_0);
+        }
+        Term::Path(_binding_0) => {
+            v.visit_term_path_mut(_binding_0);
+        }
+        Term::Range(_binding_0) => {
+            v.visit_term_range_mut(_binding_0);
+        }
+        Term::Reference(_binding_0) => {
+            v.visit_term_reference_mut(_binding_0);
+        }
+        Term::Repeat(_binding_0) => {
+            v.visit_term_repeat_mut(_binding_0);
+        }
+        Term::Return(_binding_0) => {
+            v.visit_term_return_mut(_binding_0);
+        }
+        Term::Struct(_binding_0) => {
+            v.visit_term_struct_mut(_binding_0);
+        }
+        Term::Tuple(_binding_0) => {
+            v.visit_term_tuple_mut(_binding_0);
+        }
+        Term::Type(_binding_0) => {
+            v.visit_term_type_mut(_binding_0);
+        }
+        Term::Unary(_binding_0) => {
+            v.visit_term_unary_mut(_binding_0);
+        }
+        Term::Verbatim(_binding_0) => {
+            skip!(_binding_0);
+        }
+        _ => unreachable!(),
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_arm_mut<V>(v: &mut V, node: &mut TermArm)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_pat_mut(&mut node.pat);
+    if let Some(it) = &mut node.guard {
+        tokens_helper(v, &mut (it).0.span);
+        v.visit_term_mut(&mut *(it).1);
+    };
+    tokens_helper(v, &mut node.fat_arrow_token.spans);
+    v.visit_term_mut(&mut *node.body);
+    if let Some(it) = &mut node.comma {
+        tokens_helper(v, &mut it.spans)
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_array_mut<V>(v: &mut V, node: &mut TermArray)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.bracket_token.span);
+    for el in Punctuated::pairs_mut(&mut node.elems) {
+        let (it, p) = el.into_tuple();
+        v.visit_term_mut(it);
+        if let Some(p) = p {
+            tokens_helper(v, &mut p.spans);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_binary_mut<V>(v: &mut V, node: &mut TermBinary)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.left);
+    v.visit_bin_op_mut(&mut node.op);
+    v.visit_term_mut(&mut *node.right);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_block_mut<V>(v: &mut V, node: &mut TermBlock)
+where
+    V: VisitMut + ?Sized,
+{
+    if let Some(it) = &mut node.label {
+        v.visit_label_mut(it)
+    };
+    v.visit_block_mut(&mut node.block);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_call_mut<V>(v: &mut V, node: &mut TermCall)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.func);
+    tokens_helper(v, &mut node.paren_token.span);
+    for el in Punctuated::pairs_mut(&mut node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_term_mut(it);
+        if let Some(p) = p {
+            tokens_helper(v, &mut p.spans);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_cast_mut<V>(v: &mut V, node: &mut TermCast)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.expr);
+    tokens_helper(v, &mut node.as_token.span);
+    v.visit_type_mut(&mut *node.ty);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_field_mut<V>(v: &mut V, node: &mut TermField)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.base);
+    tokens_helper(v, &mut node.dot_token.spans);
+    v.visit_member_mut(&mut node.member);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_field_value_mut<V>(v: &mut V, node: &mut TermFieldValue)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_member_mut(&mut node.member);
+    if let Some(it) = &mut node.colon_token {
+        tokens_helper(v, &mut it.spans)
+    };
+    v.visit_term_mut(&mut node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_generic_method_argument_mut<V>(v: &mut V, node: &mut TermGenericMethodArgument)
+where
+    V: VisitMut + ?Sized,
+{
+    match node {
+        TermGenericMethodArgument::Type(_binding_0) => {
+            v.visit_type_mut(_binding_0);
+        }
+        TermGenericMethodArgument::Const(_binding_0) => {
+            v.visit_term_mut(_binding_0);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_group_mut<V>(v: &mut V, node: &mut TermGroup)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.group_token.span);
+    v.visit_term_mut(&mut *node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_if_mut<V>(v: &mut V, node: &mut TermIf)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.if_token.span);
+    v.visit_term_mut(&mut *node.cond);
+    v.visit_block_mut(&mut node.then_branch);
+    if let Some(it) = &mut node.else_branch {
+        tokens_helper(v, &mut (it).0.span);
+        v.visit_term_mut(&mut *(it).1);
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_index_mut<V>(v: &mut V, node: &mut TermIndex)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.expr);
+    tokens_helper(v, &mut node.bracket_token.span);
+    v.visit_term_mut(&mut *node.index);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_let_mut<V>(v: &mut V, node: &mut TermLet)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.let_token.span);
+    v.visit_pat_mut(&mut node.pat);
+    tokens_helper(v, &mut node.eq_token.spans);
+    v.visit_term_mut(&mut *node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_lit_mut<V>(v: &mut V, node: &mut TermLit)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_lit_mut(&mut node.lit);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_match_mut<V>(v: &mut V, node: &mut TermMatch)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.match_token.span);
+    v.visit_term_mut(&mut *node.expr);
+    tokens_helper(v, &mut node.brace_token.span);
+    for it in &mut node.arms {
+        v.visit_term_arm_mut(it)
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_method_call_mut<V>(v: &mut V, node: &mut TermMethodCall)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.receiver);
+    tokens_helper(v, &mut node.dot_token.spans);
+    v.visit_ident_mut(&mut node.method);
+    if let Some(it) = &mut node.turbofish {
+        v.visit_term_method_turbofish_mut(it)
+    };
+    tokens_helper(v, &mut node.paren_token.span);
+    for el in Punctuated::pairs_mut(&mut node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_term_mut(it);
+        if let Some(p) = p {
+            tokens_helper(v, &mut p.spans);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_method_turbofish_mut<V>(v: &mut V, node: &mut TermMethodTurbofish)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.colon2_token.spans);
+    tokens_helper(v, &mut node.lt_token.spans);
+    for el in Punctuated::pairs_mut(&mut node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_term_generic_method_argument_mut(it);
+        if let Some(p) = p {
+            tokens_helper(v, &mut p.spans);
+        }
+    }
+    tokens_helper(v, &mut node.gt_token.spans);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_paren_mut<V>(v: &mut V, node: &mut TermParen)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.paren_token.span);
+    v.visit_term_mut(&mut *node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_path_mut<V>(v: &mut V, node: &mut TermPath)
+where
+    V: VisitMut + ?Sized,
+{
+    if let Some(it) = &mut node.qself {
+        v.visit_qself_mut(it)
+    };
+    v.visit_path_mut(&mut node.path);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_range_mut<V>(v: &mut V, node: &mut TermRange)
+where
+    V: VisitMut + ?Sized,
+{
+    if let Some(it) = &mut node.from {
+        v.visit_term_mut(&mut **it)
+    };
+    v.visit_range_limits_mut(&mut node.limits);
+    if let Some(it) = &mut node.to {
+        v.visit_term_mut(&mut **it)
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_reference_mut<V>(v: &mut V, node: &mut TermReference)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.and_token.spans);
+    if let Some(it) = &mut node.mutability {
+        tokens_helper(v, &mut it.span)
+    };
+    v.visit_term_mut(&mut *node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_repeat_mut<V>(v: &mut V, node: &mut TermRepeat)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.bracket_token.span);
+    v.visit_term_mut(&mut *node.expr);
+    tokens_helper(v, &mut node.semi_token.spans);
+    v.visit_term_mut(&mut *node.len);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_return_mut<V>(v: &mut V, node: &mut TermReturn)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.return_token.span);
+    if let Some(it) = &mut node.expr {
+        v.visit_term_mut(&mut **it)
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_struct_mut<V>(v: &mut V, node: &mut TermStruct)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_path_mut(&mut node.path);
+    tokens_helper(v, &mut node.brace_token.span);
+    for el in Punctuated::pairs_mut(&mut node.fields) {
+        let (it, p) = el.into_tuple();
+        v.visit_term_field_value_mut(it);
+        if let Some(p) = p {
+            tokens_helper(v, &mut p.spans);
+        }
+    }
+    if let Some(it) = &mut node.dot2_token {
+        tokens_helper(v, &mut it.spans)
+    };
+    if let Some(it) = &mut node.rest {
+        v.visit_term_mut(&mut **it)
+    };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_tuple_mut<V>(v: &mut V, node: &mut TermTuple)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.paren_token.span);
+    for el in Punctuated::pairs_mut(&mut node.elems) {
+        let (it, p) = el.into_tuple();
+        v.visit_term_mut(it);
+        if let Some(p) = p {
+            tokens_helper(v, &mut p.spans);
+        }
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_term_type_mut<V>(v: &mut V, node: &mut TermType)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.expr);
+    tokens_helper(v, &mut node.colon_token.spans);
+    v.visit_type_mut(&mut *node.ty);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_unary_mut<V>(v: &mut V, node: &mut TermUnary)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_un_op_mut(&mut node.op);
+    v.visit_term_mut(&mut *node.expr);
 }
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_trait_bound_mut<V>(v: &mut V, node: &mut TraitBound)

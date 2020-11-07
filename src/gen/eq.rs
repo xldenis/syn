@@ -1428,6 +1428,70 @@ impl PartialEq for PathSegment {
         self.ident == other.ident && self.arguments == other.arguments
     }
 }
+#[cfg(feature = "full")]
+impl Eq for Pred {}
+#[cfg(feature = "full")]
+impl PartialEq for Pred {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (Pred::Conj(self0), Pred::Conj(other0)) => self0 == other0,
+            (Pred::Disj(self0), Pred::Disj(other0)) => self0 == other0,
+            (Pred::Binary(self0), Pred::Binary(other0)) => self0 == other0,
+            (Pred::Impl(self0), Pred::Impl(other0)) => self0 == other0,
+            (Pred::Neg(self0), Pred::Neg(other0)) => self0 == other0,
+            (Pred::Paren(self0), Pred::Paren(other0)) => self0 == other0,
+            _ => false,
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for PredBinary {}
+#[cfg(feature = "full")]
+impl PartialEq for PredBinary {
+    fn eq(&self, other: &Self) -> bool {
+        self.left == other.left && self.op == other.op && self.right == other.right
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for PredConj {}
+#[cfg(feature = "full")]
+impl PartialEq for PredConj {
+    fn eq(&self, other: &Self) -> bool {
+        self.left == other.left && self.right == other.right
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for PredDisj {}
+#[cfg(feature = "full")]
+impl PartialEq for PredDisj {
+    fn eq(&self, other: &Self) -> bool {
+        self.left == other.left && self.right == other.right
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for PredImpl {}
+#[cfg(feature = "full")]
+impl PartialEq for PredImpl {
+    fn eq(&self, other: &Self) -> bool {
+        self.hyp == other.hyp && self.cons == other.cons
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for PredNeg {}
+#[cfg(feature = "full")]
+impl PartialEq for PredNeg {
+    fn eq(&self, _other: &Self) -> bool {
+        true
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for PredParen {}
+#[cfg(feature = "full")]
+impl PartialEq for PredParen {
+    fn eq(&self, other: &Self) -> bool {
+        self.pred == other.pred
+    }
+}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Eq for PredicateEq {}
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1524,6 +1588,279 @@ impl PartialEq for Stmt {
             (Stmt::Semi(self0, _), Stmt::Semi(other0, _)) => self0 == other0,
             _ => false,
         }
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for Term {}
+#[cfg(feature = "full")]
+impl PartialEq for Term {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (Term::Array(self0), Term::Array(other0)) => self0 == other0,
+            (Term::Binary(self0), Term::Binary(other0)) => self0 == other0,
+            (Term::Block(self0), Term::Block(other0)) => self0 == other0,
+            (Term::Call(self0), Term::Call(other0)) => self0 == other0,
+            (Term::Cast(self0), Term::Cast(other0)) => self0 == other0,
+            (Term::Field(self0), Term::Field(other0)) => self0 == other0,
+            (Term::Group(self0), Term::Group(other0)) => self0 == other0,
+            (Term::If(self0), Term::If(other0)) => self0 == other0,
+            (Term::Index(self0), Term::Index(other0)) => self0 == other0,
+            (Term::Let(self0), Term::Let(other0)) => self0 == other0,
+            (Term::Lit(self0), Term::Lit(other0)) => self0 == other0,
+            (Term::Match(self0), Term::Match(other0)) => self0 == other0,
+            (Term::MethodCall(self0), Term::MethodCall(other0)) => self0 == other0,
+            (Term::Paren(self0), Term::Paren(other0)) => self0 == other0,
+            (Term::Path(self0), Term::Path(other0)) => self0 == other0,
+            (Term::Range(self0), Term::Range(other0)) => self0 == other0,
+            (Term::Reference(self0), Term::Reference(other0)) => self0 == other0,
+            (Term::Repeat(self0), Term::Repeat(other0)) => self0 == other0,
+            (Term::Return(self0), Term::Return(other0)) => self0 == other0,
+            (Term::Struct(self0), Term::Struct(other0)) => self0 == other0,
+            (Term::Tuple(self0), Term::Tuple(other0)) => self0 == other0,
+            (Term::Type(self0), Term::Type(other0)) => self0 == other0,
+            (Term::Unary(self0), Term::Unary(other0)) => self0 == other0,
+            (Term::Verbatim(self0), Term::Verbatim(other0)) => {
+                TokenStreamHelper(self0) == TokenStreamHelper(other0)
+            }
+            _ => false,
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermArm {}
+#[cfg(feature = "full")]
+impl PartialEq for TermArm {
+    fn eq(&self, other: &Self) -> bool {
+        self.pat == other.pat
+            && self.guard == other.guard
+            && self.body == other.body
+            && self.comma == other.comma
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermArray {}
+#[cfg(feature = "full")]
+impl PartialEq for TermArray {
+    fn eq(&self, other: &Self) -> bool {
+        self.elems == other.elems
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermBinary {}
+#[cfg(feature = "full")]
+impl PartialEq for TermBinary {
+    fn eq(&self, other: &Self) -> bool {
+        self.left == other.left && self.op == other.op && self.right == other.right
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermBlock {}
+#[cfg(feature = "full")]
+impl PartialEq for TermBlock {
+    fn eq(&self, other: &Self) -> bool {
+        self.label == other.label && self.block == other.block
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermCall {}
+#[cfg(feature = "full")]
+impl PartialEq for TermCall {
+    fn eq(&self, other: &Self) -> bool {
+        self.func == other.func && self.args == other.args
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermCast {}
+#[cfg(feature = "full")]
+impl PartialEq for TermCast {
+    fn eq(&self, other: &Self) -> bool {
+        self.expr == other.expr && self.ty == other.ty
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermField {}
+#[cfg(feature = "full")]
+impl PartialEq for TermField {
+    fn eq(&self, other: &Self) -> bool {
+        self.base == other.base && self.member == other.member
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermFieldValue {}
+#[cfg(feature = "full")]
+impl PartialEq for TermFieldValue {
+    fn eq(&self, other: &Self) -> bool {
+        self.member == other.member
+            && self.colon_token == other.colon_token
+            && self.expr == other.expr
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermGenericMethodArgument {}
+#[cfg(feature = "full")]
+impl PartialEq for TermGenericMethodArgument {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (TermGenericMethodArgument::Type(self0), TermGenericMethodArgument::Type(other0)) => {
+                self0 == other0
+            }
+            (TermGenericMethodArgument::Const(self0), TermGenericMethodArgument::Const(other0)) => {
+                self0 == other0
+            }
+            _ => false,
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermGroup {}
+#[cfg(feature = "full")]
+impl PartialEq for TermGroup {
+    fn eq(&self, other: &Self) -> bool {
+        self.expr == other.expr
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermIf {}
+#[cfg(feature = "full")]
+impl PartialEq for TermIf {
+    fn eq(&self, other: &Self) -> bool {
+        self.cond == other.cond
+            && self.then_branch == other.then_branch
+            && self.else_branch == other.else_branch
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermIndex {}
+#[cfg(feature = "full")]
+impl PartialEq for TermIndex {
+    fn eq(&self, other: &Self) -> bool {
+        self.expr == other.expr && self.index == other.index
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermLet {}
+#[cfg(feature = "full")]
+impl PartialEq for TermLet {
+    fn eq(&self, other: &Self) -> bool {
+        self.pat == other.pat && self.expr == other.expr
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermLit {}
+#[cfg(feature = "full")]
+impl PartialEq for TermLit {
+    fn eq(&self, other: &Self) -> bool {
+        self.lit == other.lit
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermMatch {}
+#[cfg(feature = "full")]
+impl PartialEq for TermMatch {
+    fn eq(&self, other: &Self) -> bool {
+        self.expr == other.expr && self.arms == other.arms
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermMethodCall {}
+#[cfg(feature = "full")]
+impl PartialEq for TermMethodCall {
+    fn eq(&self, other: &Self) -> bool {
+        self.receiver == other.receiver
+            && self.method == other.method
+            && self.turbofish == other.turbofish
+            && self.args == other.args
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermMethodTurbofish {}
+#[cfg(feature = "full")]
+impl PartialEq for TermMethodTurbofish {
+    fn eq(&self, other: &Self) -> bool {
+        self.args == other.args
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermParen {}
+#[cfg(feature = "full")]
+impl PartialEq for TermParen {
+    fn eq(&self, other: &Self) -> bool {
+        self.expr == other.expr
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermPath {}
+#[cfg(feature = "full")]
+impl PartialEq for TermPath {
+    fn eq(&self, other: &Self) -> bool {
+        self.qself == other.qself && self.path == other.path
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermRange {}
+#[cfg(feature = "full")]
+impl PartialEq for TermRange {
+    fn eq(&self, other: &Self) -> bool {
+        self.from == other.from && self.limits == other.limits && self.to == other.to
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermReference {}
+#[cfg(feature = "full")]
+impl PartialEq for TermReference {
+    fn eq(&self, other: &Self) -> bool {
+        self.mutability == other.mutability && self.expr == other.expr
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermRepeat {}
+#[cfg(feature = "full")]
+impl PartialEq for TermRepeat {
+    fn eq(&self, other: &Self) -> bool {
+        self.expr == other.expr && self.len == other.len
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermReturn {}
+#[cfg(feature = "full")]
+impl PartialEq for TermReturn {
+    fn eq(&self, other: &Self) -> bool {
+        self.expr == other.expr
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermStruct {}
+#[cfg(feature = "full")]
+impl PartialEq for TermStruct {
+    fn eq(&self, other: &Self) -> bool {
+        self.path == other.path
+            && self.fields == other.fields
+            && self.dot2_token == other.dot2_token
+            && self.rest == other.rest
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermTuple {}
+#[cfg(feature = "full")]
+impl PartialEq for TermTuple {
+    fn eq(&self, other: &Self) -> bool {
+        self.elems == other.elems
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermType {}
+#[cfg(feature = "full")]
+impl PartialEq for TermType {
+    fn eq(&self, other: &Self) -> bool {
+        self.expr == other.expr && self.ty == other.ty
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermUnary {}
+#[cfg(feature = "full")]
+impl PartialEq for TermUnary {
+    fn eq(&self, other: &Self) -> bool {
+        self.op == other.op && self.expr == other.expr
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

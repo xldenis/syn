@@ -1545,6 +1545,75 @@ impl Clone for PathSegment {
         }
     }
 }
+#[cfg(feature = "full")]
+impl Clone for Pred {
+    fn clone(&self) -> Self {
+        match self {
+            Pred::Conj(v0) => Pred::Conj(v0.clone()),
+            Pred::Disj(v0) => Pred::Disj(v0.clone()),
+            Pred::Binary(v0) => Pred::Binary(v0.clone()),
+            Pred::Impl(v0) => Pred::Impl(v0.clone()),
+            Pred::Neg(v0) => Pred::Neg(v0.clone()),
+            Pred::Paren(v0) => Pred::Paren(v0.clone()),
+            _ => unreachable!(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for PredBinary {
+    fn clone(&self) -> Self {
+        PredBinary {
+            left: self.left.clone(),
+            op: self.op.clone(),
+            right: self.right.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for PredConj {
+    fn clone(&self) -> Self {
+        PredConj {
+            left: self.left.clone(),
+            conj_token: self.conj_token.clone(),
+            right: self.right.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for PredDisj {
+    fn clone(&self) -> Self {
+        PredDisj {
+            left: self.left.clone(),
+            disj_token: self.disj_token.clone(),
+            right: self.right.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for PredImpl {
+    fn clone(&self) -> Self {
+        PredImpl {
+            hyp: self.hyp.clone(),
+            impl_token: self.impl_token.clone(),
+            cons: self.cons.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for PredNeg {
+    fn clone(&self) -> Self {
+        PredNeg {}
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for PredParen {
+    fn clone(&self) -> Self {
+        PredParen {
+            paren_token: self.paren_token.clone(),
+            pred: self.pred.clone(),
+        }
+    }
+}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Clone for PredicateEq {
     fn clone(&self) -> Self {
@@ -1642,6 +1711,310 @@ impl Clone for Stmt {
             Stmt::Item(v0) => Stmt::Item(v0.clone()),
             Stmt::Expr(v0) => Stmt::Expr(v0.clone()),
             Stmt::Semi(v0, v1) => Stmt::Semi(v0.clone(), v1.clone()),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for Term {
+    fn clone(&self) -> Self {
+        match self {
+            Term::Array(v0) => Term::Array(v0.clone()),
+            Term::Binary(v0) => Term::Binary(v0.clone()),
+            Term::Block(v0) => Term::Block(v0.clone()),
+            Term::Call(v0) => Term::Call(v0.clone()),
+            Term::Cast(v0) => Term::Cast(v0.clone()),
+            Term::Field(v0) => Term::Field(v0.clone()),
+            Term::Group(v0) => Term::Group(v0.clone()),
+            Term::If(v0) => Term::If(v0.clone()),
+            Term::Index(v0) => Term::Index(v0.clone()),
+            Term::Let(v0) => Term::Let(v0.clone()),
+            Term::Lit(v0) => Term::Lit(v0.clone()),
+            Term::Match(v0) => Term::Match(v0.clone()),
+            Term::MethodCall(v0) => Term::MethodCall(v0.clone()),
+            Term::Paren(v0) => Term::Paren(v0.clone()),
+            Term::Path(v0) => Term::Path(v0.clone()),
+            Term::Range(v0) => Term::Range(v0.clone()),
+            Term::Reference(v0) => Term::Reference(v0.clone()),
+            Term::Repeat(v0) => Term::Repeat(v0.clone()),
+            Term::Return(v0) => Term::Return(v0.clone()),
+            Term::Struct(v0) => Term::Struct(v0.clone()),
+            Term::Tuple(v0) => Term::Tuple(v0.clone()),
+            Term::Type(v0) => Term::Type(v0.clone()),
+            Term::Unary(v0) => Term::Unary(v0.clone()),
+            Term::Verbatim(v0) => Term::Verbatim(v0.clone()),
+            _ => unreachable!(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermArm {
+    fn clone(&self) -> Self {
+        TermArm {
+            pat: self.pat.clone(),
+            guard: self.guard.clone(),
+            fat_arrow_token: self.fat_arrow_token.clone(),
+            body: self.body.clone(),
+            comma: self.comma.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermArray {
+    fn clone(&self) -> Self {
+        TermArray {
+            bracket_token: self.bracket_token.clone(),
+            elems: self.elems.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermBinary {
+    fn clone(&self) -> Self {
+        TermBinary {
+            left: self.left.clone(),
+            op: self.op.clone(),
+            right: self.right.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermBlock {
+    fn clone(&self) -> Self {
+        TermBlock {
+            label: self.label.clone(),
+            block: self.block.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermCall {
+    fn clone(&self) -> Self {
+        TermCall {
+            func: self.func.clone(),
+            paren_token: self.paren_token.clone(),
+            args: self.args.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermCast {
+    fn clone(&self) -> Self {
+        TermCast {
+            expr: self.expr.clone(),
+            as_token: self.as_token.clone(),
+            ty: self.ty.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermField {
+    fn clone(&self) -> Self {
+        TermField {
+            base: self.base.clone(),
+            dot_token: self.dot_token.clone(),
+            member: self.member.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermFieldValue {
+    fn clone(&self) -> Self {
+        TermFieldValue {
+            member: self.member.clone(),
+            colon_token: self.colon_token.clone(),
+            expr: self.expr.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermGenericMethodArgument {
+    fn clone(&self) -> Self {
+        match self {
+            TermGenericMethodArgument::Type(v0) => TermGenericMethodArgument::Type(v0.clone()),
+            TermGenericMethodArgument::Const(v0) => TermGenericMethodArgument::Const(v0.clone()),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermGroup {
+    fn clone(&self) -> Self {
+        TermGroup {
+            group_token: self.group_token.clone(),
+            expr: self.expr.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermIf {
+    fn clone(&self) -> Self {
+        TermIf {
+            if_token: self.if_token.clone(),
+            cond: self.cond.clone(),
+            then_branch: self.then_branch.clone(),
+            else_branch: self.else_branch.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermIndex {
+    fn clone(&self) -> Self {
+        TermIndex {
+            expr: self.expr.clone(),
+            bracket_token: self.bracket_token.clone(),
+            index: self.index.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermLet {
+    fn clone(&self) -> Self {
+        TermLet {
+            let_token: self.let_token.clone(),
+            pat: self.pat.clone(),
+            eq_token: self.eq_token.clone(),
+            expr: self.expr.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermLit {
+    fn clone(&self) -> Self {
+        TermLit {
+            lit: self.lit.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermMatch {
+    fn clone(&self) -> Self {
+        TermMatch {
+            match_token: self.match_token.clone(),
+            expr: self.expr.clone(),
+            brace_token: self.brace_token.clone(),
+            arms: self.arms.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermMethodCall {
+    fn clone(&self) -> Self {
+        TermMethodCall {
+            receiver: self.receiver.clone(),
+            dot_token: self.dot_token.clone(),
+            method: self.method.clone(),
+            turbofish: self.turbofish.clone(),
+            paren_token: self.paren_token.clone(),
+            args: self.args.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermMethodTurbofish {
+    fn clone(&self) -> Self {
+        TermMethodTurbofish {
+            colon2_token: self.colon2_token.clone(),
+            lt_token: self.lt_token.clone(),
+            args: self.args.clone(),
+            gt_token: self.gt_token.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermParen {
+    fn clone(&self) -> Self {
+        TermParen {
+            paren_token: self.paren_token.clone(),
+            expr: self.expr.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermPath {
+    fn clone(&self) -> Self {
+        TermPath {
+            qself: self.qself.clone(),
+            path: self.path.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermRange {
+    fn clone(&self) -> Self {
+        TermRange {
+            from: self.from.clone(),
+            limits: self.limits.clone(),
+            to: self.to.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermReference {
+    fn clone(&self) -> Self {
+        TermReference {
+            and_token: self.and_token.clone(),
+            raw: self.raw.clone(),
+            mutability: self.mutability.clone(),
+            expr: self.expr.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermRepeat {
+    fn clone(&self) -> Self {
+        TermRepeat {
+            bracket_token: self.bracket_token.clone(),
+            expr: self.expr.clone(),
+            semi_token: self.semi_token.clone(),
+            len: self.len.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermReturn {
+    fn clone(&self) -> Self {
+        TermReturn {
+            return_token: self.return_token.clone(),
+            expr: self.expr.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermStruct {
+    fn clone(&self) -> Self {
+        TermStruct {
+            path: self.path.clone(),
+            brace_token: self.brace_token.clone(),
+            fields: self.fields.clone(),
+            dot2_token: self.dot2_token.clone(),
+            rest: self.rest.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermTuple {
+    fn clone(&self) -> Self {
+        TermTuple {
+            paren_token: self.paren_token.clone(),
+            elems: self.elems.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermType {
+    fn clone(&self) -> Self {
+        TermType {
+            expr: self.expr.clone(),
+            colon_token: self.colon_token.clone(),
+            ty: self.ty.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermUnary {
+    fn clone(&self) -> Self {
+        TermUnary {
+            op: self.op.clone(),
+            expr: self.expr.clone(),
         }
     }
 }

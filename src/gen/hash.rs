@@ -2015,6 +2015,99 @@ impl Hash for PathSegment {
         self.arguments.hash(state);
     }
 }
+#[cfg(feature = "full")]
+impl Hash for Pred {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        match self {
+            Pred::Conj(v0) => {
+                state.write_u8(0u8);
+                v0.hash(state);
+            }
+            Pred::Disj(v0) => {
+                state.write_u8(1u8);
+                v0.hash(state);
+            }
+            Pred::Binary(v0) => {
+                state.write_u8(2u8);
+                v0.hash(state);
+            }
+            Pred::Impl(v0) => {
+                state.write_u8(3u8);
+                v0.hash(state);
+            }
+            Pred::Neg(v0) => {
+                state.write_u8(4u8);
+                v0.hash(state);
+            }
+            Pred::Paren(v0) => {
+                state.write_u8(5u8);
+                v0.hash(state);
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for PredBinary {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.left.hash(state);
+        self.op.hash(state);
+        self.right.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for PredConj {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.left.hash(state);
+        self.right.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for PredDisj {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.left.hash(state);
+        self.right.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for PredImpl {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.hyp.hash(state);
+        self.cons.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for PredNeg {
+    fn hash<H>(&self, _state: &mut H)
+    where
+        H: Hasher,
+    {
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for PredParen {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.pred.hash(state);
+    }
+}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Hash for PredicateEq {
     fn hash<H>(&self, state: &mut H)
@@ -2142,6 +2235,394 @@ impl Hash for Stmt {
                 v0.hash(state);
             }
         }
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for Term {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        match self {
+            Term::Array(v0) => {
+                state.write_u8(0u8);
+                v0.hash(state);
+            }
+            Term::Binary(v0) => {
+                state.write_u8(1u8);
+                v0.hash(state);
+            }
+            Term::Block(v0) => {
+                state.write_u8(2u8);
+                v0.hash(state);
+            }
+            Term::Call(v0) => {
+                state.write_u8(3u8);
+                v0.hash(state);
+            }
+            Term::Cast(v0) => {
+                state.write_u8(4u8);
+                v0.hash(state);
+            }
+            Term::Field(v0) => {
+                state.write_u8(5u8);
+                v0.hash(state);
+            }
+            Term::Group(v0) => {
+                state.write_u8(6u8);
+                v0.hash(state);
+            }
+            Term::If(v0) => {
+                state.write_u8(7u8);
+                v0.hash(state);
+            }
+            Term::Index(v0) => {
+                state.write_u8(8u8);
+                v0.hash(state);
+            }
+            Term::Let(v0) => {
+                state.write_u8(9u8);
+                v0.hash(state);
+            }
+            Term::Lit(v0) => {
+                state.write_u8(10u8);
+                v0.hash(state);
+            }
+            Term::Match(v0) => {
+                state.write_u8(11u8);
+                v0.hash(state);
+            }
+            Term::MethodCall(v0) => {
+                state.write_u8(12u8);
+                v0.hash(state);
+            }
+            Term::Paren(v0) => {
+                state.write_u8(13u8);
+                v0.hash(state);
+            }
+            Term::Path(v0) => {
+                state.write_u8(14u8);
+                v0.hash(state);
+            }
+            Term::Range(v0) => {
+                state.write_u8(15u8);
+                v0.hash(state);
+            }
+            Term::Reference(v0) => {
+                state.write_u8(16u8);
+                v0.hash(state);
+            }
+            Term::Repeat(v0) => {
+                state.write_u8(17u8);
+                v0.hash(state);
+            }
+            Term::Return(v0) => {
+                state.write_u8(18u8);
+                v0.hash(state);
+            }
+            Term::Struct(v0) => {
+                state.write_u8(19u8);
+                v0.hash(state);
+            }
+            Term::Tuple(v0) => {
+                state.write_u8(20u8);
+                v0.hash(state);
+            }
+            Term::Type(v0) => {
+                state.write_u8(21u8);
+                v0.hash(state);
+            }
+            Term::Unary(v0) => {
+                state.write_u8(22u8);
+                v0.hash(state);
+            }
+            Term::Verbatim(v0) => {
+                state.write_u8(23u8);
+                TokenStreamHelper(v0).hash(state);
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermArm {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.pat.hash(state);
+        self.guard.hash(state);
+        self.body.hash(state);
+        self.comma.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermArray {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.elems.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermBinary {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.left.hash(state);
+        self.op.hash(state);
+        self.right.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermBlock {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.label.hash(state);
+        self.block.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermCall {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.func.hash(state);
+        self.args.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermCast {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.expr.hash(state);
+        self.ty.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermField {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.base.hash(state);
+        self.member.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermFieldValue {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.member.hash(state);
+        self.colon_token.hash(state);
+        self.expr.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermGenericMethodArgument {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        match self {
+            TermGenericMethodArgument::Type(v0) => {
+                state.write_u8(0u8);
+                v0.hash(state);
+            }
+            TermGenericMethodArgument::Const(v0) => {
+                state.write_u8(1u8);
+                v0.hash(state);
+            }
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermGroup {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.expr.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermIf {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.cond.hash(state);
+        self.then_branch.hash(state);
+        self.else_branch.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermIndex {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.expr.hash(state);
+        self.index.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermLet {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.pat.hash(state);
+        self.expr.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermLit {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.lit.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermMatch {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.expr.hash(state);
+        self.arms.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermMethodCall {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.receiver.hash(state);
+        self.method.hash(state);
+        self.turbofish.hash(state);
+        self.args.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermMethodTurbofish {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.args.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermParen {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.expr.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermPath {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.qself.hash(state);
+        self.path.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermRange {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.from.hash(state);
+        self.limits.hash(state);
+        self.to.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermReference {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.mutability.hash(state);
+        self.expr.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermRepeat {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.expr.hash(state);
+        self.len.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermReturn {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.expr.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermStruct {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.path.hash(state);
+        self.fields.hash(state);
+        self.dot2_token.hash(state);
+        self.rest.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermTuple {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.elems.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermType {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.expr.hash(state);
+        self.ty.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermUnary {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.op.hash(state);
+        self.expr.hash(state);
     }
 }
 #[cfg(any(feature = "derive", feature = "full"))]

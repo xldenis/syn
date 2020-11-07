@@ -727,6 +727,7 @@ define_punctuation! {
     "-"           pub struct Sub/1        /// `-`
     "-="          pub struct SubEq/2      /// `-=`
     "~"           pub struct Tilde/1      /// `~`
+    "==>"         pub struct PredImpl/3   /// `==>`
 }
 
 define_delimiters! {
@@ -847,6 +848,7 @@ macro_rules! export_token_macro {
             [-=]          => { $crate::token::SubEq };
             [~]           => { $crate::token::Tilde };
             [_]           => { $crate::token::Underscore };
+            [==>]         => { $crate::token::PredImpl };
         }
     };
 }

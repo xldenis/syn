@@ -2576,7 +2576,7 @@ pub(crate) mod parsing {
 
     #[cfg(feature = "full")]
     impl Member {
-        fn is_named(&self) -> bool {
+        pub(crate) fn is_named(&self) -> bool {
             match *self {
                 Member::Named(_) => true,
                 Member::Unnamed(_) => false,
