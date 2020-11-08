@@ -1545,75 +1545,6 @@ impl Clone for PathSegment {
         }
     }
 }
-#[cfg(feature = "full")]
-impl Clone for Pred {
-    fn clone(&self) -> Self {
-        match self {
-            Pred::Conj(v0) => Pred::Conj(v0.clone()),
-            Pred::Disj(v0) => Pred::Disj(v0.clone()),
-            Pred::Binary(v0) => Pred::Binary(v0.clone()),
-            Pred::Impl(v0) => Pred::Impl(v0.clone()),
-            Pred::Neg(v0) => Pred::Neg(v0.clone()),
-            Pred::Paren(v0) => Pred::Paren(v0.clone()),
-            _ => unreachable!(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for PredBinary {
-    fn clone(&self) -> Self {
-        PredBinary {
-            left: self.left.clone(),
-            op: self.op.clone(),
-            right: self.right.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for PredConj {
-    fn clone(&self) -> Self {
-        PredConj {
-            left: self.left.clone(),
-            conj_token: self.conj_token.clone(),
-            right: self.right.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for PredDisj {
-    fn clone(&self) -> Self {
-        PredDisj {
-            left: self.left.clone(),
-            disj_token: self.disj_token.clone(),
-            right: self.right.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for PredImpl {
-    fn clone(&self) -> Self {
-        PredImpl {
-            hyp: self.hyp.clone(),
-            impl_token: self.impl_token.clone(),
-            cons: self.cons.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for PredNeg {
-    fn clone(&self) -> Self {
-        PredNeg {}
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for PredParen {
-    fn clone(&self) -> Self {
-        PredParen {
-            paren_token: self.paren_token.clone(),
-            pred: self.pred.clone(),
-        }
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Clone for PredicateEq {
     fn clone(&self) -> Self {
@@ -1742,6 +1673,7 @@ impl Clone for Term {
             Term::Type(v0) => Term::Type(v0.clone()),
             Term::Unary(v0) => Term::Unary(v0.clone()),
             Term::Verbatim(v0) => Term::Verbatim(v0.clone()),
+            Term::Impl(v0) => Term::Impl(v0.clone()),
             _ => unreachable!(),
         }
     }
@@ -1852,6 +1784,16 @@ impl Clone for TermIf {
             cond: self.cond.clone(),
             then_branch: self.then_branch.clone(),
             else_branch: self.else_branch.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermImpl {
+    fn clone(&self) -> Self {
+        TermImpl {
+            hyp: self.hyp.clone(),
+            impl_token: self.impl_token.clone(),
+            cons: self.cons.clone(),
         }
     }
 }

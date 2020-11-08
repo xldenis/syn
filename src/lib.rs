@@ -341,12 +341,12 @@ pub use crate::data::{
 #[cfg(feature = "full")]
 mod term;
 
-#[cfg(feature = "full")]
-pub mod pred;
+// #[cfg(feature = "full")]
+// pub mod pred;
 
 
-#[cfg(feature = "full")]
-pub use crate::pred::{Pred, PredConj, PredBinary, PredDisj, PredImpl, PredNeg, PredParen};
+// #[cfg(feature = "full")]
+// pub use crate::pred::{Pred, PredConj, PredBinary, PredDisj, PredImpl, PredNeg, PredParen};
 
 #[cfg(feature = "full")]
 pub use crate::term::{
@@ -355,7 +355,7 @@ pub use crate::term::{
     TermCall, TermCast, TermField,
     TermGroup, TermIf, TermIndex, TermLet, TermLit, TermMatch, TermMethodCall,
     TermParen, TermPath, TermRange, TermReference, TermRepeat, TermReturn, TermStruct,
-    TermTuple, TermType, TermUnary,
+    TermTuple, TermType, TermUnary, TermImpl,
 };
 
 #[cfg(any(feature = "full", feature = "derive"))]

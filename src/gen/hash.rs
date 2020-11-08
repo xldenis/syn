@@ -2015,99 +2015,6 @@ impl Hash for PathSegment {
         self.arguments.hash(state);
     }
 }
-#[cfg(feature = "full")]
-impl Hash for Pred {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        match self {
-            Pred::Conj(v0) => {
-                state.write_u8(0u8);
-                v0.hash(state);
-            }
-            Pred::Disj(v0) => {
-                state.write_u8(1u8);
-                v0.hash(state);
-            }
-            Pred::Binary(v0) => {
-                state.write_u8(2u8);
-                v0.hash(state);
-            }
-            Pred::Impl(v0) => {
-                state.write_u8(3u8);
-                v0.hash(state);
-            }
-            Pred::Neg(v0) => {
-                state.write_u8(4u8);
-                v0.hash(state);
-            }
-            Pred::Paren(v0) => {
-                state.write_u8(5u8);
-                v0.hash(state);
-            }
-            _ => unreachable!(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for PredBinary {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.left.hash(state);
-        self.op.hash(state);
-        self.right.hash(state);
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for PredConj {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.left.hash(state);
-        self.right.hash(state);
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for PredDisj {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.left.hash(state);
-        self.right.hash(state);
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for PredImpl {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.hyp.hash(state);
-        self.cons.hash(state);
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for PredNeg {
-    fn hash<H>(&self, _state: &mut H)
-    where
-        H: Hasher,
-    {
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for PredParen {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.pred.hash(state);
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Hash for PredicateEq {
     fn hash<H>(&self, state: &mut H)
@@ -2340,6 +2247,10 @@ impl Hash for Term {
                 state.write_u8(23u8);
                 TokenStreamHelper(v0).hash(state);
             }
+            Term::Impl(v0) => {
+                state.write_u8(24u8);
+                v0.hash(state);
+            }
             _ => unreachable!(),
         }
     }
@@ -2463,6 +2374,16 @@ impl Hash for TermIf {
         self.cond.hash(state);
         self.then_branch.hash(state);
         self.else_branch.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermImpl {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.hyp.hash(state);
+        self.cons.hash(state);
     }
 }
 #[cfg(feature = "full")]

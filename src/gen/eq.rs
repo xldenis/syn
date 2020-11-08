@@ -1428,70 +1428,6 @@ impl PartialEq for PathSegment {
         self.ident == other.ident && self.arguments == other.arguments
     }
 }
-#[cfg(feature = "full")]
-impl Eq for Pred {}
-#[cfg(feature = "full")]
-impl PartialEq for Pred {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Pred::Conj(self0), Pred::Conj(other0)) => self0 == other0,
-            (Pred::Disj(self0), Pred::Disj(other0)) => self0 == other0,
-            (Pred::Binary(self0), Pred::Binary(other0)) => self0 == other0,
-            (Pred::Impl(self0), Pred::Impl(other0)) => self0 == other0,
-            (Pred::Neg(self0), Pred::Neg(other0)) => self0 == other0,
-            (Pred::Paren(self0), Pred::Paren(other0)) => self0 == other0,
-            _ => false,
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for PredBinary {}
-#[cfg(feature = "full")]
-impl PartialEq for PredBinary {
-    fn eq(&self, other: &Self) -> bool {
-        self.left == other.left && self.op == other.op && self.right == other.right
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for PredConj {}
-#[cfg(feature = "full")]
-impl PartialEq for PredConj {
-    fn eq(&self, other: &Self) -> bool {
-        self.left == other.left && self.right == other.right
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for PredDisj {}
-#[cfg(feature = "full")]
-impl PartialEq for PredDisj {
-    fn eq(&self, other: &Self) -> bool {
-        self.left == other.left && self.right == other.right
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for PredImpl {}
-#[cfg(feature = "full")]
-impl PartialEq for PredImpl {
-    fn eq(&self, other: &Self) -> bool {
-        self.hyp == other.hyp && self.cons == other.cons
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for PredNeg {}
-#[cfg(feature = "full")]
-impl PartialEq for PredNeg {
-    fn eq(&self, _other: &Self) -> bool {
-        true
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for PredParen {}
-#[cfg(feature = "full")]
-impl PartialEq for PredParen {
-    fn eq(&self, other: &Self) -> bool {
-        self.pred == other.pred
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 impl Eq for PredicateEq {}
 #[cfg(any(feature = "derive", feature = "full"))]
@@ -1622,6 +1558,7 @@ impl PartialEq for Term {
             (Term::Verbatim(self0), Term::Verbatim(other0)) => {
                 TokenStreamHelper(self0) == TokenStreamHelper(other0)
             }
+            (Term::Impl(self0), Term::Impl(other0)) => self0 == other0,
             _ => false,
         }
     }
@@ -1727,6 +1664,14 @@ impl PartialEq for TermIf {
         self.cond == other.cond
             && self.then_branch == other.then_branch
             && self.else_branch == other.else_branch
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermImpl {}
+#[cfg(feature = "full")]
+impl PartialEq for TermImpl {
+    fn eq(&self, other: &Self) -> bool {
+        self.hyp == other.hyp && self.cons == other.cons
     }
 }
 #[cfg(feature = "full")]

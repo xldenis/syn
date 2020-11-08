@@ -4190,166 +4190,6 @@
       }
     },
     {
-      "ident": "Pred",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "variants": {
-        "Conj": [
-          {
-            "syn": "PredConj"
-          }
-        ],
-        "Disj": [
-          {
-            "syn": "PredDisj"
-          }
-        ],
-        "Binary": [
-          {
-            "syn": "PredBinary"
-          }
-        ],
-        "Impl": [
-          {
-            "syn": "PredImpl"
-          }
-        ],
-        "Neg": [
-          {
-            "syn": "PredNeg"
-          }
-        ],
-        "Paren": [
-          {
-            "syn": "PredParen"
-          }
-        ]
-      },
-      "exhaustive": false
-    },
-    {
-      "ident": "PredBinary",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "left": {
-          "box": {
-            "syn": "Term"
-          }
-        },
-        "op": {
-          "syn": "BinOp"
-        },
-        "right": {
-          "box": {
-            "syn": "Term"
-          }
-        }
-      }
-    },
-    {
-      "ident": "PredConj",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "left": {
-          "box": {
-            "syn": "Pred"
-          }
-        },
-        "conj_token": {
-          "token": "AndAnd"
-        },
-        "right": {
-          "box": {
-            "syn": "Pred"
-          }
-        }
-      }
-    },
-    {
-      "ident": "PredDisj",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "left": {
-          "box": {
-            "syn": "Pred"
-          }
-        },
-        "disj_token": {
-          "token": "OrOr"
-        },
-        "right": {
-          "box": {
-            "syn": "Pred"
-          }
-        }
-      }
-    },
-    {
-      "ident": "PredImpl",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "hyp": {
-          "box": {
-            "syn": "Pred"
-          }
-        },
-        "impl_token": {
-          "token": "PredImpl"
-        },
-        "cons": {
-          "box": {
-            "syn": "Pred"
-          }
-        }
-      }
-    },
-    {
-      "ident": "PredNeg",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {}
-    },
-    {
-      "ident": "PredParen",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "paren_token": {
-          "group": "Paren"
-        },
-        "pred": {
-          "box": {
-            "syn": "Pred"
-          }
-        }
-      }
-    },
-    {
       "ident": "PredicateEq",
       "features": {
         "any": [
@@ -4751,6 +4591,11 @@
           {
             "proc_macro2": "TokenStream"
           }
+        ],
+        "Impl": [
+          {
+            "syn": "TermImpl"
+          }
         ]
       },
       "exhaustive": false
@@ -5017,6 +4862,29 @@
                 }
               }
             ]
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermImpl",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "hyp": {
+          "box": {
+            "syn": "Term"
+          }
+        },
+        "impl_token": {
+          "token": "PredImpl"
+        },
+        "cons": {
+          "box": {
+            "syn": "Term"
           }
         }
       }

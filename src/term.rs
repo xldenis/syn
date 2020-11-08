@@ -174,6 +174,8 @@ ast_enum_of_structs! {
         /// Tokens in expression position not interpreted by Syn.
         Verbatim(TokenStream),
 
+        Impl(TermImpl),
+
         #[doc(hidden)]
         __Nonexhaustive,
     }
@@ -455,6 +457,14 @@ ast_struct! {
 }
 
 ast_struct! {
+    pub struct TermImpl {
+        pub hyp: Box<Term>,
+        pub impl_token: Token![==>],
+        pub cons: Box<Term>,
+    }
+}
+
+ast_struct! {
     /// The index of an unnamed tuple struct field.
     ///
     /// *This type is available only if Syn is built with the `"derive"` or `"full"`
@@ -624,6 +634,7 @@ pub(crate) mod parsing {
     enum Precedence {
         Any,
         Assign,
+        Impl,
         Range,
         Or,
         And,
@@ -823,30 +834,24 @@ pub(crate) mod parsing {
                         right: Box::new(rhs),
                     })
                 };
-            } else if Precedence::Range >= base && input.peek(Token![..]) {
-                let limits: RangeLimits = input.parse()?;
-                let rhs = if input.is_empty()
-                    || input.peek(Token![,])
-                    || input.peek(Token![;])
-                    || !allow_struct.0 && input.peek(token::Brace)
-                {
-                    None
-                } else {
-                    let mut rhs = unary_term(input, allow_struct)?;
-                    loop {
-                        let next = peek_precedence(input);
-                        if next > Precedence::Range {
-                            rhs = parse_term(input, rhs, allow_struct, next)?;
-                        } else {
-                            break;
-                        }
+            } else if Precedence::Impl >= base && input.peek(Token![==>]) {
+                let impl_token: Token![==>] = input.parse()?;
+                let precedence = Precedence::Impl;
+
+                let mut rhs = unary_term(input, allow_struct)?;
+                loop {
+                    let next = peek_precedence(input);
+                    if next > precedence || next == precedence {
+                        rhs = parse_term(input, rhs, allow_struct, next)?;
+                    } else {
+                        break;
                     }
-                    Some(rhs)
-                };
-                lhs = Term::Range(TermRange {
-                    from: Some(Box::new(lhs)),
-                    limits,
-                    to: rhs.map(Box::new),
+                }
+
+                lhs = Term::Impl(TermImpl {
+                    hyp: Box::new(lhs),
+                    impl_token,
+                    cons: Box::new(rhs),
                 });
             } else if Precedence::Cast >= base && input.peek(Token![as]) {
                 let as_token: Token![as] = input.parse()?;
@@ -919,6 +924,8 @@ pub(crate) mod parsing {
     fn peek_precedence(input: ParseStream) -> Precedence {
         if let Ok(op) = input.fork().parse() {
             Precedence::of(&op)
+        } else if input.peek(Token![==>]) {
+            Precedence::Impl
         } else if input.peek(Token![=]) && !input.peek(Token![=>]) {
             Precedence::Assign
         } else if input.peek(Token![..]) {
@@ -1788,7 +1795,13 @@ pub(crate) mod printing {
             self.ty.to_tokens(tokens);
         }
     }
-
+    impl ToTokens for TermImpl {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            self.hyp.to_tokens(tokens);
+            self.impl_token.to_tokens(tokens);
+            self.cons.to_tokens(tokens);
+        }
+    }
     #[cfg(feature = "full")]
     fn maybe_wrap_else(tokens: &mut TokenStream, else_: &Option<(Token![else], Box<Term>)>) {
         if let Some((else_token, else_)) = else_ {

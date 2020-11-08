@@ -4228,100 +4228,6 @@ impl Debug for Lite<syn::PathSegment> {
         formatter.finish()
     }
 }
-impl Debug for Lite<syn::Pred> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        match _val {
-            syn::Pred::Conj(_val) => {
-                let mut formatter = formatter.debug_struct("Pred::Conj");
-                formatter.field("left", Lite(&_val.left));
-                formatter.field("right", Lite(&_val.right));
-                formatter.finish()
-            }
-            syn::Pred::Disj(_val) => {
-                let mut formatter = formatter.debug_struct("Pred::Disj");
-                formatter.field("left", Lite(&_val.left));
-                formatter.field("right", Lite(&_val.right));
-                formatter.finish()
-            }
-            syn::Pred::Binary(_val) => {
-                let mut formatter = formatter.debug_struct("Pred::Binary");
-                formatter.field("left", Lite(&_val.left));
-                formatter.field("op", Lite(&_val.op));
-                formatter.field("right", Lite(&_val.right));
-                formatter.finish()
-            }
-            syn::Pred::Impl(_val) => {
-                let mut formatter = formatter.debug_struct("Pred::Impl");
-                formatter.field("hyp", Lite(&_val.hyp));
-                formatter.field("cons", Lite(&_val.cons));
-                formatter.finish()
-            }
-            syn::Pred::Neg(_val) => {
-                let mut formatter = formatter.debug_struct("Pred::Neg");
-                formatter.finish()
-            }
-            syn::Pred::Paren(_val) => {
-                let mut formatter = formatter.debug_struct("Pred::Paren");
-                formatter.field("pred", Lite(&_val.pred));
-                formatter.finish()
-            }
-            _ => unreachable!(),
-        }
-    }
-}
-impl Debug for Lite<syn::PredBinary> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("PredBinary");
-        formatter.field("left", Lite(&_val.left));
-        formatter.field("op", Lite(&_val.op));
-        formatter.field("right", Lite(&_val.right));
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::PredConj> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("PredConj");
-        formatter.field("left", Lite(&_val.left));
-        formatter.field("right", Lite(&_val.right));
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::PredDisj> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("PredDisj");
-        formatter.field("left", Lite(&_val.left));
-        formatter.field("right", Lite(&_val.right));
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::PredImpl> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("PredImpl");
-        formatter.field("hyp", Lite(&_val.hyp));
-        formatter.field("cons", Lite(&_val.cons));
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::PredNeg> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("PredNeg");
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::PredParen> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("PredParen");
-        formatter.field("pred", Lite(&_val.pred));
-        formatter.finish()
-    }
-}
 impl Debug for Lite<syn::PredicateEq> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let _val = &self.value;
@@ -4896,6 +4802,12 @@ impl Debug for Lite<syn::Term> {
                 formatter.write_str("`)")?;
                 Ok(())
             }
+            syn::Term::Impl(_val) => {
+                let mut formatter = formatter.debug_struct("Term::Impl");
+                formatter.field("hyp", Lite(&_val.hyp));
+                formatter.field("cons", Lite(&_val.cons));
+                formatter.finish()
+            }
             _ => unreachable!(),
         }
     }
@@ -5082,6 +4994,15 @@ impl Debug for Lite<syn::TermIf> {
             }
             formatter.field("else_branch", Print::ref_cast(val));
         }
+        formatter.finish()
+    }
+}
+impl Debug for Lite<syn::TermImpl> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let _val = &self.value;
+        let mut formatter = formatter.debug_struct("TermImpl");
+        formatter.field("hyp", Lite(&_val.hyp));
+        formatter.field("cons", Lite(&_val.cons));
         formatter.finish()
     }
 }

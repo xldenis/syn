@@ -573,34 +573,6 @@ pub trait Visit<'ast> {
     fn visit_path_segment(&mut self, i: &'ast PathSegment) {
         visit_path_segment(self, i)
     }
-    #[cfg(feature = "full")]
-    fn visit_pred(&mut self, i: &'ast Pred) {
-        visit_pred(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_binary(&mut self, i: &'ast PredBinary) {
-        visit_pred_binary(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_conj(&mut self, i: &'ast PredConj) {
-        visit_pred_conj(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_disj(&mut self, i: &'ast PredDisj) {
-        visit_pred_disj(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_impl(&mut self, i: &'ast PredImpl) {
-        visit_pred_impl(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_neg(&mut self, i: &'ast PredNeg) {
-        visit_pred_neg(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_paren(&mut self, i: &'ast PredParen) {
-        visit_pred_paren(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_predicate_eq(&mut self, i: &'ast PredicateEq) {
         visit_predicate_eq(self, i)
@@ -687,6 +659,10 @@ pub trait Visit<'ast> {
     #[cfg(feature = "full")]
     fn visit_term_if(&mut self, i: &'ast TermIf) {
         visit_term_if(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_impl(&mut self, i: &'ast TermImpl) {
+        visit_term_impl(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_term_index(&mut self, i: &'ast TermIndex) {
@@ -3184,83 +3160,6 @@ where
     v.visit_ident(&node.ident);
     v.visit_path_arguments(&node.arguments);
 }
-#[cfg(feature = "full")]
-pub fn visit_pred<'ast, V>(v: &mut V, node: &'ast Pred)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    match node {
-        Pred::Conj(_binding_0) => {
-            v.visit_pred_conj(_binding_0);
-        }
-        Pred::Disj(_binding_0) => {
-            v.visit_pred_disj(_binding_0);
-        }
-        Pred::Binary(_binding_0) => {
-            v.visit_pred_binary(_binding_0);
-        }
-        Pred::Impl(_binding_0) => {
-            v.visit_pred_impl(_binding_0);
-        }
-        Pred::Neg(_binding_0) => {
-            v.visit_pred_neg(_binding_0);
-        }
-        Pred::Paren(_binding_0) => {
-            v.visit_pred_paren(_binding_0);
-        }
-        _ => unreachable!(),
-    }
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_binary<'ast, V>(v: &mut V, node: &'ast PredBinary)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    v.visit_term(&*node.left);
-    v.visit_bin_op(&node.op);
-    v.visit_term(&*node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_conj<'ast, V>(v: &mut V, node: &'ast PredConj)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    v.visit_pred(&*node.left);
-    tokens_helper(v, &node.conj_token.spans);
-    v.visit_pred(&*node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_disj<'ast, V>(v: &mut V, node: &'ast PredDisj)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    v.visit_pred(&*node.left);
-    tokens_helper(v, &node.disj_token.spans);
-    v.visit_pred(&*node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_impl<'ast, V>(v: &mut V, node: &'ast PredImpl)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    v.visit_pred(&*node.hyp);
-    tokens_helper(v, &node.impl_token.spans);
-    v.visit_pred(&*node.cons);
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_neg<'ast, V>(v: &mut V, node: &'ast PredNeg)
-where
-    V: Visit<'ast> + ?Sized,
-{
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_paren<'ast, V>(v: &mut V, node: &'ast PredParen)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.paren_token.span);
-    v.visit_pred(&*node.pred);
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_predicate_eq<'ast, V>(v: &mut V, node: &'ast PredicateEq)
 where
@@ -3499,6 +3398,9 @@ where
         Term::Verbatim(_binding_0) => {
             skip!(_binding_0);
         }
+        Term::Impl(_binding_0) => {
+            v.visit_term_impl(_binding_0);
+        }
         _ => unreachable!(),
     }
 }
@@ -3629,6 +3531,15 @@ where
         tokens_helper(v, &(it).0.span);
         v.visit_term(&*(it).1);
     };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_impl<'ast, V>(v: &mut V, node: &'ast TermImpl)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_term(&*node.hyp);
+    tokens_helper(v, &node.impl_token.spans);
+    v.visit_term(&*node.cons);
 }
 #[cfg(feature = "full")]
 pub fn visit_term_index<'ast, V>(v: &mut V, node: &'ast TermIndex)

@@ -577,34 +577,6 @@ pub trait VisitMut {
     fn visit_path_segment_mut(&mut self, i: &mut PathSegment) {
         visit_path_segment_mut(self, i)
     }
-    #[cfg(feature = "full")]
-    fn visit_pred_mut(&mut self, i: &mut Pred) {
-        visit_pred_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_binary_mut(&mut self, i: &mut PredBinary) {
-        visit_pred_binary_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_conj_mut(&mut self, i: &mut PredConj) {
-        visit_pred_conj_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_disj_mut(&mut self, i: &mut PredDisj) {
-        visit_pred_disj_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_impl_mut(&mut self, i: &mut PredImpl) {
-        visit_pred_impl_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_neg_mut(&mut self, i: &mut PredNeg) {
-        visit_pred_neg_mut(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn visit_pred_paren_mut(&mut self, i: &mut PredParen) {
-        visit_pred_paren_mut(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn visit_predicate_eq_mut(&mut self, i: &mut PredicateEq) {
         visit_predicate_eq_mut(self, i)
@@ -691,6 +663,10 @@ pub trait VisitMut {
     #[cfg(feature = "full")]
     fn visit_term_if_mut(&mut self, i: &mut TermIf) {
         visit_term_if_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_impl_mut(&mut self, i: &mut TermImpl) {
+        visit_term_impl_mut(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_term_index_mut(&mut self, i: &mut TermIndex) {
@@ -3190,83 +3166,6 @@ where
     v.visit_ident_mut(&mut node.ident);
     v.visit_path_arguments_mut(&mut node.arguments);
 }
-#[cfg(feature = "full")]
-pub fn visit_pred_mut<V>(v: &mut V, node: &mut Pred)
-where
-    V: VisitMut + ?Sized,
-{
-    match node {
-        Pred::Conj(_binding_0) => {
-            v.visit_pred_conj_mut(_binding_0);
-        }
-        Pred::Disj(_binding_0) => {
-            v.visit_pred_disj_mut(_binding_0);
-        }
-        Pred::Binary(_binding_0) => {
-            v.visit_pred_binary_mut(_binding_0);
-        }
-        Pred::Impl(_binding_0) => {
-            v.visit_pred_impl_mut(_binding_0);
-        }
-        Pred::Neg(_binding_0) => {
-            v.visit_pred_neg_mut(_binding_0);
-        }
-        Pred::Paren(_binding_0) => {
-            v.visit_pred_paren_mut(_binding_0);
-        }
-        _ => unreachable!(),
-    }
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_binary_mut<V>(v: &mut V, node: &mut PredBinary)
-where
-    V: VisitMut + ?Sized,
-{
-    v.visit_term_mut(&mut *node.left);
-    v.visit_bin_op_mut(&mut node.op);
-    v.visit_term_mut(&mut *node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_conj_mut<V>(v: &mut V, node: &mut PredConj)
-where
-    V: VisitMut + ?Sized,
-{
-    v.visit_pred_mut(&mut *node.left);
-    tokens_helper(v, &mut node.conj_token.spans);
-    v.visit_pred_mut(&mut *node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_disj_mut<V>(v: &mut V, node: &mut PredDisj)
-where
-    V: VisitMut + ?Sized,
-{
-    v.visit_pred_mut(&mut *node.left);
-    tokens_helper(v, &mut node.disj_token.spans);
-    v.visit_pred_mut(&mut *node.right);
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_impl_mut<V>(v: &mut V, node: &mut PredImpl)
-where
-    V: VisitMut + ?Sized,
-{
-    v.visit_pred_mut(&mut *node.hyp);
-    tokens_helper(v, &mut node.impl_token.spans);
-    v.visit_pred_mut(&mut *node.cons);
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_neg_mut<V>(v: &mut V, node: &mut PredNeg)
-where
-    V: VisitMut + ?Sized,
-{
-}
-#[cfg(feature = "full")]
-pub fn visit_pred_paren_mut<V>(v: &mut V, node: &mut PredParen)
-where
-    V: VisitMut + ?Sized,
-{
-    tokens_helper(v, &mut node.paren_token.span);
-    v.visit_pred_mut(&mut *node.pred);
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn visit_predicate_eq_mut<V>(v: &mut V, node: &mut PredicateEq)
 where
@@ -3505,6 +3404,9 @@ where
         Term::Verbatim(_binding_0) => {
             skip!(_binding_0);
         }
+        Term::Impl(_binding_0) => {
+            v.visit_term_impl_mut(_binding_0);
+        }
         _ => unreachable!(),
     }
 }
@@ -3635,6 +3537,15 @@ where
         tokens_helper(v, &mut (it).0.span);
         v.visit_term_mut(&mut *(it).1);
     };
+}
+#[cfg(feature = "full")]
+pub fn visit_term_impl_mut<V>(v: &mut V, node: &mut TermImpl)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_term_mut(&mut *node.hyp);
+    tokens_helper(v, &mut node.impl_token.spans);
+    v.visit_term_mut(&mut *node.cons);
 }
 #[cfg(feature = "full")]
 pub fn visit_term_index_mut<V>(v: &mut V, node: &mut TermIndex)

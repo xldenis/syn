@@ -577,34 +577,6 @@ pub trait Fold {
     fn fold_path_segment(&mut self, i: PathSegment) -> PathSegment {
         fold_path_segment(self, i)
     }
-    #[cfg(feature = "full")]
-    fn fold_pred(&mut self, i: Pred) -> Pred {
-        fold_pred(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_pred_binary(&mut self, i: PredBinary) -> PredBinary {
-        fold_pred_binary(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_pred_conj(&mut self, i: PredConj) -> PredConj {
-        fold_pred_conj(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_pred_disj(&mut self, i: PredDisj) -> PredDisj {
-        fold_pred_disj(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_pred_impl(&mut self, i: PredImpl) -> PredImpl {
-        fold_pred_impl(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_pred_neg(&mut self, i: PredNeg) -> PredNeg {
-        fold_pred_neg(self, i)
-    }
-    #[cfg(feature = "full")]
-    fn fold_pred_paren(&mut self, i: PredParen) -> PredParen {
-        fold_pred_paren(self, i)
-    }
     #[cfg(any(feature = "derive", feature = "full"))]
     fn fold_predicate_eq(&mut self, i: PredicateEq) -> PredicateEq {
         fold_predicate_eq(self, i)
@@ -694,6 +666,10 @@ pub trait Fold {
     #[cfg(feature = "full")]
     fn fold_term_if(&mut self, i: TermIf) -> TermIf {
         fold_term_if(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn fold_term_impl(&mut self, i: TermImpl) -> TermImpl {
+        fold_term_impl(self, i)
     }
     #[cfg(feature = "full")]
     fn fold_term_index(&mut self, i: TermIndex) -> TermIndex {
@@ -2750,82 +2726,6 @@ where
         arguments: f.fold_path_arguments(node.arguments),
     }
 }
-#[cfg(feature = "full")]
-pub fn fold_pred<F>(f: &mut F, node: Pred) -> Pred
-where
-    F: Fold + ?Sized,
-{
-    match node {
-        Pred::Conj(_binding_0) => Pred::Conj(f.fold_pred_conj(_binding_0)),
-        Pred::Disj(_binding_0) => Pred::Disj(f.fold_pred_disj(_binding_0)),
-        Pred::Binary(_binding_0) => Pred::Binary(f.fold_pred_binary(_binding_0)),
-        Pred::Impl(_binding_0) => Pred::Impl(f.fold_pred_impl(_binding_0)),
-        Pred::Neg(_binding_0) => Pred::Neg(f.fold_pred_neg(_binding_0)),
-        Pred::Paren(_binding_0) => Pred::Paren(f.fold_pred_paren(_binding_0)),
-        _ => unreachable!(),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_pred_binary<F>(f: &mut F, node: PredBinary) -> PredBinary
-where
-    F: Fold + ?Sized,
-{
-    PredBinary {
-        left: Box::new(f.fold_term(*node.left)),
-        op: f.fold_bin_op(node.op),
-        right: Box::new(f.fold_term(*node.right)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_pred_conj<F>(f: &mut F, node: PredConj) -> PredConj
-where
-    F: Fold + ?Sized,
-{
-    PredConj {
-        left: Box::new(f.fold_pred(*node.left)),
-        conj_token: Token ! [&&](tokens_helper(f, &node.conj_token.spans)),
-        right: Box::new(f.fold_pred(*node.right)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_pred_disj<F>(f: &mut F, node: PredDisj) -> PredDisj
-where
-    F: Fold + ?Sized,
-{
-    PredDisj {
-        left: Box::new(f.fold_pred(*node.left)),
-        disj_token: Token ! [||](tokens_helper(f, &node.disj_token.spans)),
-        right: Box::new(f.fold_pred(*node.right)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_pred_impl<F>(f: &mut F, node: PredImpl) -> PredImpl
-where
-    F: Fold + ?Sized,
-{
-    PredImpl {
-        hyp: Box::new(f.fold_pred(*node.hyp)),
-        impl_token: Token ! [==>](tokens_helper(f, &node.impl_token.spans)),
-        cons: Box::new(f.fold_pred(*node.cons)),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_pred_neg<F>(f: &mut F, node: PredNeg) -> PredNeg
-where
-    F: Fold + ?Sized,
-{
-    node
-}
-#[cfg(feature = "full")]
-pub fn fold_pred_paren<F>(f: &mut F, node: PredParen) -> PredParen
-where
-    F: Fold + ?Sized,
-{
-    PredParen {
-        paren_token: Paren(tokens_helper(f, &node.paren_token.span)),
-        pred: Box::new(f.fold_pred(*node.pred)),
-    }
-}
 #[cfg(any(feature = "derive", feature = "full"))]
 pub fn fold_predicate_eq<F>(f: &mut F, node: PredicateEq) -> PredicateEq
 where
@@ -2987,6 +2887,7 @@ where
         Term::Type(_binding_0) => Term::Type(f.fold_term_type(_binding_0)),
         Term::Unary(_binding_0) => Term::Unary(f.fold_term_unary(_binding_0)),
         Term::Verbatim(_binding_0) => Term::Verbatim(_binding_0),
+        Term::Impl(_binding_0) => Term::Impl(f.fold_term_impl(_binding_0)),
         _ => unreachable!(),
     }
 }
@@ -3125,6 +3026,17 @@ where
                 Box::new(f.fold_term(*(it).1)),
             )
         }),
+    }
+}
+#[cfg(feature = "full")]
+pub fn fold_term_impl<F>(f: &mut F, node: TermImpl) -> TermImpl
+where
+    F: Fold + ?Sized,
+{
+    TermImpl {
+        hyp: Box::new(f.fold_term(*node.hyp)),
+        impl_token: Token ! [==>](tokens_helper(f, &node.impl_token.spans)),
+        cons: Box::new(f.fold_term(*node.cons)),
     }
 }
 #[cfg(feature = "full")]
