@@ -2,6 +2,7 @@ extern crate proc_macro;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::Term;
+use syn::BinOp;
 
 #[proc_macro]
 pub fn r#mod(input: TokenStream) -> TokenStream {

@@ -1527,6 +1527,22 @@ impl PartialEq for Stmt {
     }
 }
 #[cfg(feature = "full")]
+impl Eq for TBlock {}
+#[cfg(feature = "full")]
+impl PartialEq for TBlock {
+    fn eq(&self, other: &Self) -> bool {
+        self.stmts == other.stmts
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TLocal {}
+#[cfg(feature = "full")]
+impl PartialEq for TLocal {
+    fn eq(&self, other: &Self) -> bool {
+        self.pat == other.pat && self.init == other.init
+    }
+}
+#[cfg(feature = "full")]
 impl Eq for Term {}
 #[cfg(feature = "full")]
 impl PartialEq for Term {
@@ -1550,7 +1566,6 @@ impl PartialEq for Term {
             (Term::Range(self0), Term::Range(other0)) => self0 == other0,
             (Term::Reference(self0), Term::Reference(other0)) => self0 == other0,
             (Term::Repeat(self0), Term::Repeat(other0)) => self0 == other0,
-            (Term::Return(self0), Term::Return(other0)) => self0 == other0,
             (Term::Struct(self0), Term::Struct(other0)) => self0 == other0,
             (Term::Tuple(self0), Term::Tuple(other0)) => self0 == other0,
             (Term::Type(self0), Term::Type(other0)) => self0 == other0,
@@ -1766,11 +1781,16 @@ impl PartialEq for TermRepeat {
     }
 }
 #[cfg(feature = "full")]
-impl Eq for TermReturn {}
+impl Eq for TermStmt {}
 #[cfg(feature = "full")]
-impl PartialEq for TermReturn {
+impl PartialEq for TermStmt {
     fn eq(&self, other: &Self) -> bool {
-        self.expr == other.expr
+        match (self, other) {
+            (TermStmt::Local(self0), TermStmt::Local(other0)) => self0 == other0,
+            (TermStmt::Expr(self0), TermStmt::Expr(other0)) => self0 == other0,
+            (TermStmt::Semi(self0, _), TermStmt::Semi(other0, _)) => self0 == other0,
+            _ => false,
+        }
     }
 }
 #[cfg(feature = "full")]

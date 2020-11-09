@@ -1646,6 +1646,26 @@ impl Clone for Stmt {
     }
 }
 #[cfg(feature = "full")]
+impl Clone for TBlock {
+    fn clone(&self) -> Self {
+        TBlock {
+            brace_token: self.brace_token.clone(),
+            stmts: self.stmts.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TLocal {
+    fn clone(&self) -> Self {
+        TLocal {
+            let_token: self.let_token.clone(),
+            pat: self.pat.clone(),
+            init: self.init.clone(),
+            semi_token: self.semi_token.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
 impl Clone for Term {
     fn clone(&self) -> Self {
         match self {
@@ -1667,7 +1687,6 @@ impl Clone for Term {
             Term::Range(v0) => Term::Range(v0.clone()),
             Term::Reference(v0) => Term::Reference(v0.clone()),
             Term::Repeat(v0) => Term::Repeat(v0.clone()),
-            Term::Return(v0) => Term::Return(v0.clone()),
             Term::Struct(v0) => Term::Struct(v0.clone()),
             Term::Tuple(v0) => Term::Tuple(v0.clone()),
             Term::Type(v0) => Term::Type(v0.clone()),
@@ -1912,11 +1931,12 @@ impl Clone for TermRepeat {
     }
 }
 #[cfg(feature = "full")]
-impl Clone for TermReturn {
+impl Clone for TermStmt {
     fn clone(&self) -> Self {
-        TermReturn {
-            return_token: self.return_token.clone(),
-            expr: self.expr.clone(),
+        match self {
+            TermStmt::Local(v0) => TermStmt::Local(v0.clone()),
+            TermStmt::Expr(v0) => TermStmt::Expr(v0.clone()),
+            TermStmt::Semi(v0, v1) => TermStmt::Semi(v0.clone(), v1.clone()),
         }
     }
 }

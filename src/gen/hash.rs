@@ -2145,6 +2145,25 @@ impl Hash for Stmt {
     }
 }
 #[cfg(feature = "full")]
+impl Hash for TBlock {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.stmts.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TLocal {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.pat.hash(state);
+        self.init.hash(state);
+    }
+}
+#[cfg(feature = "full")]
 impl Hash for Term {
     fn hash<H>(&self, state: &mut H)
     where
@@ -2223,32 +2242,28 @@ impl Hash for Term {
                 state.write_u8(17u8);
                 v0.hash(state);
             }
-            Term::Return(v0) => {
+            Term::Struct(v0) => {
                 state.write_u8(18u8);
                 v0.hash(state);
             }
-            Term::Struct(v0) => {
+            Term::Tuple(v0) => {
                 state.write_u8(19u8);
                 v0.hash(state);
             }
-            Term::Tuple(v0) => {
+            Term::Type(v0) => {
                 state.write_u8(20u8);
                 v0.hash(state);
             }
-            Term::Type(v0) => {
+            Term::Unary(v0) => {
                 state.write_u8(21u8);
                 v0.hash(state);
             }
-            Term::Unary(v0) => {
-                state.write_u8(22u8);
-                v0.hash(state);
-            }
             Term::Verbatim(v0) => {
-                state.write_u8(23u8);
+                state.write_u8(22u8);
                 TokenStreamHelper(v0).hash(state);
             }
             Term::Impl(v0) => {
-                state.write_u8(24u8);
+                state.write_u8(23u8);
                 v0.hash(state);
             }
             _ => unreachable!(),
@@ -2497,12 +2512,25 @@ impl Hash for TermRepeat {
     }
 }
 #[cfg(feature = "full")]
-impl Hash for TermReturn {
+impl Hash for TermStmt {
     fn hash<H>(&self, state: &mut H)
     where
         H: Hasher,
     {
-        self.expr.hash(state);
+        match self {
+            TermStmt::Local(v0) => {
+                state.write_u8(0u8);
+                v0.hash(state);
+            }
+            TermStmt::Expr(v0) => {
+                state.write_u8(1u8);
+                v0.hash(state);
+            }
+            TermStmt::Semi(v0, _) => {
+                state.write_u8(2u8);
+                v0.hash(state);
+            }
+        }
     }
 }
 #[cfg(feature = "full")]

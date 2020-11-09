@@ -4465,6 +4465,57 @@
       }
     },
     {
+      "ident": "TBlock",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "brace_token": {
+          "group": "Brace"
+        },
+        "stmts": {
+          "vec": {
+            "syn": "TermStmt"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TLocal",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "let_token": {
+          "token": "Let"
+        },
+        "pat": {
+          "syn": "Pat"
+        },
+        "init": {
+          "option": {
+            "tuple": [
+              {
+                "token": "Eq"
+              },
+              {
+                "box": {
+                  "syn": "Term"
+                }
+              }
+            ]
+          }
+        },
+        "semi_token": {
+          "token": "Semi"
+        }
+      }
+    },
+    {
       "ident": "Term",
       "features": {
         "any": [
@@ -4560,11 +4611,6 @@
         "Repeat": [
           {
             "syn": "TermRepeat"
-          }
-        ],
-        "Return": [
-          {
-            "syn": "TermReturn"
           }
         ],
         "Struct": [
@@ -4698,7 +4744,7 @@
           }
         },
         "block": {
-          "syn": "Block"
+          "syn": "TBlock"
         }
       }
     },
@@ -4848,7 +4894,7 @@
           }
         },
         "then_branch": {
-          "syn": "Block"
+          "syn": "TBlock"
         },
         "else_branch": {
           "option": {
@@ -5155,23 +5201,31 @@
       }
     },
     {
-      "ident": "TermReturn",
+      "ident": "TermStmt",
       "features": {
         "any": [
           "full"
         ]
       },
-      "fields": {
-        "return_token": {
-          "token": "Return"
-        },
-        "expr": {
-          "option": {
-            "box": {
-              "syn": "Term"
-            }
+      "variants": {
+        "Local": [
+          {
+            "syn": "TLocal"
           }
-        }
+        ],
+        "Expr": [
+          {
+            "syn": "Term"
+          }
+        ],
+        "Semi": [
+          {
+            "syn": "Term"
+          },
+          {
+            "token": "Semi"
+          }
+        ]
       }
     },
     {

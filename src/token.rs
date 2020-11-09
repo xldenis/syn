@@ -632,7 +632,7 @@ define_punctuation_structs! {
 #[cfg(feature = "printing")]
 impl ToTokens for PredImpl {
     fn to_tokens(&self, tokens: &mut TokenStream) {
-        use proc_macro2::{Spacing, Span};
+        use proc_macro2::Spacing;
 
         let chars = "==>".chars();
         let spans = self.spans.iter();

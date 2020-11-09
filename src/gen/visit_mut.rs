@@ -617,6 +617,14 @@ pub trait VisitMut {
         visit_stmt_mut(self, i)
     }
     #[cfg(feature = "full")]
+    fn visit_tblock_mut(&mut self, i: &mut TBlock) {
+        visit_tblock_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_tlocal_mut(&mut self, i: &mut TLocal) {
+        visit_tlocal_mut(self, i)
+    }
+    #[cfg(feature = "full")]
     fn visit_term_mut(&mut self, i: &mut Term) {
         visit_term_mut(self, i)
     }
@@ -713,8 +721,8 @@ pub trait VisitMut {
         visit_term_repeat_mut(self, i)
     }
     #[cfg(feature = "full")]
-    fn visit_term_return_mut(&mut self, i: &mut TermReturn) {
-        visit_term_return_mut(self, i)
+    fn visit_term_stmt_mut(&mut self, i: &mut TermStmt) {
+        visit_term_stmt_mut(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_term_struct_mut(&mut self, i: &mut TermStruct) {
@@ -3327,6 +3335,29 @@ where
     }
 }
 #[cfg(feature = "full")]
+pub fn visit_tblock_mut<V>(v: &mut V, node: &mut TBlock)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.brace_token.span);
+    for it in &mut node.stmts {
+        v.visit_term_stmt_mut(it)
+    }
+}
+#[cfg(feature = "full")]
+pub fn visit_tlocal_mut<V>(v: &mut V, node: &mut TLocal)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.let_token.span);
+    v.visit_pat_mut(&mut node.pat);
+    if let Some(it) = &mut node.init {
+        tokens_helper(v, &mut (it).0.spans);
+        v.visit_term_mut(&mut *(it).1);
+    };
+    tokens_helper(v, &mut node.semi_token.spans);
+}
+#[cfg(feature = "full")]
 pub fn visit_term_mut<V>(v: &mut V, node: &mut Term)
 where
     V: VisitMut + ?Sized,
@@ -3385,9 +3416,6 @@ where
         }
         Term::Repeat(_binding_0) => {
             v.visit_term_repeat_mut(_binding_0);
-        }
-        Term::Return(_binding_0) => {
-            v.visit_term_return_mut(_binding_0);
         }
         Term::Struct(_binding_0) => {
             v.visit_term_struct_mut(_binding_0);
@@ -3457,7 +3485,7 @@ where
     if let Some(it) = &mut node.label {
         v.visit_label_mut(it)
     };
-    v.visit_block_mut(&mut node.block);
+    v.visit_tblock_mut(&mut node.block);
 }
 #[cfg(feature = "full")]
 pub fn visit_term_call_mut<V>(v: &mut V, node: &mut TermCall)
@@ -3532,7 +3560,7 @@ where
 {
     tokens_helper(v, &mut node.if_token.span);
     v.visit_term_mut(&mut *node.cond);
-    v.visit_block_mut(&mut node.then_branch);
+    v.visit_tblock_mut(&mut node.then_branch);
     if let Some(it) = &mut node.else_branch {
         tokens_helper(v, &mut (it).0.span);
         v.visit_term_mut(&mut *(it).1);
@@ -3674,14 +3702,22 @@ where
     v.visit_term_mut(&mut *node.len);
 }
 #[cfg(feature = "full")]
-pub fn visit_term_return_mut<V>(v: &mut V, node: &mut TermReturn)
+pub fn visit_term_stmt_mut<V>(v: &mut V, node: &mut TermStmt)
 where
     V: VisitMut + ?Sized,
 {
-    tokens_helper(v, &mut node.return_token.span);
-    if let Some(it) = &mut node.expr {
-        v.visit_term_mut(&mut **it)
-    };
+    match node {
+        TermStmt::Local(_binding_0) => {
+            v.visit_tlocal_mut(_binding_0);
+        }
+        TermStmt::Expr(_binding_0) => {
+            v.visit_term_mut(_binding_0);
+        }
+        TermStmt::Semi(_binding_0, _binding_1) => {
+            v.visit_term_mut(_binding_0);
+            tokens_helper(v, &mut _binding_1.spans);
+        }
+    }
 }
 #[cfg(feature = "full")]
 pub fn visit_term_struct_mut<V>(v: &mut V, node: &mut TermStruct)

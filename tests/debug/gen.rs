@@ -4498,6 +4498,40 @@ impl Debug for Lite<syn::Stmt> {
         }
     }
 }
+impl Debug for Lite<syn::TBlock> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let _val = &self.value;
+        let mut formatter = formatter.debug_struct("TBlock");
+        if !_val.stmts.is_empty() {
+            formatter.field("stmts", Lite(&_val.stmts));
+        }
+        formatter.finish()
+    }
+}
+impl Debug for Lite<syn::TLocal> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let _val = &self.value;
+        let mut formatter = formatter.debug_struct("TLocal");
+        formatter.field("pat", Lite(&_val.pat));
+        if let Some(val) = &_val.init {
+            #[derive(RefCast)]
+            #[repr(transparent)]
+            struct Print((syn::token::Eq, Box<syn::Term>));
+            impl Debug for Print {
+                fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                    formatter.write_str("Some")?;
+                    let _val = &self.0;
+                    formatter.write_str("(")?;
+                    Debug::fmt(Lite(&_val.1), formatter)?;
+                    formatter.write_str(")")?;
+                    Ok(())
+                }
+            }
+            formatter.field("init", Print::ref_cast(val));
+        }
+        formatter.finish()
+    }
+}
 impl Debug for Lite<syn::Term> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let _val = &self.value;
@@ -4718,26 +4752,6 @@ impl Debug for Lite<syn::Term> {
                 let mut formatter = formatter.debug_struct("Term::Repeat");
                 formatter.field("expr", Lite(&_val.expr));
                 formatter.field("len", Lite(&_val.len));
-                formatter.finish()
-            }
-            syn::Term::Return(_val) => {
-                let mut formatter = formatter.debug_struct("Term::Return");
-                if let Some(val) = &_val.expr {
-                    #[derive(RefCast)]
-                    #[repr(transparent)]
-                    struct Print(Box<syn::Term>);
-                    impl Debug for Print {
-                        fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-                            formatter.write_str("Some")?;
-                            let _val = &self.0;
-                            formatter.write_str("(")?;
-                            Debug::fmt(Lite(_val), formatter)?;
-                            formatter.write_str(")")?;
-                            Ok(())
-                        }
-                    }
-                    formatter.field("expr", Print::ref_cast(val));
-                }
                 formatter.finish()
             }
             syn::Term::Struct(_val) => {
@@ -5182,27 +5196,30 @@ impl Debug for Lite<syn::TermRepeat> {
         formatter.finish()
     }
 }
-impl Debug for Lite<syn::TermReturn> {
+impl Debug for Lite<syn::TermStmt> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let _val = &self.value;
-        let mut formatter = formatter.debug_struct("TermReturn");
-        if let Some(val) = &_val.expr {
-            #[derive(RefCast)]
-            #[repr(transparent)]
-            struct Print(Box<syn::Term>);
-            impl Debug for Print {
-                fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-                    formatter.write_str("Some")?;
-                    let _val = &self.0;
-                    formatter.write_str("(")?;
-                    Debug::fmt(Lite(_val), formatter)?;
-                    formatter.write_str(")")?;
-                    Ok(())
-                }
+        match _val {
+            syn::TermStmt::Local(_val) => {
+                formatter.write_str("Local")?;
+                formatter.write_str("(")?;
+                Debug::fmt(Lite(_val), formatter)?;
+                formatter.write_str(")")?;
+                Ok(())
             }
-            formatter.field("expr", Print::ref_cast(val));
+            syn::TermStmt::Expr(_val) => {
+                formatter.write_str("Expr")?;
+                formatter.write_str("(")?;
+                Debug::fmt(Lite(_val), formatter)?;
+                formatter.write_str(")")?;
+                Ok(())
+            }
+            syn::TermStmt::Semi(_v0, _v1) => {
+                let mut formatter = formatter.debug_tuple("Semi");
+                formatter.field(Lite(_v0));
+                formatter.finish()
+            }
         }
-        formatter.finish()
     }
 }
 impl Debug for Lite<syn::TermStruct> {

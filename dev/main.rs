@@ -1,4 +1,8 @@
 syn_dev::r#mod! {
     // Write Rust code here and run `cargo check` to have Syn parse it.
-    0 ==> true ==> false
+  if true {
+    test;
+    let x = true
+  }
 }
+

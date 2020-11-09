@@ -153,9 +153,6 @@ ast_enum_of_structs! {
         /// An array literal constructed from one repeated element: `[0u8; N]`.
         Repeat(TermRepeat),
 
-        /// A `return`, with an optional value to be returned.
-        Return(TermReturn),
-
         /// A struct literal expression: `Point { x: 1, y: 1 }`.
         ///
         /// The `rest` provides the value of the remaining fields as in `S { a:
@@ -178,6 +175,45 @@ ast_enum_of_structs! {
 
         #[doc(hidden)]
         __Nonexhaustive,
+    }
+}
+
+ast_struct! {
+    /// A braced block containing Rust statements.
+    ///
+    /// *This type is available only if Syn is built with the `"full"` feature.*
+    pub struct TBlock {
+        pub brace_token: token::Brace,
+        /// Statements in a block
+        pub stmts: Vec<TermStmt>,
+    }
+}
+
+ast_enum! {
+    /// A statement, usually ending in a semicolon.
+    ///
+    /// *This type is available only if Syn is built with the `"full"` feature.*
+    pub enum TermStmt {
+        /// A local (let) binding.
+        Local(TLocal),
+
+        /// Expr without trailing semicolon.
+        Expr(Term),
+
+        /// Expression with trailing semicolon.
+        Semi(Term, Token![;]),
+    }
+}
+
+ast_struct! {
+    /// A local `let` binding: `let x: u64 = s.parse()?`.
+    ///
+    /// *This type is available only if Syn is built with the `"full"` feature.*
+    pub struct TLocal {
+        pub let_token: Token![let],
+        pub pat: Pat,
+        pub init: Option<(Token![=], Box<Term>)>,
+        pub semi_token: Token![;],
     }
 }
 
@@ -209,7 +245,7 @@ ast_struct! {
     /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct TermBlock #full {
         pub label: Option<Label>,
-        pub block: Block,
+        pub block: TBlock,
     }
 }
 
@@ -274,7 +310,7 @@ ast_struct! {
     pub struct TermIf #full {
         pub if_token: Token![if],
         pub cond: Box<Term>,
-        pub then_branch: Block,
+        pub then_branch: TBlock,
         pub else_branch: Option<(Token![else], Box<Term>)>,
     }
 }
@@ -395,16 +431,6 @@ ast_struct! {
         pub expr: Box<Term>,
         pub semi_token: Token![;],
         pub len: Box<Term>,
-    }
-}
-
-ast_struct! {
-    /// A `return`, with an optional value to be returned.
-    ///
-    /// *This type is available only if Syn is built with the `"full"` feature.*
-    pub struct TermReturn #full {
-        pub return_token: Token![return],
-        pub expr: Option<Box<Term>>,
     }
 }
 
@@ -676,6 +702,106 @@ pub(crate) mod parsing {
                 | BinOp::ShlEq(_)
                 | BinOp::ShrEq(_) => Precedence::Assign,
             }
+        }
+    }
+
+
+    impl TBlock {
+        pub fn parse_within(input: ParseStream) -> Result<Vec<TermStmt>> {
+            let mut stmts = Vec::new();
+            loop {
+                while let Some(semi) = input.parse::<Option<Token![;]>>()? {
+                    stmts.push(TermStmt::Semi(Term::Verbatim(TokenStream::new()), semi));
+                }
+                let s = parse_stmt(input, true)?;
+                let requires_semicolon = if let TermStmt::Expr(s) = &s {
+                    term::requires_terminator(s)
+                } else {
+                    false
+                };
+                stmts.push(s);
+                if input.is_empty() {
+                    if let TermStmt::Semi(_, _) = stmts.last().unwrap(){
+                        // TODO: Fix error span, how?
+                        return Err(input.error("unexpected semicolon"));
+                    }
+                    break;
+                } else if requires_semicolon {
+                    return Err(input.error("unexpected token"));
+                }
+            }
+            Ok(stmts)
+        }
+    }
+
+    impl Parse for TBlock {
+        fn parse(input: ParseStream) -> Result<Self> {
+            let content;
+            Ok(TBlock {
+                brace_token: braced!(content in input),
+                stmts: content.call(TBlock::parse_within)?,
+            })
+        }
+    }
+
+    impl Parse for TermStmt {
+        fn parse(input: ParseStream) -> Result<Self> {
+            parse_stmt(input, false)
+        }
+    }
+
+    fn parse_stmt(input: ParseStream, allow_nosemi: bool) -> Result<TermStmt> {
+        if input.peek(Token![let]) {
+            stmt_local(input).map(TermStmt::Local)
+        } else {
+            stmt_expr(input, allow_nosemi)
+        }
+    }
+
+    fn stmt_local(input: ParseStream) -> Result<TLocal> {
+        Ok(TLocal {
+            let_token: input.parse()?,
+            pat: {
+                let mut pat: Pat = pat::parsing::multi_pat_with_leading_vert(input)?;
+                if input.peek(Token![:]) {
+                    let colon_token: Token![:] = input.parse()?;
+                    let ty: Type = input.parse()?;
+                    pat = Pat::Type(PatType {
+                        attrs: Vec::new(),
+                        pat: Box::new(pat),
+                        colon_token,
+                        ty: Box::new(ty),
+                    });
+                }
+                pat
+            },
+            init: {
+                if input.peek(Token![=]) {
+                    let eq_token: Token![=] = input.parse()?;
+                    let init: Term = input.parse()?;
+                    Some((eq_token, Box::new(init)))
+                } else {
+                    None
+                }
+            },
+            semi_token: input.parse()?,
+        })
+    }
+
+    fn stmt_expr(
+        input: ParseStream,
+        allow_nosemi: bool,
+    ) -> Result<TermStmt> {
+        let e = term::parsing::term_early(input)?;
+
+        if input.peek(Token![;]) {
+            return Ok(TermStmt::Semi(e, input.parse()?));
+        }
+
+        if allow_nosemi || !term::requires_terminator(&e) {
+            Ok(TermStmt::Expr(e))
+        } else {
+            Err(input.error("expected semicolon"))
         }
     }
 
@@ -1156,8 +1282,6 @@ pub(crate) mod parsing {
             path_or_struct(input, allow_struct)
         } else if input.peek(token::Paren) {
             paren_or_tuple(input)
-        } else if input.peek(Token![return]) {
-            term_ret(input, allow_struct).map(Term::Return)
         } else if input.peek(token::Bracket) {
             array_or_repeat(input)
         } else if input.peek(Token![let]) {
@@ -1473,30 +1597,9 @@ pub(crate) mod parsing {
         TermIndex, Index, "expected indexing expression",
         TermRange, Range, "expected range expression",
         TermReference, Reference, "expected referencing operation",
-        TermReturn, Return, "expected return expression",
         TermStruct, Struct, "expected struct literal expression",
         TermRepeat, Repeat, "expected array literal constructed from one repeated element",
         TermParen, Paren, "expected parenthesized expression",
-    }
-
-    #[cfg(feature = "full")]
-    fn term_ret(input: ParseStream, allow_struct: AllowStruct) -> Result<TermReturn> {
-        Ok(TermReturn {
-            return_token: input.parse()?,
-            expr: {
-                if input.is_empty() || input.peek(Token![,]) || input.peek(Token![;]) {
-                    None
-                } else {
-                    // NOTE: return is greedy and eats blocks after it even when in a
-                    // position where structs are not allowed, such as in if statement
-                    // conditions. For example:
-                    //
-                    // if return { println!("A") } {} // Prints "A"
-                    let expr = ambiguous_term(input, allow_struct)?;
-                    Some(Box::new(expr))
-                }
-            },
-        })
     }
 
     #[cfg(feature = "full")]
@@ -1568,11 +1671,11 @@ pub(crate) mod parsing {
 
         let content;
         let brace_token = braced!(content in input);
-        let stmts = content.call(Block::parse_within)?;
+        let stmts = content.call(TBlock::parse_within)?;
 
         Ok(TermBlock {
             label,
-            block: Block { brace_token, stmts },
+            block: TBlock { brace_token, stmts },
         })
     }
 
@@ -1690,6 +1793,39 @@ pub(crate) mod printing {
             });
         } else {
             e.to_tokens(tokens);
+        }
+    }
+
+    impl ToTokens for TBlock {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            self.brace_token.surround(tokens, |tokens| {
+                tokens.append_all(&self.stmts);
+            });
+        }
+    }
+
+    impl ToTokens for TermStmt {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            match self {
+                TermStmt::Local(local) => local.to_tokens(tokens),
+                TermStmt::Expr(expr) => expr.to_tokens(tokens),
+                TermStmt::Semi(expr, semi) => {
+                    expr.to_tokens(tokens);
+                    semi.to_tokens(tokens);
+                }
+            }
+        }
+    }
+
+    impl ToTokens for TLocal {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            self.let_token.to_tokens(tokens);
+            self.pat.to_tokens(tokens);
+            if let Some((eq_token, init)) = &self.init {
+                eq_token.to_tokens(tokens);
+                init.to_tokens(tokens);
+            }
+            self.semi_token.to_tokens(tokens);
         }
     }
 
@@ -1919,14 +2055,6 @@ pub(crate) mod printing {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.and_token.to_tokens(tokens);
             self.mutability.to_tokens(tokens);
-            self.expr.to_tokens(tokens);
-        }
-    }
-
-    #[cfg(feature = "full")]
-    impl ToTokens for TermReturn {
-        fn to_tokens(&self, tokens: &mut TokenStream) {
-            self.return_token.to_tokens(tokens);
             self.expr.to_tokens(tokens);
         }
     }

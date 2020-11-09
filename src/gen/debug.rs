@@ -2301,6 +2301,26 @@ impl Debug for Stmt {
     }
 }
 #[cfg(feature = "full")]
+impl Debug for TBlock {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TBlock");
+        formatter.field("brace_token", &self.brace_token);
+        formatter.field("stmts", &self.stmts);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TLocal {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TLocal");
+        formatter.field("let_token", &self.let_token);
+        formatter.field("pat", &self.pat);
+        formatter.field("init", &self.init);
+        formatter.field("semi_token", &self.semi_token);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
 impl Debug for Term {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         match self {
@@ -2391,11 +2411,6 @@ impl Debug for Term {
             }
             Term::Repeat(v0) => {
                 let mut formatter = formatter.debug_tuple("Repeat");
-                formatter.field(v0);
-                formatter.finish()
-            }
-            Term::Return(v0) => {
-                let mut formatter = formatter.debug_tuple("Return");
                 formatter.field(v0);
                 formatter.finish()
             }
@@ -2675,12 +2690,26 @@ impl Debug for TermRepeat {
     }
 }
 #[cfg(feature = "full")]
-impl Debug for TermReturn {
+impl Debug for TermStmt {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("TermReturn");
-        formatter.field("return_token", &self.return_token);
-        formatter.field("expr", &self.expr);
-        formatter.finish()
+        match self {
+            TermStmt::Local(v0) => {
+                let mut formatter = formatter.debug_tuple("Local");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            TermStmt::Expr(v0) => {
+                let mut formatter = formatter.debug_tuple("Expr");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            TermStmt::Semi(v0, v1) => {
+                let mut formatter = formatter.debug_tuple("Semi");
+                formatter.field(v0);
+                formatter.field(v1);
+                formatter.finish()
+            }
+        }
     }
 }
 #[cfg(feature = "full")]

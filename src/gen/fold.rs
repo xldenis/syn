@@ -617,6 +617,14 @@ pub trait Fold {
         fold_stmt(self, i)
     }
     #[cfg(feature = "full")]
+    fn fold_tblock(&mut self, i: TBlock) -> TBlock {
+        fold_tblock(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn fold_tlocal(&mut self, i: TLocal) -> TLocal {
+        fold_tlocal(self, i)
+    }
+    #[cfg(feature = "full")]
     fn fold_term(&mut self, i: Term) -> Term {
         fold_term(self, i)
     }
@@ -716,8 +724,8 @@ pub trait Fold {
         fold_term_repeat(self, i)
     }
     #[cfg(feature = "full")]
-    fn fold_term_return(&mut self, i: TermReturn) -> TermReturn {
-        fold_term_return(self, i)
+    fn fold_term_stmt(&mut self, i: TermStmt) -> TermStmt {
+        fold_term_stmt(self, i)
     }
     #[cfg(feature = "full")]
     fn fold_term_struct(&mut self, i: TermStruct) -> TermStruct {
@@ -2858,6 +2866,33 @@ where
     }
 }
 #[cfg(feature = "full")]
+pub fn fold_tblock<F>(f: &mut F, node: TBlock) -> TBlock
+where
+    F: Fold + ?Sized,
+{
+    TBlock {
+        brace_token: Brace(tokens_helper(f, &node.brace_token.span)),
+        stmts: FoldHelper::lift(node.stmts, |it| f.fold_term_stmt(it)),
+    }
+}
+#[cfg(feature = "full")]
+pub fn fold_tlocal<F>(f: &mut F, node: TLocal) -> TLocal
+where
+    F: Fold + ?Sized,
+{
+    TLocal {
+        let_token: Token![let](tokens_helper(f, &node.let_token.span)),
+        pat: f.fold_pat(node.pat),
+        init: (node.init).map(|it| {
+            (
+                Token ! [=](tokens_helper(f, &(it).0.spans)),
+                Box::new(f.fold_term(*(it).1)),
+            )
+        }),
+        semi_token: Token ! [;](tokens_helper(f, &node.semi_token.spans)),
+    }
+}
+#[cfg(feature = "full")]
 pub fn fold_term<F>(f: &mut F, node: Term) -> Term
 where
     F: Fold + ?Sized,
@@ -2881,7 +2916,6 @@ where
         Term::Range(_binding_0) => Term::Range(f.fold_term_range(_binding_0)),
         Term::Reference(_binding_0) => Term::Reference(f.fold_term_reference(_binding_0)),
         Term::Repeat(_binding_0) => Term::Repeat(f.fold_term_repeat(_binding_0)),
-        Term::Return(_binding_0) => Term::Return(f.fold_term_return(_binding_0)),
         Term::Struct(_binding_0) => Term::Struct(f.fold_term_struct(_binding_0)),
         Term::Tuple(_binding_0) => Term::Tuple(f.fold_term_tuple(_binding_0)),
         Term::Type(_binding_0) => Term::Type(f.fold_term_type(_binding_0)),
@@ -2937,7 +2971,7 @@ where
 {
     TermBlock {
         label: (node.label).map(|it| f.fold_label(it)),
-        block: f.fold_block(node.block),
+        block: f.fold_tblock(node.block),
     }
 }
 #[cfg(feature = "full")]
@@ -3019,7 +3053,7 @@ where
     TermIf {
         if_token: Token![if](tokens_helper(f, &node.if_token.span)),
         cond: Box::new(f.fold_term(*node.cond)),
-        then_branch: f.fold_block(node.then_branch),
+        then_branch: f.fold_tblock(node.then_branch),
         else_branch: (node.else_branch).map(|it| {
             (
                 Token![else](tokens_helper(f, &(it).0.span)),
@@ -3165,13 +3199,17 @@ where
     }
 }
 #[cfg(feature = "full")]
-pub fn fold_term_return<F>(f: &mut F, node: TermReturn) -> TermReturn
+pub fn fold_term_stmt<F>(f: &mut F, node: TermStmt) -> TermStmt
 where
     F: Fold + ?Sized,
 {
-    TermReturn {
-        return_token: Token![return](tokens_helper(f, &node.return_token.span)),
-        expr: (node.expr).map(|it| Box::new(f.fold_term(*it))),
+    match node {
+        TermStmt::Local(_binding_0) => TermStmt::Local(f.fold_tlocal(_binding_0)),
+        TermStmt::Expr(_binding_0) => TermStmt::Expr(f.fold_term(_binding_0)),
+        TermStmt::Semi(_binding_0, _binding_1) => TermStmt::Semi(
+            f.fold_term(_binding_0),
+            Token ! [;](tokens_helper(f, &_binding_1.spans)),
+        ),
     }
 }
 #[cfg(feature = "full")]
