@@ -1685,7 +1685,6 @@ impl Clone for Term {
             Term::Paren(v0) => Term::Paren(v0.clone()),
             Term::Path(v0) => Term::Path(v0.clone()),
             Term::Range(v0) => Term::Range(v0.clone()),
-            Term::Reference(v0) => Term::Reference(v0.clone()),
             Term::Repeat(v0) => Term::Repeat(v0.clone()),
             Term::Struct(v0) => Term::Struct(v0.clone()),
             Term::Tuple(v0) => Term::Tuple(v0.clone()),
@@ -1905,17 +1904,6 @@ impl Clone for TermRange {
             from: self.from.clone(),
             limits: self.limits.clone(),
             to: self.to.clone(),
-        }
-    }
-}
-#[cfg(feature = "full")]
-impl Clone for TermReference {
-    fn clone(&self) -> Self {
-        TermReference {
-            and_token: self.and_token.clone(),
-            raw: self.raw.clone(),
-            mutability: self.mutability.clone(),
-            expr: self.expr.clone(),
         }
     }
 }

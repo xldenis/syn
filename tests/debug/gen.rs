@@ -4731,23 +4731,6 @@ impl Debug for Lite<syn::Term> {
                 }
                 formatter.finish()
             }
-            syn::Term::Reference(_val) => {
-                let mut formatter = formatter.debug_struct("Term::Reference");
-                if let Some(val) = &_val.mutability {
-                    #[derive(RefCast)]
-                    #[repr(transparent)]
-                    struct Print(syn::token::Mut);
-                    impl Debug for Print {
-                        fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-                            formatter.write_str("Some")?;
-                            Ok(())
-                        }
-                    }
-                    formatter.field("mutability", Print::ref_cast(val));
-                }
-                formatter.field("expr", Lite(&_val.expr));
-                formatter.finish()
-            }
             syn::Term::Repeat(_val) => {
                 let mut formatter = formatter.debug_struct("Term::Repeat");
                 formatter.field("expr", Lite(&_val.expr));
@@ -5164,26 +5147,6 @@ impl Debug for Lite<syn::TermRange> {
             }
             formatter.field("to", Print::ref_cast(val));
         }
-        formatter.finish()
-    }
-}
-impl Debug for Lite<syn::TermReference> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let _val = &self.value;
-        let mut formatter = formatter.debug_struct("TermReference");
-        if let Some(val) = &_val.mutability {
-            #[derive(RefCast)]
-            #[repr(transparent)]
-            struct Print(syn::token::Mut);
-            impl Debug for Print {
-                fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-                    formatter.write_str("Some")?;
-                    Ok(())
-                }
-            }
-            formatter.field("mutability", Print::ref_cast(val));
-        }
-        formatter.field("expr", Lite(&_val.expr));
         formatter.finish()
     }
 }

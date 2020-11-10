@@ -709,10 +709,6 @@ pub trait Visit<'ast> {
         visit_term_range(self, i)
     }
     #[cfg(feature = "full")]
-    fn visit_term_reference(&mut self, i: &'ast TermReference) {
-        visit_term_reference(self, i)
-    }
-    #[cfg(feature = "full")]
     fn visit_term_repeat(&mut self, i: &'ast TermRepeat) {
         visit_term_repeat(self, i)
     }
@@ -3405,9 +3401,6 @@ where
         Term::Range(_binding_0) => {
             v.visit_term_range(_binding_0);
         }
-        Term::Reference(_binding_0) => {
-            v.visit_term_reference(_binding_0);
-        }
         Term::Repeat(_binding_0) => {
             v.visit_term_repeat(_binding_0);
         }
@@ -3673,17 +3666,6 @@ where
     if let Some(it) = &node.to {
         v.visit_term(&**it)
     };
-}
-#[cfg(feature = "full")]
-pub fn visit_term_reference<'ast, V>(v: &mut V, node: &'ast TermReference)
-where
-    V: Visit<'ast> + ?Sized,
-{
-    tokens_helper(v, &node.and_token.spans);
-    if let Some(it) = &node.mutability {
-        tokens_helper(v, &it.span)
-    };
-    v.visit_term(&*node.expr);
 }
 #[cfg(feature = "full")]
 pub fn visit_term_repeat<'ast, V>(v: &mut V, node: &'ast TermRepeat)

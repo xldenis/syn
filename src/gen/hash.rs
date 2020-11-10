@@ -2234,36 +2234,32 @@ impl Hash for Term {
                 state.write_u8(15u8);
                 v0.hash(state);
             }
-            Term::Reference(v0) => {
+            Term::Repeat(v0) => {
                 state.write_u8(16u8);
                 v0.hash(state);
             }
-            Term::Repeat(v0) => {
+            Term::Struct(v0) => {
                 state.write_u8(17u8);
                 v0.hash(state);
             }
-            Term::Struct(v0) => {
+            Term::Tuple(v0) => {
                 state.write_u8(18u8);
                 v0.hash(state);
             }
-            Term::Tuple(v0) => {
+            Term::Type(v0) => {
                 state.write_u8(19u8);
                 v0.hash(state);
             }
-            Term::Type(v0) => {
+            Term::Unary(v0) => {
                 state.write_u8(20u8);
                 v0.hash(state);
             }
-            Term::Unary(v0) => {
-                state.write_u8(21u8);
-                v0.hash(state);
-            }
             Term::Verbatim(v0) => {
-                state.write_u8(22u8);
+                state.write_u8(21u8);
                 TokenStreamHelper(v0).hash(state);
             }
             Term::Impl(v0) => {
-                state.write_u8(23u8);
+                state.write_u8(22u8);
                 v0.hash(state);
             }
             _ => unreachable!(),
@@ -2489,16 +2485,6 @@ impl Hash for TermRange {
         self.from.hash(state);
         self.limits.hash(state);
         self.to.hash(state);
-    }
-}
-#[cfg(feature = "full")]
-impl Hash for TermReference {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: Hasher,
-    {
-        self.mutability.hash(state);
-        self.expr.hash(state);
     }
 }
 #[cfg(feature = "full")]

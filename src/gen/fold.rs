@@ -716,10 +716,6 @@ pub trait Fold {
         fold_term_range(self, i)
     }
     #[cfg(feature = "full")]
-    fn fold_term_reference(&mut self, i: TermReference) -> TermReference {
-        fold_term_reference(self, i)
-    }
-    #[cfg(feature = "full")]
     fn fold_term_repeat(&mut self, i: TermRepeat) -> TermRepeat {
         fold_term_repeat(self, i)
     }
@@ -2914,7 +2910,6 @@ where
         Term::Paren(_binding_0) => Term::Paren(f.fold_term_paren(_binding_0)),
         Term::Path(_binding_0) => Term::Path(f.fold_term_path(_binding_0)),
         Term::Range(_binding_0) => Term::Range(f.fold_term_range(_binding_0)),
-        Term::Reference(_binding_0) => Term::Reference(f.fold_term_reference(_binding_0)),
         Term::Repeat(_binding_0) => Term::Repeat(f.fold_term_repeat(_binding_0)),
         Term::Struct(_binding_0) => Term::Struct(f.fold_term_struct(_binding_0)),
         Term::Tuple(_binding_0) => Term::Tuple(f.fold_term_tuple(_binding_0)),
@@ -3069,7 +3064,7 @@ where
 {
     TermImpl {
         hyp: Box::new(f.fold_term(*node.hyp)),
-        impl_token: Token ! [==>](tokens_helper(f, &node.impl_token.spans)),
+        impl_token: Token ! [->](tokens_helper(f, &node.impl_token.spans)),
         cons: Box::new(f.fold_term(*node.cons)),
     }
 }
@@ -3172,18 +3167,6 @@ where
         from: (node.from).map(|it| Box::new(f.fold_term(*it))),
         limits: f.fold_range_limits(node.limits),
         to: (node.to).map(|it| Box::new(f.fold_term(*it))),
-    }
-}
-#[cfg(feature = "full")]
-pub fn fold_term_reference<F>(f: &mut F, node: TermReference) -> TermReference
-where
-    F: Fold + ?Sized,
-{
-    TermReference {
-        and_token: Token ! [&](tokens_helper(f, &node.and_token.spans)),
-        raw: node.raw,
-        mutability: (node.mutability).map(|it| Token![mut](tokens_helper(f, &it.span))),
-        expr: Box::new(f.fold_term(*node.expr)),
     }
 }
 #[cfg(feature = "full")]

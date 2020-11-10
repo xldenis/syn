@@ -1,7 +1,5 @@
 use super::*;
 use crate::punctuated::Punctuated;
-#[cfg(feature = "full")]
-use crate::reserved::Reserved;
 use proc_macro2::{Span, TokenStream};
 #[cfg(feature = "printing")]
 use quote::IdentFragment;
@@ -146,9 +144,6 @@ ast_enum_of_structs! {
 
         /// A range expression: `1..2`, `1..`, `..2`, `1..=2`, `..=2`.
         Range(TermRange),
-
-        /// A referencing operation: `&a` or `&mut a`.
-        Reference(TermReference),
 
         /// An array literal constructed from one repeated element: `[0u8; N]`.
         Repeat(TermRepeat),
@@ -407,18 +402,6 @@ ast_struct! {
         pub from: Option<Box<Term>>,
         pub limits: RangeLimits,
         pub to: Option<Box<Term>>,
-    }
-}
-
-ast_struct! {
-    /// A referencing operation: `&a` or `&mut a`.
-    ///
-    /// *This type is available only if Syn is built with the `"full"` feature.*
-    pub struct TermReference #full {
-        pub and_token: Token![&],
-        pub raw: Reserved,
-        pub mutability: Option<Token![mut]>,
-        pub expr: Box<Term>,
     }
 }
 
@@ -1017,31 +1000,7 @@ pub(crate) mod parsing {
     // box <trailer>
     #[cfg(feature = "full")]
     fn unary_term(input: ParseStream, allow_struct: AllowStruct) -> Result<Term> {
-        let begin = input.fork();
-        if input.peek(Token![&]) {
-            let and_token: Token![&] = input.parse()?;
-            let raw: Option<raw> =
-                if input.peek(raw) && (input.peek2(Token![mut]) || input.peek2(Token![const])) {
-                    Some(input.parse()?)
-                } else {
-                    None
-                };
-            let mutability: Option<Token![mut]> = input.parse()?;
-            if raw.is_some() && mutability.is_none() {
-                input.parse::<Token![const]>()?;
-            }
-            let expr = Box::new(unary_term(input, allow_struct)?);
-            if raw.is_some() {
-                Ok(Term::Verbatim(verbatim::between(begin, input)))
-            } else {
-                Ok(Term::Reference(TermReference {
-                    and_token,
-                    raw: Reserved::default(),
-                    mutability,
-                    expr,
-                }))
-            }
-        } else if input.peek(Token![*]) || input.peek(Token![!]) || input.peek(Token![-]) {
+        if input.peek(Token![*]) || input.peek(Token![!]) || input.peek(Token![-]) {
             Ok(Term::Unary(TermUnary {
                 op: input.parse()?,
                 expr: Box::new(unary_term(input, allow_struct)?),
@@ -1456,7 +1415,6 @@ pub(crate) mod parsing {
         TermField, Field, "expected struct field access",
         TermIndex, Index, "expected indexing expression",
         TermRange, Range, "expected range expression",
-        TermReference, Reference, "expected referencing operation",
         TermStruct, Struct, "expected struct literal expression",
         TermRepeat, Repeat, "expected array literal constructed from one repeated element",
         TermParen, Paren, "expected parenthesized expression",
@@ -1907,15 +1865,6 @@ pub(crate) mod printing {
     impl ToTokens for TermPath {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             private::print_path(tokens, &self.qself, &self.path);
-        }
-    }
-
-    #[cfg(feature = "full")]
-    impl ToTokens for TermReference {
-        fn to_tokens(&self, tokens: &mut TokenStream) {
-            self.and_token.to_tokens(tokens);
-            self.mutability.to_tokens(tokens);
-            self.expr.to_tokens(tokens);
         }
     }
 

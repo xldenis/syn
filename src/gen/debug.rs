@@ -2404,11 +2404,6 @@ impl Debug for Term {
                 formatter.field(v0);
                 formatter.finish()
             }
-            Term::Reference(v0) => {
-                let mut formatter = formatter.debug_tuple("Reference");
-                formatter.field(v0);
-                formatter.finish()
-            }
             Term::Repeat(v0) => {
                 let mut formatter = formatter.debug_tuple("Repeat");
                 formatter.field(v0);
@@ -2664,17 +2659,6 @@ impl Debug for TermRange {
         formatter.field("from", &self.from);
         formatter.field("limits", &self.limits);
         formatter.field("to", &self.to);
-        formatter.finish()
-    }
-}
-#[cfg(feature = "full")]
-impl Debug for TermReference {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        let mut formatter = formatter.debug_struct("TermReference");
-        formatter.field("and_token", &self.and_token);
-        formatter.field("raw", &self.raw);
-        formatter.field("mutability", &self.mutability);
-        formatter.field("expr", &self.expr);
         formatter.finish()
     }
 }

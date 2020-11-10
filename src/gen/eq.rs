@@ -1564,7 +1564,6 @@ impl PartialEq for Term {
             (Term::Paren(self0), Term::Paren(other0)) => self0 == other0,
             (Term::Path(self0), Term::Path(other0)) => self0 == other0,
             (Term::Range(self0), Term::Range(other0)) => self0 == other0,
-            (Term::Reference(self0), Term::Reference(other0)) => self0 == other0,
             (Term::Repeat(self0), Term::Repeat(other0)) => self0 == other0,
             (Term::Struct(self0), Term::Struct(other0)) => self0 == other0,
             (Term::Tuple(self0), Term::Tuple(other0)) => self0 == other0,
@@ -1762,14 +1761,6 @@ impl Eq for TermRange {}
 impl PartialEq for TermRange {
     fn eq(&self, other: &Self) -> bool {
         self.from == other.from && self.limits == other.limits && self.to == other.to
-    }
-}
-#[cfg(feature = "full")]
-impl Eq for TermReference {}
-#[cfg(feature = "full")]
-impl PartialEq for TermReference {
-    fn eq(&self, other: &Self) -> bool {
-        self.mutability == other.mutability && self.expr == other.expr
     }
 }
 #[cfg(feature = "full")]

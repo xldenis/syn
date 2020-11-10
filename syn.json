@@ -4603,11 +4603,6 @@
             "syn": "TermRange"
           }
         ],
-        "Reference": [
-          {
-            "syn": "TermReference"
-          }
-        ],
         "Repeat": [
           {
             "syn": "TermRepeat"
@@ -4926,7 +4921,7 @@
           }
         },
         "impl_token": {
-          "token": "PredImpl"
+          "token": "RArrow"
         },
         "cons": {
           "box": {
@@ -5144,32 +5139,6 @@
             "box": {
               "syn": "Term"
             }
-          }
-        }
-      }
-    },
-    {
-      "ident": "TermReference",
-      "features": {
-        "any": [
-          "full"
-        ]
-      },
-      "fields": {
-        "and_token": {
-          "token": "And"
-        },
-        "raw": {
-          "syn": "Reserved"
-        },
-        "mutability": {
-          "option": {
-            "token": "Mut"
-          }
-        },
-        "expr": {
-          "box": {
-            "syn": "Term"
           }
         }
       }
