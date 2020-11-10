@@ -92,7 +92,7 @@ pub mod parsing {
             input.parse().map(BinOp::Shl)
         } else if input.peek(Token![>>]) {
             input.parse().map(BinOp::Shr)
-        } else if input.peek(Token![==]) && !input.peek(Token![==>]) {
+        } else if input.peek(Token![==]) {
             input.parse().map(BinOp::Eq)
         } else if input.peek(Token![<=]) {
             input.parse().map(BinOp::Le)

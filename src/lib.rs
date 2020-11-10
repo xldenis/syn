@@ -341,13 +341,6 @@ pub use crate::data::{
 #[cfg(feature = "full")]
 mod term;
 
-// #[cfg(feature = "full")]
-// pub mod pred;
-
-
-// #[cfg(feature = "full")]
-// pub use crate::pred::{Pred, PredConj, PredBinary, PredDisj, PredImpl, PredNeg, PredParen};
-
 #[cfg(feature = "full")]
 pub use crate::term::{
     TermArm, TermFieldValue, TermGenericMethodArgument, TermMethodTurbofish,

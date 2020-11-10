@@ -485,7 +485,7 @@ ast_struct! {
 ast_struct! {
     pub struct TermImpl {
         pub hyp: Box<Term>,
-        pub impl_token: Token![==>],
+        pub impl_token: Token![->],
         pub cons: Box<Term>,
     }
 }
@@ -615,19 +615,6 @@ ast_struct! {
         pub comma: Option<Token![,]>,
     }
 }
-
-// #[cfg(feature = "full")]
-// ast_enum! {
-//     /// Limit types of a range, inclusive or exclusive.
-//     ///
-//     /// *This type is available only if Syn is built with the `"full"` feature.*
-//     pub enum RangeLimits {
-//         /// Inclusive at the beginning, exclusive at the end.
-//         HalfOpen(Token![..]),
-//         /// Inclusive at the beginning and end.
-//         Closed(Token![..=]),
-//     }
-// }
 
 #[cfg(any(feature = "parsing", feature = "printing"))]
 #[cfg(feature = "full")]
@@ -960,8 +947,8 @@ pub(crate) mod parsing {
                         right: Box::new(rhs),
                     })
                 };
-            } else if Precedence::Impl >= base && input.peek(Token![==>]) {
-                let impl_token: Token![==>] = input.parse()?;
+            } else if Precedence::Impl >= base && input.peek(Token![->]) {
+                let impl_token: Token![->] = input.parse()?;
                 let precedence = Precedence::Impl;
 
                 let mut rhs = unary_term(input, allow_struct)?;
@@ -1002,55 +989,10 @@ pub(crate) mod parsing {
         Ok(lhs)
     }
 
-    #[cfg(not(feature = "full"))]
-    fn parse_term(
-        input: ParseStream,
-        mut lhs: Term,
-        allow_struct: AllowStruct,
-        base: Precedence,
-    ) -> Result<Term> {
-        loop {
-            if input
-                .fork()
-                .parse::<BinOp>()
-                .ok()
-                .map_or(false, |op| Precedence::of(&op) >= base)
-            {
-                let op: BinOp = input.parse()?;
-                let precedence = Precedence::of(&op);
-                let mut rhs = unary_term(input, allow_struct)?;
-                loop {
-                    let next = peek_precedence(input);
-                    if next > precedence || next == precedence && precedence == Precedence::Assign {
-                        rhs = parse_term(input, rhs, allow_struct, next)?;
-                    } else {
-                        break;
-                    }
-                }
-                lhs = Term::Binary(TermBinary {
-                    left: Box::new(lhs),
-                    op,
-                    right: Box::new(rhs),
-                });
-            } else if Precedence::Cast >= base && input.peek(Token![as]) {
-                let as_token: Token![as] = input.parse()?;
-                let ty = input.call(Type::without_plus)?;
-                lhs = Term::Cast(TermCast {
-                    expr: Box::new(lhs),
-                    as_token,
-                    ty: Box::new(ty),
-                });
-            } else {
-                break;
-            }
-        }
-        Ok(lhs)
-    }
-
     fn peek_precedence(input: ParseStream) -> Precedence {
         if let Ok(op) = input.fork().parse() {
             Precedence::of(&op)
-        } else if input.peek(Token![==>]) {
+        } else if input.peek(Token![->]) {
             Precedence::Impl
         } else if input.peek(Token![=]) && !input.peek(Token![=>]) {
             Precedence::Assign
@@ -1100,18 +1042,6 @@ pub(crate) mod parsing {
                 }))
             }
         } else if input.peek(Token![*]) || input.peek(Token![!]) || input.peek(Token![-]) {
-            Ok(Term::Unary(TermUnary {
-                op: input.parse()?,
-                expr: Box::new(unary_term(input, allow_struct)?),
-            }))
-        } else {
-            trailer_term(input, allow_struct)
-        }
-    }
-
-    #[cfg(not(feature = "full"))]
-    fn unary_term(input: ParseStream, allow_struct: AllowStruct) -> Result<Term> {
-        if input.peek(Token![*]) || input.peek(Token![!]) || input.peek(Token![-]) {
             Ok(Term::Unary(TermUnary {
                 op: input.parse()?,
                 expr: Box::new(unary_term(input, allow_struct)?),
@@ -1218,47 +1148,6 @@ pub(crate) mod parsing {
         Ok(e)
     }
 
-    #[cfg(not(feature = "full"))]
-    fn trailer_term(input: ParseStream, allow_struct: AllowStruct) -> Result<Term> {
-        let mut e = atom_term(input, allow_struct)?;
-
-        loop {
-            if input.peek(token::Paren) {
-                let content;
-                e = Term::Call(TermCall {
-                    func: Box::new(e),
-                    paren_token: parenthesized!(content in input),
-                    args: content.parse_terminated(Term::parse)?,
-                });
-            } else if input.peek(Token![.]) && !input.peek(Token![..]) && !input.peek2(token::Await)
-            {
-                let mut dot_token: Token![.] = input.parse()?;
-                let float_token: Option<LitFloat> = input.parse()?;
-                if let Some(float_token) = float_token {
-                    if multi_index(&mut e, &mut dot_token, float_token)? {
-                        continue;
-                    }
-                }
-                e = Term::Field(TermField {
-                    base: Box::new(e),
-                    dot_token,
-                    member: input.parse()?,
-                });
-            } else if input.peek(token::Bracket) {
-                let content;
-                e = Term::Index(TermIndex {
-                    expr: Box::new(e),
-                    bracket_token: bracketed!(content in input),
-                    index: content.parse()?,
-                });
-            } else {
-                break;
-            }
-        }
-
-        Ok(e)
-    }
-
     // Parse all atomic expressions which don't have to worry about precedence
     // interactions, as they are fully contained.
     #[cfg(feature = "full")]
@@ -1308,26 +1197,6 @@ pub(crate) mod parsing {
             Ok(expr)
         } else {
             Err(input.error("expected expression"))
-        }
-    }
-
-    #[cfg(not(feature = "full"))]
-    fn atom_term(input: ParseStream, _allow_struct: AllowStruct) -> Result<Term> {
-        if input.peek(Lit) {
-            input.parse().map(Term::Lit)
-        } else if input.peek(token::Paren) {
-            input.call(term_paren).map(Term::Paren)
-        } else if input.peek(Ident)
-            || input.peek(Token![::])
-            || input.peek(Token![<])
-            || input.peek(Token![self])
-            || input.peek(Token![Self])
-            || input.peek(Token![super])
-            || input.peek(Token![crate])
-        {
-            input.parse().map(Term::Path)
-        } else {
-            Err(input.error("unsupported expression; enable syn's features=[\"full\"]"))
         }
     }
 
@@ -1462,15 +1331,6 @@ pub(crate) mod parsing {
         Ok(TermGroup {
             group_token: group.token,
             expr: group.content.parse()?,
-        })
-    }
-
-    #[cfg(not(feature = "full"))]
-    fn term_paren(input: ParseStream) -> Result<TermParen> {
-        let content;
-        Ok(TermParen {
-            paren_token: parenthesized!(content in input),
-            expr: content.parse()?,
         })
     }
 
