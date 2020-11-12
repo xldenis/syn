@@ -678,6 +678,8 @@ define_keywords! {
     "where"       pub struct Where        /// `where`
     "while"       pub struct While        /// `while`
     "yield"       pub struct Yield        /// `yield`
+    "forall"      pub struct Forall        /// `forall`
+    "exists"      pub struct Exists        /// `exists`
 }
 
 define_punctuation! {
@@ -848,6 +850,8 @@ macro_rules! export_token_macro {
             [~]           => { $crate::token::Tilde };
             [_]           => { $crate::token::Underscore };
             [==>]         => { $crate::token::PredImpl };
+            [forall]      => { $crate::token::Forall };
+            [exists]      => { $crate::token::Exists };
         }
     };
 }

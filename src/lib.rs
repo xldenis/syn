@@ -349,6 +349,7 @@ pub use crate::term::{
     TermGroup, TermIf, TermIndex, TermLet, TermLit, TermMatch, TermMethodCall,
     TermParen, TermPath, TermRange, TermRepeat, TermStruct,
     TermTuple, TermType, TermUnary, TermImpl, TermStmt, TBlock, TLocal,
+    TermForall, TermFinal, QuantArg, TermExists,
 };
 
 #[cfg(any(feature = "full", feature = "derive"))]

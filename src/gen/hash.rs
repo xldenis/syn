@@ -2058,6 +2058,16 @@ impl Hash for QSelf {
     }
 }
 #[cfg(feature = "full")]
+impl Hash for QuantArg {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.ident.hash(state);
+        self.ty.hash(state);
+    }
+}
+#[cfg(feature = "full")]
 impl Hash for RangeLimits {
     fn hash<H>(&self, state: &mut H)
     where
@@ -2254,12 +2264,24 @@ impl Hash for Term {
                 state.write_u8(20u8);
                 v0.hash(state);
             }
-            Term::Verbatim(v0) => {
+            Term::Final(v0) => {
                 state.write_u8(21u8);
+                v0.hash(state);
+            }
+            Term::Verbatim(v0) => {
+                state.write_u8(22u8);
                 TokenStreamHelper(v0).hash(state);
             }
             Term::Impl(v0) => {
-                state.write_u8(22u8);
+                state.write_u8(23u8);
+                v0.hash(state);
+            }
+            Term::Forall(v0) => {
+                state.write_u8(24u8);
+                v0.hash(state);
+            }
+            Term::Exists(v0) => {
+                state.write_u8(25u8);
                 v0.hash(state);
             }
             _ => unreachable!(),
@@ -2329,6 +2351,16 @@ impl Hash for TermCast {
     }
 }
 #[cfg(feature = "full")]
+impl Hash for TermExists {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.args.hash(state);
+        self.term.hash(state);
+    }
+}
+#[cfg(feature = "full")]
 impl Hash for TermField {
     fn hash<H>(&self, state: &mut H)
     where
@@ -2347,6 +2379,25 @@ impl Hash for TermFieldValue {
         self.member.hash(state);
         self.colon_token.hash(state);
         self.expr.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermFinal {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.term.hash(state);
+    }
+}
+#[cfg(feature = "full")]
+impl Hash for TermForall {
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: Hasher,
+    {
+        self.args.hash(state);
+        self.term.hash(state);
     }
 }
 #[cfg(feature = "full")]

@@ -102,7 +102,7 @@ pub mod parsing {
             input.parse().map(BinOp::Ge)
         } else if input.peek(Token![+]) {
             input.parse().map(BinOp::Add)
-        } else if input.peek(Token![-]) {
+        } else if input.peek(Token![-]) && !input.peek(Token![->]) {
             input.parse().map(BinOp::Sub)
         } else if input.peek(Token![*]) {
             input.parse().map(BinOp::Mul)

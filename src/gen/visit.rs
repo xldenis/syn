@@ -590,6 +590,10 @@ pub trait Visit<'ast> {
         visit_qself(self, i)
     }
     #[cfg(feature = "full")]
+    fn visit_quant_arg(&mut self, i: &'ast QuantArg) {
+        visit_quant_arg(self, i)
+    }
+    #[cfg(feature = "full")]
     fn visit_range_limits(&mut self, i: &'ast RangeLimits) {
         visit_range_limits(self, i)
     }
@@ -649,12 +653,24 @@ pub trait Visit<'ast> {
         visit_term_cast(self, i)
     }
     #[cfg(feature = "full")]
+    fn visit_term_exists(&mut self, i: &'ast TermExists) {
+        visit_term_exists(self, i)
+    }
+    #[cfg(feature = "full")]
     fn visit_term_field(&mut self, i: &'ast TermField) {
         visit_term_field(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_term_field_value(&mut self, i: &'ast TermFieldValue) {
         visit_term_field_value(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_final(&mut self, i: &'ast TermFinal) {
+        visit_term_final(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_forall(&mut self, i: &'ast TermForall) {
+        visit_term_forall(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_term_generic_method_argument(&mut self, i: &'ast TermGenericMethodArgument) {
@@ -3220,6 +3236,15 @@ where
     tokens_helper(v, &node.gt_token.spans);
 }
 #[cfg(feature = "full")]
+pub fn visit_quant_arg<'ast, V>(v: &mut V, node: &'ast QuantArg)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    v.visit_ident(&node.ident);
+    tokens_helper(v, &node.colon_token.spans);
+    v.visit_type(&*node.ty);
+}
+#[cfg(feature = "full")]
 pub fn visit_range_limits<'ast, V>(v: &mut V, node: &'ast RangeLimits)
 where
     V: Visit<'ast> + ?Sized,
@@ -3416,11 +3441,20 @@ where
         Term::Unary(_binding_0) => {
             v.visit_term_unary(_binding_0);
         }
+        Term::Final(_binding_0) => {
+            v.visit_term_final(_binding_0);
+        }
         Term::Verbatim(_binding_0) => {
             skip!(_binding_0);
         }
         Term::Impl(_binding_0) => {
             v.visit_term_impl(_binding_0);
+        }
+        Term::Forall(_binding_0) => {
+            v.visit_term_forall(_binding_0);
+        }
+        Term::Exists(_binding_0) => {
+            v.visit_term_exists(_binding_0);
         }
         _ => unreachable!(),
     }
@@ -3499,6 +3533,23 @@ where
     v.visit_type(&*node.ty);
 }
 #[cfg(feature = "full")]
+pub fn visit_term_exists<'ast, V>(v: &mut V, node: &'ast TermExists)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.exists_token.span);
+    tokens_helper(v, &node.lt_token.spans);
+    for el in Punctuated::pairs(&node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_quant_arg(it);
+        if let Some(p) = p {
+            tokens_helper(v, &p.spans);
+        }
+    }
+    tokens_helper(v, &node.gt_token.spans);
+    v.visit_term(&*node.term);
+}
+#[cfg(feature = "full")]
 pub fn visit_term_field<'ast, V>(v: &mut V, node: &'ast TermField)
 where
     V: Visit<'ast> + ?Sized,
@@ -3517,6 +3568,31 @@ where
         tokens_helper(v, &it.spans)
     };
     v.visit_term(&node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_final<'ast, V>(v: &mut V, node: &'ast TermFinal)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.final_token.spans);
+    v.visit_term(&*node.term);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_forall<'ast, V>(v: &mut V, node: &'ast TermForall)
+where
+    V: Visit<'ast> + ?Sized,
+{
+    tokens_helper(v, &node.forall_token.span);
+    tokens_helper(v, &node.lt_token.spans);
+    for el in Punctuated::pairs(&node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_quant_arg(it);
+        if let Some(p) = p {
+            tokens_helper(v, &p.spans);
+        }
+    }
+    tokens_helper(v, &node.gt_token.spans);
+    v.visit_term(&*node.term);
 }
 #[cfg(feature = "full")]
 pub fn visit_term_generic_method_argument<'ast, V>(v: &mut V, node: &'ast TermGenericMethodArgument)

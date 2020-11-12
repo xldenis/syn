@@ -1589,6 +1589,16 @@ impl Clone for QSelf {
     }
 }
 #[cfg(feature = "full")]
+impl Clone for QuantArg {
+    fn clone(&self) -> Self {
+        QuantArg {
+            ident: self.ident.clone(),
+            colon_token: self.colon_token.clone(),
+            ty: self.ty.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
 impl Copy for RangeLimits {}
 #[cfg(feature = "full")]
 impl Clone for RangeLimits {
@@ -1690,8 +1700,11 @@ impl Clone for Term {
             Term::Tuple(v0) => Term::Tuple(v0.clone()),
             Term::Type(v0) => Term::Type(v0.clone()),
             Term::Unary(v0) => Term::Unary(v0.clone()),
+            Term::Final(v0) => Term::Final(v0.clone()),
             Term::Verbatim(v0) => Term::Verbatim(v0.clone()),
             Term::Impl(v0) => Term::Impl(v0.clone()),
+            Term::Forall(v0) => Term::Forall(v0.clone()),
+            Term::Exists(v0) => Term::Exists(v0.clone()),
             _ => unreachable!(),
         }
     }
@@ -1757,6 +1770,18 @@ impl Clone for TermCast {
     }
 }
 #[cfg(feature = "full")]
+impl Clone for TermExists {
+    fn clone(&self) -> Self {
+        TermExists {
+            exists_token: self.exists_token.clone(),
+            lt_token: self.lt_token.clone(),
+            args: self.args.clone(),
+            gt_token: self.gt_token.clone(),
+            term: self.term.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
 impl Clone for TermField {
     fn clone(&self) -> Self {
         TermField {
@@ -1773,6 +1798,27 @@ impl Clone for TermFieldValue {
             member: self.member.clone(),
             colon_token: self.colon_token.clone(),
             expr: self.expr.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermFinal {
+    fn clone(&self) -> Self {
+        TermFinal {
+            final_token: self.final_token.clone(),
+            term: self.term.clone(),
+        }
+    }
+}
+#[cfg(feature = "full")]
+impl Clone for TermForall {
+    fn clone(&self) -> Self {
+        TermForall {
+            forall_token: self.forall_token.clone(),
+            lt_token: self.lt_token.clone(),
+            args: self.args.clone(),
+            gt_token: self.gt_token.clone(),
+            term: self.term.clone(),
         }
     }
 }

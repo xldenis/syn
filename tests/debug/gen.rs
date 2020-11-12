@@ -4296,6 +4296,15 @@ impl Debug for Lite<syn::QSelf> {
         formatter.finish()
     }
 }
+impl Debug for Lite<syn::QuantArg> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let _val = &self.value;
+        let mut formatter = formatter.debug_struct("QuantArg");
+        formatter.field("ident", Lite(&_val.ident));
+        formatter.field("ty", Lite(&_val.ty));
+        formatter.finish()
+    }
+}
 impl Debug for Lite<syn::RangeLimits> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let _val = &self.value;
@@ -4792,6 +4801,11 @@ impl Debug for Lite<syn::Term> {
                 formatter.field("expr", Lite(&_val.expr));
                 formatter.finish()
             }
+            syn::Term::Final(_val) => {
+                let mut formatter = formatter.debug_struct("Term::Final");
+                formatter.field("term", Lite(&_val.term));
+                formatter.finish()
+            }
             syn::Term::Verbatim(_val) => {
                 formatter.write_str("Verbatim")?;
                 formatter.write_str("(`")?;
@@ -4803,6 +4817,22 @@ impl Debug for Lite<syn::Term> {
                 let mut formatter = formatter.debug_struct("Term::Impl");
                 formatter.field("hyp", Lite(&_val.hyp));
                 formatter.field("cons", Lite(&_val.cons));
+                formatter.finish()
+            }
+            syn::Term::Forall(_val) => {
+                let mut formatter = formatter.debug_struct("Term::Forall");
+                if !_val.args.is_empty() {
+                    formatter.field("args", Lite(&_val.args));
+                }
+                formatter.field("term", Lite(&_val.term));
+                formatter.finish()
+            }
+            syn::Term::Exists(_val) => {
+                let mut formatter = formatter.debug_struct("Term::Exists");
+                if !_val.args.is_empty() {
+                    formatter.field("args", Lite(&_val.args));
+                }
+                formatter.field("term", Lite(&_val.term));
                 formatter.finish()
             }
             _ => unreachable!(),
@@ -4910,6 +4940,17 @@ impl Debug for Lite<syn::TermCast> {
         formatter.finish()
     }
 }
+impl Debug for Lite<syn::TermExists> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let _val = &self.value;
+        let mut formatter = formatter.debug_struct("TermExists");
+        if !_val.args.is_empty() {
+            formatter.field("args", Lite(&_val.args));
+        }
+        formatter.field("term", Lite(&_val.term));
+        formatter.finish()
+    }
+}
 impl Debug for Lite<syn::TermField> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let _val = &self.value;
@@ -4937,6 +4978,25 @@ impl Debug for Lite<syn::TermFieldValue> {
             formatter.field("colon_token", Print::ref_cast(val));
         }
         formatter.field("expr", Lite(&_val.expr));
+        formatter.finish()
+    }
+}
+impl Debug for Lite<syn::TermFinal> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let _val = &self.value;
+        let mut formatter = formatter.debug_struct("TermFinal");
+        formatter.field("term", Lite(&_val.term));
+        formatter.finish()
+    }
+}
+impl Debug for Lite<syn::TermForall> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let _val = &self.value;
+        let mut formatter = formatter.debug_struct("TermForall");
+        if !_val.args.is_empty() {
+            formatter.field("args", Lite(&_val.args));
+        }
+        formatter.field("term", Lite(&_val.term));
         formatter.finish()
     }
 }

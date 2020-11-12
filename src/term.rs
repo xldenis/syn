@@ -163,10 +163,18 @@ ast_enum_of_structs! {
         /// A unary operation: `!x`, `*x`.
         Unary(TermUnary),
 
+        /// The final value of a borrow: `^x`
+        Final(TermFinal),
+
         /// Tokens in expression position not interpreted by Syn.
         Verbatim(TokenStream),
 
+        /// Logical implication
         Impl(TermImpl),
+
+        Forall(TermForall),
+
+        Exists(TermExists),
 
         #[doc(hidden)]
         __Nonexhaustive,
@@ -470,6 +478,46 @@ ast_struct! {
         pub hyp: Box<Term>,
         pub impl_token: Token![->],
         pub cons: Box<Term>,
+    }
+}
+
+ast_struct! {
+    pub struct TermFinal {
+        pub final_token: Token![^],
+        pub term: Box<Term>
+    }
+}
+
+// crate::custom_keyword!(forall);
+crate::custom_keyword!(exists);
+
+ast_struct! {
+    pub struct TermForall {
+        pub forall_token: Token![forall],
+        pub lt_token: Token![<],
+        pub args: Punctuated<QuantArg, Token![,]>,
+        pub gt_token: Token![>],
+
+        pub term: Box<Term>
+    }
+}
+
+ast_struct! {
+    pub struct TermExists {
+        pub exists_token: Token![exists],
+        pub lt_token: Token![<],
+        pub args: Punctuated<QuantArg, Token![,]>,
+        pub gt_token: Token![>],
+
+        pub term: Box<Term>
+    }
+}
+
+ast_struct! {
+    pub struct QuantArg {
+        pub ident: Ident,
+        pub colon_token: Token![:],
+        pub ty: Box<Type>,
     }
 }
 
@@ -862,8 +910,7 @@ pub(crate) mod parsing {
         /// struct init than `..`, while the latter parses as `match (0..S) {}`
         /// implying tighter precedence for `..` than struct init, a
         /// contradiction.
-        #[cfg(feature = "full")]
-        pub fn parse_without_eager_brace(input: ParseStream) -> Result<Term> {
+            pub fn parse_without_eager_brace(input: ParseStream) -> Result<Term> {
             ambiguous_term(input, AllowStruct(false))
         }
     }
@@ -898,7 +945,6 @@ pub(crate) mod parsing {
         }
     }
 
-    #[cfg(feature = "full")]
     fn parse_term(
         input: ParseStream,
         mut lhs: Term,
@@ -969,6 +1015,7 @@ pub(crate) mod parsing {
                 break;
             }
         }
+
         Ok(lhs)
     }
 
@@ -998,12 +1045,16 @@ pub(crate) mod parsing {
     // & <trailer>
     // &mut <trailer>
     // box <trailer>
-    #[cfg(feature = "full")]
     fn unary_term(input: ParseStream, allow_struct: AllowStruct) -> Result<Term> {
         if input.peek(Token![*]) || input.peek(Token![!]) || input.peek(Token![-]) {
             Ok(Term::Unary(TermUnary {
                 op: input.parse()?,
                 expr: Box::new(unary_term(input, allow_struct)?),
+            }))
+        } else if input.peek(Token![^]) {
+            Ok(Term::Final(TermFinal {
+                final_token: input.parse()?,
+                term: Box::new(unary_term(input, allow_struct)?),
             }))
         } else {
             trailer_term(input, allow_struct)
@@ -1016,7 +1067,6 @@ pub(crate) mod parsing {
     // <atom> . <lit> ...
     // <atom> [ <expr> ] ...
     // <atom> ? ...
-    #[cfg(feature = "full")]
     fn trailer_term(
         input: ParseStream,
         allow_struct: AllowStruct,
@@ -1026,7 +1076,6 @@ pub(crate) mod parsing {
         Ok(e)
     }
 
-    #[cfg(feature = "full")]
     fn trailer_helper(input: ParseStream, mut e: Term) -> Result<Term> {
         loop {
             if input.peek(token::Paren) {
@@ -1109,7 +1158,6 @@ pub(crate) mod parsing {
 
     // Parse all atomic expressions which don't have to worry about precedence
     // interactions, as they are fully contained.
-    #[cfg(feature = "full")]
     fn atom_term(input: ParseStream, allow_struct: AllowStruct) -> Result<Term> {
         if input.peek(token::Group)
             && !input.peek2(Token![::])
@@ -1136,6 +1184,10 @@ pub(crate) mod parsing {
             input.call(term_let).map(Term::Let)
         } else if input.peek(Token![if]) {
             input.parse().map(Term::If)
+        } else if input.peek(Token![forall]) {
+            input.parse().map(Term::Forall)
+        } else if input.peek(Token![exists]) {
+            input.parse().map(Term::Exists)
         } else if input.peek(Token![match]) {
             input.parse().map(Term::Match)
         } else if input.peek(token::Brace) {
@@ -1159,7 +1211,6 @@ pub(crate) mod parsing {
         }
     }
 
-    #[cfg(feature = "full")]
     fn path_or_struct(input: ParseStream, allow_struct: AllowStruct) -> Result<Term> {
         let expr: TermPath = input.parse()?;
         if expr.qself.is_some() {
@@ -1173,7 +1224,6 @@ pub(crate) mod parsing {
         }
     }
 
-    #[cfg(feature = "full")]
     fn paren_or_tuple(input: ParseStream) -> Result<Term> {
         let content;
         let paren_token = parenthesized!(content in input);
@@ -1209,7 +1259,6 @@ pub(crate) mod parsing {
         }))
     }
 
-    #[cfg(feature = "full")]
     fn array_or_repeat(input: ParseStream) -> Result<Term> {
         let content;
         let bracket_token = bracketed!(content in input);
@@ -1251,7 +1300,6 @@ pub(crate) mod parsing {
         }
     }
 
-    #[cfg(feature = "full")]
     pub(crate) fn term_early(input: ParseStream) -> Result<Term> {
         let mut expr = if input.peek(Token![if]) {
             Term::If(input.parse()?)
@@ -1284,7 +1332,6 @@ pub(crate) mod parsing {
         }
     }
 
-    #[cfg(feature = "full")]
     fn term_group(input: ParseStream) -> Result<TermGroup> {
         let group = crate::group::parse_group(input)?;
         Ok(TermGroup {
@@ -1293,7 +1340,6 @@ pub(crate) mod parsing {
         })
     }
 
-    #[cfg(feature = "full")]
     fn generic_method_argument(input: ParseStream) -> Result<TermGenericMethodArgument> {
         if input.peek(Lit) {
             let lit = input.parse()?;
@@ -1308,7 +1354,6 @@ pub(crate) mod parsing {
         input.parse().map(TermGenericMethodArgument::Type)
     }
 
-    #[cfg(feature = "full")]
     fn term_let(input: ParseStream) -> Result<TermLet> {
         Ok(TermLet {
             let_token: input.parse()?,
@@ -1318,7 +1363,6 @@ pub(crate) mod parsing {
         })
     }
 
-    #[cfg(feature = "full")]
     impl Parse for TermIf {
         fn parse(input: ParseStream) -> Result<Self> {
             Ok(TermIf {
@@ -1336,7 +1380,6 @@ pub(crate) mod parsing {
         }
     }
 
-    #[cfg(feature = "full")]
     fn else_block(input: ParseStream) -> Result<(Token![else], Box<Term>)> {
         let else_token: Token![else] = input.parse()?;
 
@@ -1355,7 +1398,6 @@ pub(crate) mod parsing {
         Ok((else_token, Box::new(else_branch)))
     }
 
-    #[cfg(feature = "full")]
     impl Parse for TermMatch {
         fn parse(input: ParseStream) -> Result<Self> {
             let match_token: Token![match] = input.parse()?;
@@ -1375,6 +1417,79 @@ pub(crate) mod parsing {
                 brace_token,
                 arms,
             })
+        }
+    }
+
+    impl Parse for TermForall {
+        fn parse(input: ParseStream) -> Result<Self> {
+            let forall_token = input.parse()?;
+            let lt_token : Token![<] = input.parse()?;
+
+            let mut args = Punctuated::new();
+            while !input.peek(Token![>]) {
+                let quantarg = input.parse()?;
+                args.push_value(quantarg);
+                if input.peek(Token![>]) {
+                    break;
+                }
+
+                let punct = input.parse()?;
+                args.push_punct(punct);
+            }
+
+
+            let gt_token : Token![>] = input.parse()?;
+
+            let term = input.parse()?;
+
+            Ok(TermForall {
+                forall_token,
+                lt_token,
+                args,
+                gt_token,
+                term,
+            })
+        }
+    }
+
+    impl Parse for TermExists {
+        fn parse(input: ParseStream) -> Result<Self> {
+            let exists_token = input.parse()?;
+            let lt_token : Token![<] = input.parse()?;
+
+            let mut args = Punctuated::new();
+            while !input.peek(Token![>]) {
+                let quantarg = input.parse()?;
+                args.push_value(quantarg);
+                if input.peek(Token![>]) {
+                    break;
+                }
+
+                let punct = input.parse()?;
+                args.push_punct(punct);
+            }
+
+
+            let gt_token : Token![>] = input.parse()?;
+
+            let term = input.parse()?;
+
+            Ok(TermExists {
+                exists_token,
+                lt_token,
+                args,
+                gt_token,
+                term,
+            })
+        }
+    }
+
+    impl Parse for QuantArg {
+        fn parse(input: ParseStream) -> Result<Self> {
+            let ident = input.parse()?;
+            let colon_token = input.parse()?;
+            let ty = input.parse()?;
+            Ok(QuantArg { ident, colon_token, ty })
         }
     }
 
@@ -1420,7 +1535,6 @@ pub(crate) mod parsing {
         TermParen, Paren, "expected parenthesized expression",
     }
 
-    #[cfg(feature = "full")]
     impl Parse for TermFieldValue {
         fn parse(input: ParseStream) -> Result<Self> {
             let member: Member = input.parse()?;
@@ -1446,7 +1560,6 @@ pub(crate) mod parsing {
         }
     }
 
-    #[cfg(feature = "full")]
     fn term_struct_helper(
         input: ParseStream,
         path: Path,
@@ -1483,7 +1596,6 @@ pub(crate) mod parsing {
         })
     }
 
-    #[cfg(feature = "full")]
     pub fn term_block(input: ParseStream) -> Result<TermBlock> {
         let label: Option<Label> = input.parse()?;
 
@@ -1497,7 +1609,6 @@ pub(crate) mod parsing {
         })
     }
 
-    #[cfg(feature = "full")]
     fn term_range(input: ParseStream, allow_struct: AllowStruct) -> Result<TermRange> {
         Ok(TermRange {
             from: None,
@@ -1524,7 +1635,6 @@ pub(crate) mod parsing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl Parse for TermArm {
         fn parse(input: ParseStream) -> Result<TermArm> {
             let requires_comma;
@@ -1596,14 +1706,12 @@ pub(crate) mod parsing {
 #[cfg(feature = "printing")]
 pub(crate) mod printing {
     use super::*;
-    #[cfg(feature = "full")]
     use crate::print::TokensOrDefault;
     use proc_macro2::{Literal, TokenStream};
     use quote::{ToTokens, TokenStreamExt};
 
     // If the given expression is a bare `TermStruct`, wraps it in parenthesis
     // before appending it to `TokenStream`.
-    #[cfg(feature = "full")]
     fn wrap_bare_struct(tokens: &mut TokenStream, e: &Term) {
         if let Term::Struct(_) = *e {
             token::Paren::default().surround(tokens, |tokens| {
@@ -1647,7 +1755,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermArray {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.bracket_token.surround(tokens, |tokens| {
@@ -1665,7 +1772,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermMethodCall {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.receiver.to_tokens(tokens);
@@ -1678,7 +1784,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermMethodTurbofish {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.colon2_token.to_tokens(tokens);
@@ -1688,7 +1793,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermGenericMethodArgument {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             match self {
@@ -1698,7 +1802,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermTuple {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.paren_token.surround(tokens, |tokens| {
@@ -1727,6 +1830,13 @@ pub(crate) mod printing {
         }
     }
 
+    impl ToTokens for TermFinal {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            self.final_token.to_tokens(tokens);
+            self.term.to_tokens(tokens);
+        }
+    }
+
     impl ToTokens for TermLit {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.lit.to_tokens(tokens);
@@ -1741,7 +1851,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermType {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.expr.to_tokens(tokens);
@@ -1749,6 +1858,7 @@ pub(crate) mod printing {
             self.ty.to_tokens(tokens);
         }
     }
+
     impl ToTokens for TermImpl {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.hyp.to_tokens(tokens);
@@ -1756,7 +1866,38 @@ pub(crate) mod printing {
             self.cons.to_tokens(tokens);
         }
     }
-    #[cfg(feature = "full")]
+
+    impl ToTokens for TermForall {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            self.forall_token.to_tokens(tokens);
+            self.lt_token.to_tokens(tokens);
+            for input in self.args.pairs() {
+                input.to_tokens(tokens);
+            }
+            self.gt_token.to_tokens(tokens);
+            self.term.to_tokens(tokens);
+        }
+    }
+
+    impl ToTokens for TermExists {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            self.exists_token.to_tokens(tokens);
+            self.lt_token.to_tokens(tokens);
+            for input in self.args.pairs() {
+                input.to_tokens(tokens);
+            }
+            self.gt_token.to_tokens(tokens);
+            self.term.to_tokens(tokens);
+        }
+    }
+    impl ToTokens for QuantArg {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            self.ident.to_tokens(tokens);
+            self.colon_token.to_tokens(tokens);
+            self.ty.to_tokens(tokens);
+        }
+    }
+
     fn maybe_wrap_else(tokens: &mut TokenStream, else_: &Option<(Token![else], Box<Term>)>) {
         if let Some((else_token, else_)) = else_ {
             else_token.to_tokens(tokens);
@@ -1776,7 +1917,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermLet {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.let_token.to_tokens(tokens);
@@ -1786,7 +1926,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermIf {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.if_token.to_tokens(tokens);
@@ -1796,7 +1935,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermMatch {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.match_token.to_tokens(tokens);
@@ -1815,7 +1953,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermBlock {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.label.to_tokens(tokens);
@@ -1850,7 +1987,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermRange {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.from.to_tokens(tokens);
@@ -1868,7 +2004,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermStruct {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.path.to_tokens(tokens);
@@ -1882,7 +2017,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermRepeat {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.bracket_token.surround(tokens, |tokens| {
@@ -1893,7 +2027,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermGroup {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.group_token.surround(tokens, |tokens| {
@@ -1910,7 +2043,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermFieldValue {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.member.to_tokens(tokens);
@@ -1921,7 +2053,6 @@ pub(crate) mod printing {
         }
     }
 
-    #[cfg(feature = "full")]
     impl ToTokens for TermArm {
         fn to_tokens(&self, tokens: &mut TokenStream) {
             self.pat.to_tokens(tokens);

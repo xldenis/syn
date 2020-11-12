@@ -4295,6 +4295,27 @@
       }
     },
     {
+      "ident": "QuantArg",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "ident": {
+          "proc_macro2": "Ident"
+        },
+        "colon_token": {
+          "token": "Colon"
+        },
+        "ty": {
+          "box": {
+            "syn": "Type"
+          }
+        }
+      }
+    },
+    {
       "ident": "RangeLimits",
       "features": {
         "any": [
@@ -4628,6 +4649,11 @@
             "syn": "TermUnary"
           }
         ],
+        "Final": [
+          {
+            "syn": "TermFinal"
+          }
+        ],
         "Verbatim": [
           {
             "proc_macro2": "TokenStream"
@@ -4636,6 +4662,16 @@
         "Impl": [
           {
             "syn": "TermImpl"
+          }
+        ],
+        "Forall": [
+          {
+            "syn": "TermForall"
+          }
+        ],
+        "Exists": [
+          {
+            "syn": "TermExists"
           }
         ]
       },
@@ -4793,6 +4829,38 @@
       }
     },
     {
+      "ident": "TermExists",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "exists_token": {
+          "token": "Exists"
+        },
+        "lt_token": {
+          "token": "Lt"
+        },
+        "args": {
+          "punctuated": {
+            "element": {
+              "syn": "QuantArg"
+            },
+            "punct": "Comma"
+          }
+        },
+        "gt_token": {
+          "token": "Gt"
+        },
+        "term": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
       "ident": "TermField",
       "features": {
         "any": [
@@ -4831,6 +4899,56 @@
         },
         "expr": {
           "syn": "Term"
+        }
+      }
+    },
+    {
+      "ident": "TermFinal",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "final_token": {
+          "token": "Caret"
+        },
+        "term": {
+          "box": {
+            "syn": "Term"
+          }
+        }
+      }
+    },
+    {
+      "ident": "TermForall",
+      "features": {
+        "any": [
+          "full"
+        ]
+      },
+      "fields": {
+        "forall_token": {
+          "token": "Forall"
+        },
+        "lt_token": {
+          "token": "Lt"
+        },
+        "args": {
+          "punctuated": {
+            "element": {
+              "syn": "QuantArg"
+            },
+            "punct": "Comma"
+          }
+        },
+        "gt_token": {
+          "token": "Gt"
+        },
+        "term": {
+          "box": {
+            "syn": "Term"
+          }
         }
       }
     },
@@ -6357,11 +6475,13 @@
     "Enum": "enum",
     "Eq": "=",
     "EqEq": "==",
+    "Exists": "exists",
     "Extern": "extern",
     "FatArrow": "=>",
     "Final": "final",
     "Fn": "fn",
     "For": "for",
+    "Forall": "forall",
     "Ge": ">=",
     "Gt": ">",
     "If": "if",

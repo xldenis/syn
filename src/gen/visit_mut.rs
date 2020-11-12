@@ -594,6 +594,10 @@ pub trait VisitMut {
         visit_qself_mut(self, i)
     }
     #[cfg(feature = "full")]
+    fn visit_quant_arg_mut(&mut self, i: &mut QuantArg) {
+        visit_quant_arg_mut(self, i)
+    }
+    #[cfg(feature = "full")]
     fn visit_range_limits_mut(&mut self, i: &mut RangeLimits) {
         visit_range_limits_mut(self, i)
     }
@@ -653,12 +657,24 @@ pub trait VisitMut {
         visit_term_cast_mut(self, i)
     }
     #[cfg(feature = "full")]
+    fn visit_term_exists_mut(&mut self, i: &mut TermExists) {
+        visit_term_exists_mut(self, i)
+    }
+    #[cfg(feature = "full")]
     fn visit_term_field_mut(&mut self, i: &mut TermField) {
         visit_term_field_mut(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_term_field_value_mut(&mut self, i: &mut TermFieldValue) {
         visit_term_field_value_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_final_mut(&mut self, i: &mut TermFinal) {
+        visit_term_final_mut(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn visit_term_forall_mut(&mut self, i: &mut TermForall) {
+        visit_term_forall_mut(self, i)
     }
     #[cfg(feature = "full")]
     fn visit_term_generic_method_argument_mut(&mut self, i: &mut TermGenericMethodArgument) {
@@ -3226,6 +3242,15 @@ where
     tokens_helper(v, &mut node.gt_token.spans);
 }
 #[cfg(feature = "full")]
+pub fn visit_quant_arg_mut<V>(v: &mut V, node: &mut QuantArg)
+where
+    V: VisitMut + ?Sized,
+{
+    v.visit_ident_mut(&mut node.ident);
+    tokens_helper(v, &mut node.colon_token.spans);
+    v.visit_type_mut(&mut *node.ty);
+}
+#[cfg(feature = "full")]
 pub fn visit_range_limits_mut<V>(v: &mut V, node: &mut RangeLimits)
 where
     V: VisitMut + ?Sized,
@@ -3422,11 +3447,20 @@ where
         Term::Unary(_binding_0) => {
             v.visit_term_unary_mut(_binding_0);
         }
+        Term::Final(_binding_0) => {
+            v.visit_term_final_mut(_binding_0);
+        }
         Term::Verbatim(_binding_0) => {
             skip!(_binding_0);
         }
         Term::Impl(_binding_0) => {
             v.visit_term_impl_mut(_binding_0);
+        }
+        Term::Forall(_binding_0) => {
+            v.visit_term_forall_mut(_binding_0);
+        }
+        Term::Exists(_binding_0) => {
+            v.visit_term_exists_mut(_binding_0);
         }
         _ => unreachable!(),
     }
@@ -3505,6 +3539,23 @@ where
     v.visit_type_mut(&mut *node.ty);
 }
 #[cfg(feature = "full")]
+pub fn visit_term_exists_mut<V>(v: &mut V, node: &mut TermExists)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.exists_token.span);
+    tokens_helper(v, &mut node.lt_token.spans);
+    for el in Punctuated::pairs_mut(&mut node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_quant_arg_mut(it);
+        if let Some(p) = p {
+            tokens_helper(v, &mut p.spans);
+        }
+    }
+    tokens_helper(v, &mut node.gt_token.spans);
+    v.visit_term_mut(&mut *node.term);
+}
+#[cfg(feature = "full")]
 pub fn visit_term_field_mut<V>(v: &mut V, node: &mut TermField)
 where
     V: VisitMut + ?Sized,
@@ -3523,6 +3574,31 @@ where
         tokens_helper(v, &mut it.spans)
     };
     v.visit_term_mut(&mut node.expr);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_final_mut<V>(v: &mut V, node: &mut TermFinal)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.final_token.spans);
+    v.visit_term_mut(&mut *node.term);
+}
+#[cfg(feature = "full")]
+pub fn visit_term_forall_mut<V>(v: &mut V, node: &mut TermForall)
+where
+    V: VisitMut + ?Sized,
+{
+    tokens_helper(v, &mut node.forall_token.span);
+    tokens_helper(v, &mut node.lt_token.spans);
+    for el in Punctuated::pairs_mut(&mut node.args) {
+        let (it, p) = el.into_tuple();
+        v.visit_quant_arg_mut(it);
+        if let Some(p) = p {
+            tokens_helper(v, &mut p.spans);
+        }
+    }
+    tokens_helper(v, &mut node.gt_token.spans);
+    v.visit_term_mut(&mut *node.term);
 }
 #[cfg(feature = "full")]
 pub fn visit_term_generic_method_argument_mut<V>(v: &mut V, node: &mut TermGenericMethodArgument)

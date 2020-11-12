@@ -1463,6 +1463,14 @@ impl PartialEq for QSelf {
     }
 }
 #[cfg(feature = "full")]
+impl Eq for QuantArg {}
+#[cfg(feature = "full")]
+impl PartialEq for QuantArg {
+    fn eq(&self, other: &Self) -> bool {
+        self.ident == other.ident && self.ty == other.ty
+    }
+}
+#[cfg(feature = "full")]
 impl Eq for RangeLimits {}
 #[cfg(feature = "full")]
 impl PartialEq for RangeLimits {
@@ -1569,10 +1577,13 @@ impl PartialEq for Term {
             (Term::Tuple(self0), Term::Tuple(other0)) => self0 == other0,
             (Term::Type(self0), Term::Type(other0)) => self0 == other0,
             (Term::Unary(self0), Term::Unary(other0)) => self0 == other0,
+            (Term::Final(self0), Term::Final(other0)) => self0 == other0,
             (Term::Verbatim(self0), Term::Verbatim(other0)) => {
                 TokenStreamHelper(self0) == TokenStreamHelper(other0)
             }
             (Term::Impl(self0), Term::Impl(other0)) => self0 == other0,
+            (Term::Forall(self0), Term::Forall(other0)) => self0 == other0,
+            (Term::Exists(self0), Term::Exists(other0)) => self0 == other0,
             _ => false,
         }
     }
@@ -1629,6 +1640,14 @@ impl PartialEq for TermCast {
     }
 }
 #[cfg(feature = "full")]
+impl Eq for TermExists {}
+#[cfg(feature = "full")]
+impl PartialEq for TermExists {
+    fn eq(&self, other: &Self) -> bool {
+        self.args == other.args && self.term == other.term
+    }
+}
+#[cfg(feature = "full")]
 impl Eq for TermField {}
 #[cfg(feature = "full")]
 impl PartialEq for TermField {
@@ -1644,6 +1663,22 @@ impl PartialEq for TermFieldValue {
         self.member == other.member
             && self.colon_token == other.colon_token
             && self.expr == other.expr
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermFinal {}
+#[cfg(feature = "full")]
+impl PartialEq for TermFinal {
+    fn eq(&self, other: &Self) -> bool {
+        self.term == other.term
+    }
+}
+#[cfg(feature = "full")]
+impl Eq for TermForall {}
+#[cfg(feature = "full")]
+impl PartialEq for TermForall {
+    fn eq(&self, other: &Self) -> bool {
+        self.args == other.args && self.term == other.term
     }
 }
 #[cfg(feature = "full")]

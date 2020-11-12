@@ -594,6 +594,10 @@ pub trait Fold {
         fold_qself(self, i)
     }
     #[cfg(feature = "full")]
+    fn fold_quant_arg(&mut self, i: QuantArg) -> QuantArg {
+        fold_quant_arg(self, i)
+    }
+    #[cfg(feature = "full")]
     fn fold_range_limits(&mut self, i: RangeLimits) -> RangeLimits {
         fold_range_limits(self, i)
     }
@@ -653,12 +657,24 @@ pub trait Fold {
         fold_term_cast(self, i)
     }
     #[cfg(feature = "full")]
+    fn fold_term_exists(&mut self, i: TermExists) -> TermExists {
+        fold_term_exists(self, i)
+    }
+    #[cfg(feature = "full")]
     fn fold_term_field(&mut self, i: TermField) -> TermField {
         fold_term_field(self, i)
     }
     #[cfg(feature = "full")]
     fn fold_term_field_value(&mut self, i: TermFieldValue) -> TermFieldValue {
         fold_term_field_value(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn fold_term_final(&mut self, i: TermFinal) -> TermFinal {
+        fold_term_final(self, i)
+    }
+    #[cfg(feature = "full")]
+    fn fold_term_forall(&mut self, i: TermForall) -> TermForall {
+        fold_term_forall(self, i)
     }
     #[cfg(feature = "full")]
     fn fold_term_generic_method_argument(
@@ -2778,6 +2794,17 @@ where
     }
 }
 #[cfg(feature = "full")]
+pub fn fold_quant_arg<F>(f: &mut F, node: QuantArg) -> QuantArg
+where
+    F: Fold + ?Sized,
+{
+    QuantArg {
+        ident: f.fold_ident(node.ident),
+        colon_token: Token ! [:](tokens_helper(f, &node.colon_token.spans)),
+        ty: Box::new(f.fold_type(*node.ty)),
+    }
+}
+#[cfg(feature = "full")]
 pub fn fold_range_limits<F>(f: &mut F, node: RangeLimits) -> RangeLimits
 where
     F: Fold + ?Sized,
@@ -2915,8 +2942,11 @@ where
         Term::Tuple(_binding_0) => Term::Tuple(f.fold_term_tuple(_binding_0)),
         Term::Type(_binding_0) => Term::Type(f.fold_term_type(_binding_0)),
         Term::Unary(_binding_0) => Term::Unary(f.fold_term_unary(_binding_0)),
+        Term::Final(_binding_0) => Term::Final(f.fold_term_final(_binding_0)),
         Term::Verbatim(_binding_0) => Term::Verbatim(_binding_0),
         Term::Impl(_binding_0) => Term::Impl(f.fold_term_impl(_binding_0)),
+        Term::Forall(_binding_0) => Term::Forall(f.fold_term_forall(_binding_0)),
+        Term::Exists(_binding_0) => Term::Exists(f.fold_term_exists(_binding_0)),
         _ => unreachable!(),
     }
 }
@@ -2992,6 +3022,19 @@ where
     }
 }
 #[cfg(feature = "full")]
+pub fn fold_term_exists<F>(f: &mut F, node: TermExists) -> TermExists
+where
+    F: Fold + ?Sized,
+{
+    TermExists {
+        exists_token: Token![exists](tokens_helper(f, &node.exists_token.span)),
+        lt_token: Token ! [<](tokens_helper(f, &node.lt_token.spans)),
+        args: FoldHelper::lift(node.args, |it| f.fold_quant_arg(it)),
+        gt_token: Token ! [>](tokens_helper(f, &node.gt_token.spans)),
+        term: Box::new(f.fold_term(*node.term)),
+    }
+}
+#[cfg(feature = "full")]
 pub fn fold_term_field<F>(f: &mut F, node: TermField) -> TermField
 where
     F: Fold + ?Sized,
@@ -3011,6 +3054,29 @@ where
         member: f.fold_member(node.member),
         colon_token: (node.colon_token).map(|it| Token ! [:](tokens_helper(f, &it.spans))),
         expr: f.fold_term(node.expr),
+    }
+}
+#[cfg(feature = "full")]
+pub fn fold_term_final<F>(f: &mut F, node: TermFinal) -> TermFinal
+where
+    F: Fold + ?Sized,
+{
+    TermFinal {
+        final_token: Token ! [^](tokens_helper(f, &node.final_token.spans)),
+        term: Box::new(f.fold_term(*node.term)),
+    }
+}
+#[cfg(feature = "full")]
+pub fn fold_term_forall<F>(f: &mut F, node: TermForall) -> TermForall
+where
+    F: Fold + ?Sized,
+{
+    TermForall {
+        forall_token: Token![forall](tokens_helper(f, &node.forall_token.span)),
+        lt_token: Token ! [<](tokens_helper(f, &node.lt_token.spans)),
+        args: FoldHelper::lift(node.args, |it| f.fold_quant_arg(it)),
+        gt_token: Token ! [>](tokens_helper(f, &node.gt_token.spans)),
+        term: Box::new(f.fold_term(*node.term)),
     }
 }
 #[cfg(feature = "full")]

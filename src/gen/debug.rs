@@ -2213,6 +2213,16 @@ impl Debug for QSelf {
     }
 }
 #[cfg(feature = "full")]
+impl Debug for QuantArg {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("QuantArg");
+        formatter.field("ident", &self.ident);
+        formatter.field("colon_token", &self.colon_token);
+        formatter.field("ty", &self.ty);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
 impl Debug for RangeLimits {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         match self {
@@ -2429,6 +2439,11 @@ impl Debug for Term {
                 formatter.field(v0);
                 formatter.finish()
             }
+            Term::Final(v0) => {
+                let mut formatter = formatter.debug_tuple("Final");
+                formatter.field(v0);
+                formatter.finish()
+            }
             Term::Verbatim(v0) => {
                 let mut formatter = formatter.debug_tuple("Verbatim");
                 formatter.field(v0);
@@ -2436,6 +2451,16 @@ impl Debug for Term {
             }
             Term::Impl(v0) => {
                 let mut formatter = formatter.debug_tuple("Impl");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Forall(v0) => {
+                let mut formatter = formatter.debug_tuple("Forall");
+                formatter.field(v0);
+                formatter.finish()
+            }
+            Term::Exists(v0) => {
+                let mut formatter = formatter.debug_tuple("Exists");
                 formatter.field(v0);
                 formatter.finish()
             }
@@ -2504,6 +2529,18 @@ impl Debug for TermCast {
     }
 }
 #[cfg(feature = "full")]
+impl Debug for TermExists {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermExists");
+        formatter.field("exists_token", &self.exists_token);
+        formatter.field("lt_token", &self.lt_token);
+        formatter.field("args", &self.args);
+        formatter.field("gt_token", &self.gt_token);
+        formatter.field("term", &self.term);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
 impl Debug for TermField {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let mut formatter = formatter.debug_struct("TermField");
@@ -2520,6 +2557,27 @@ impl Debug for TermFieldValue {
         formatter.field("member", &self.member);
         formatter.field("colon_token", &self.colon_token);
         formatter.field("expr", &self.expr);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermFinal {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermFinal");
+        formatter.field("final_token", &self.final_token);
+        formatter.field("term", &self.term);
+        formatter.finish()
+    }
+}
+#[cfg(feature = "full")]
+impl Debug for TermForall {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        let mut formatter = formatter.debug_struct("TermForall");
+        formatter.field("forall_token", &self.forall_token);
+        formatter.field("lt_token", &self.lt_token);
+        formatter.field("args", &self.args);
+        formatter.field("gt_token", &self.gt_token);
+        formatter.field("term", &self.term);
         formatter.finish()
     }
 }
