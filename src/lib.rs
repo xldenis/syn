@@ -339,7 +339,7 @@ pub use crate::data::{
 };
 
 #[cfg(feature = "full")]
-mod term;
+pub mod term;
 
 #[cfg(feature = "full")]
 pub use crate::term::{
