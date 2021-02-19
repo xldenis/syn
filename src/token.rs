@@ -680,6 +680,7 @@ define_keywords! {
     "yield"       pub struct Yield        /// `yield`
     "forall"      pub struct Forall        /// `forall`
     "exists"      pub struct Exists        /// `exists`
+    "absurd"      pub struct Absurd        /// `absurd`
 }
 
 define_punctuation! {
@@ -852,6 +853,7 @@ macro_rules! export_token_macro {
             [==>]         => { $crate::token::PredImpl };
             [forall]      => { $crate::token::Forall };
             [exists]      => { $crate::token::Exists };
+            [absurd]      => { $crate::token::Absurd };
         }
     };
 }

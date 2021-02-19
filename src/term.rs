@@ -176,6 +176,8 @@ ast_enum_of_structs! {
 
         Exists(TermExists),
 
+        Absurd(TermAbsurd),
+
         #[doc(hidden)]
         __Nonexhaustive,
     }
@@ -488,6 +490,11 @@ ast_struct! {
     }
 }
 
+ast_struct! {
+    pub struct TermAbsurd {
+        pub absurd_token: Token![absurd]
+    }
+}
 // crate::custom_keyword!(forall);
 crate::custom_keyword!(exists);
 
@@ -1188,6 +1195,8 @@ pub(crate) mod parsing {
             input.parse().map(Term::Forall)
         } else if input.peek(Token![exists]) {
             input.parse().map(Term::Exists)
+        } else if input.peek(Token![absurd]) {
+            input.parse().map(Term::Absurd)
         } else if input.peek(Token![match]) {
             input.parse().map(Term::Match)
         } else if input.peek(token::Brace) {
@@ -1449,6 +1458,12 @@ pub(crate) mod parsing {
                 gt_token,
                 term,
             })
+        }
+    }
+
+    impl Parse for TermAbsurd {
+        fn parse(input: ParseStream) -> Result<Self> {
+            Ok(TermAbsurd { absurd_token: input.parse()? })
         }
     }
 
@@ -1888,6 +1903,12 @@ pub(crate) mod printing {
             }
             self.gt_token.to_tokens(tokens);
             self.term.to_tokens(tokens);
+        }
+    }
+
+    impl ToTokens for TermAbsurd {
+        fn to_tokens(&self, tokens: &mut TokenStream) {
+            self.absurd_token.to_tokens(tokens);
         }
     }
     impl ToTokens for QuantArg {
